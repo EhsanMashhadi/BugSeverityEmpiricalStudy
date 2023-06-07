@@ -1,0 +1,525 @@
+,IsBuggy,ProjectName,ProjectVersion,Priority,StartLine,EndLine,SLOC,IC,MCCABE,NBD,MCCLURE,DIFF,MI,TFO,READABILITY,EFFORT,SourceCode,average_sum
+737,True,Time,26,Medium,477,482,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-1.3784627389777602,-0.42857142857142855,0.5,-0.31878706692616415,"public long set(long instant, String text, Locale locale) {
+    // cannot verify that new value stuck because set may be lenient
+    long localInstant = iZone.convertUTCToLocal(instant);
+    localInstant = iField.set(localInstant, text, locale);
+    return iZone.convertLocalToUTC(localInstant, false);
+}",-6.195014271779616
+296,True,Closure,156,Medium,742,748,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-1.4323058915333589,-0.35714285714285715,8.333333333333334,-0.31878706692616415,"/**
+ * Updates the first initialization (a.k.a ""declaration"") of a global name
+ * that occurs at a FUNCTION node. See comment for
+ * {@link #updateObjLitOrFunctionDeclaration}.
+ *
+ * @param n An object representing a global name (e.g. ""a"")
+ */
+private void updateFunctionDeclarationAtFunctionNode(Name n) {
+    Ref ref = n.declaration;
+    String fnName = ref.node.getString();
+    addStubsForUndeclaredProperties(n, fnName, ref.node.getAncestor(2), ref.node.getParent());
+}",-6.177428852906644
+51,True,Cli,33,High,726,732,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-1.389387436597738,-0.35714285714285715,2.8333333333333335,-0.31878706692616415,"/**
+ * Print the specified text to the specified PrintWriter.
+ *
+ * @param pw The printWriter to write the help to
+ * @param width The number of characters to display per line
+ * @param nextLineTabStop The position on the next line for the first tab.
+ * @param text The text to be written to the PrintWriter
+ */
+public void printWrapped(PrintWriter pw, int width, int nextLineTabStop, String text) {
+    StringBuffer sb = new StringBuffer(text.length());
+    renderWrappedText(sb, width, nextLineTabStop, text);
+    pw.println(sb.toString());
+}",-6.134510397971023
+528,True,Lang,26,High,819,823,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-1.2895044869293804,-0.42857142857142855,12.5,-0.31878706692616415,"/**
+ * <p>Formats a <code>Date</code> object.</p>
+ *
+ * @param date  the date to format
+ * @return the formatted string
+ */
+public String format(Date date) {
+    Calendar c = new GregorianCalendar(mTimeZone);
+    c.setTime(date);
+    return applyRules(c, new StringBuffer(mMaxLengthEstimate)).toString();
+}",-6.106056019731237
+13,True,Cli,1,High,307,316,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-1.240343347639486,-0.42857142857142855,16.166666666666668,-0.31878706692616415,"/**
+ * Returns an array of the processed {@link Option}s.
+ *
+ * @return an array of the processed {@link Option}s.
+ */
+public Option[] getOptions() {
+    Collection processed = options.values();
+    // reinitialise array
+    Option[] optionsArray = new Option[processed.size()];
+    // return the array
+    return (Option[]) processed.toArray(optionsArray);
+}",-6.056894880441343
+453,True,Csv,5,High,323,327,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-1.152945766679673,-0.5,16.5,-0.31878706692616415,"/**
+ * Outputs the record separator.
+ *
+ * @throws IOException
+ *             If an I/O error occurs
+ */
+public void println() throws IOException {
+    final String recordSeparator = format.getRecordSeparator();
+    out.append(recordSeparator);
+    newRecord = true;
+}",-6.040925870910101
+170,True,Closure,84,Medium,338,342,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-1.040577448302771,-0.5714285714285714,13.666666666666666,-0.31878706692616415,"@Override
+Node processAssignment(Assignment assignmentNode) {
+    Node assign = processInfixExpression(assignmentNode);
+    return assign;
+}",-5.9999861239617704
+36,True,Cli,22,High,184,190,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-1.0920795942255175,-0.5,14.5,-0.31878706692616415,"/**
+ * Add the special token ""<b>--</b>"" and the current <code>value</code>
+ * to the processed tokens list. Then add all the remaining
+ * <code>argument</code> values to the processed tokens list.
+ *
+ * @param value The current token
+ */
+private void processNonOptionToken(String value) {
+    eatTheRest = true;
+    tokens.add(""--"");
+    tokens.add(value);
+}",-5.980059698455945
+490,True,JxPath,14,High,653,657,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-1.2996488490050726,-0.2857142857142857,7.833333333333333,-0.31878706692616415,"protected Object functionFloor(EvalContext context) {
+    assertArgCount(1);
+    double v = InfoSetUtil.doubleValue(getArg1().computeValue(context));
+    return new Double(Math.floor(v));
+}",-5.973343238949786
+491,True,JxPath,14,High,659,663,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-1.2996488490050726,-0.2857142857142857,7.666666666666667,-0.31878706692616415,"protected Object functionCeiling(EvalContext context) {
+    assertArgCount(1);
+    double v = InfoSetUtil.doubleValue(getArg1().computeValue(context));
+    return new Double(Math.ceil(v));
+}",-5.973343238949786
+492,True,JxPath,14,High,665,669,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-1.2996488490050726,-0.2857142857142857,7.833333333333333,-0.31878706692616415,"protected Object functionRound(EvalContext context) {
+    assertArgCount(1);
+    double v = InfoSetUtil.doubleValue(getArg1().computeValue(context));
+    return new Double(Math.round(v));
+}",-5.973343238949786
+302,True,Closure,158,Medium,1502,1506,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-0.9828326180257512,-0.5,11.666666666666666,-0.31878706692616415,"/**
+ * Add warning guards.
+ */
+CommandLineConfig setJscompError(List<String> jscompError) {
+    this.jscompError.clear();
+    this.jscompError.addAll(jscompError);
+    return this;
+}",-5.870812722256179
+303,True,Closure,158,Medium,1508,1512,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-0.9828326180257512,-0.5,0.6666666666666667,-0.31878706692616415,"CommandLineConfig setJscompWarning(List<String> jscompWarning) {
+    this.jscompWarning.clear();
+    this.jscompWarning.addAll(jscompWarning);
+    return this;
+}",-5.870812722256179
+304,True,Closure,158,Medium,1514,1518,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-0.9828326180257512,-0.5,0.8333333333333334,-0.31878706692616415,"CommandLineConfig setJscompOff(List<String> jscompOff) {
+    this.jscompOff.clear();
+    this.jscompOff.addAll(jscompOff);
+    return this;
+}",-5.870812722256179
+142,True,Closure,64,Medium,1458,1462,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-0.943815840811549,-0.5,16.166666666666668,-0.31878706692616415,"/**
+ * Generates JavaScript source code for an AST, doesn't generate source
+ * map info.
+ */
+@Override
+String toSource(Node n) {
+    initCompilerOptionsIfTesting();
+    return toSource(n, null);
+}",-5.831795945041977
+91,True,Closure,27,Medium,230,235,-0.6458333333333334,-0.782608695652174,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-1.2239563012095205,-0.21428571428571427,0.0,-0.31878706692616415,"public static Node tryCatch(Node tryBody, Node catchNode) {
+    Preconditions.checkState(tryBody.isBlock());
+    Preconditions.checkState(catchNode.isCatch());
+    Node catchBody = block(catchNode).copyInformationFrom(catchNode);
+    return new Node(Token.TRY, tryBody, catchBody);
+}",-5.821446098645293
+90,True,Closure,27,Medium,223,228,-0.6458333333333334,-0.782608695652174,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-1.213031603589545,-0.21428571428571427,0.0,-0.31878706692616415,"public static Node tryFinally(Node tryBody, Node finallyBody) {
+    Preconditions.checkState(tryBody.isLabelName());
+    Preconditions.checkState(finallyBody.isLabelName());
+    Node catchBody = block().copyInformationFrom(tryBody);
+    return new Node(Token.TRY, tryBody, catchBody, finallyBody);
+}",-5.8105214010253174
+630,True,Math,36,High,683,689,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.4479326186830015,-0.9828326180257512,-0.5,15.833333333333334,-0.3081946059765019,"/**
+ * <p>
+ * Gets the fraction as a <tt>double</tt>. This calculates the fraction as
+ * the numerator divided by denominator.
+ * </p>
+ *
+ * @return the fraction as a <tt>double</tt>
+ * @see java.lang.Number#doubleValue()
+ */
+@Override
+public double doubleValue() {
+    double result = numerator.doubleValue() / denominator.doubleValue();
+    // Calculate how far to shift them to put them in range.
+    return result;
+}",-5.630511226084464
+631,True,Math,36,High,730,736,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.4479326186830015,-0.9828326180257512,-0.5,15.333333333333334,-0.3081946059765019,"/**
+ * <p>
+ * Gets the fraction as a <tt>float</tt>. This calculates the fraction as
+ * the numerator divided by denominator.
+ * </p>
+ *
+ * @return the fraction as a <tt>float</tt>.
+ * @see java.lang.Number#floatValue()
+ */
+@Override
+public float floatValue() {
+    float result = numerator.floatValue() / denominator.floatValue();
+    // Calculate how far to shift them to put them in range.
+    return result;
+}",-5.630511226084464
+740,True,Time,26,Medium,69,76,-0.6458333333333334,-0.782608695652174,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-1.3136948888021858,0.07142857142857142,6.833333333333333,-0.31878706692616415,"/**
+ * Set values which may be out of bounds by adding the difference between
+ * the new value and the current value.
+ */
+public long set(long instant, int value) {
+    // lenient needs to handle time zone chronologies
+    // so we do the calculation using local milliseconds
+    long localInstant = iBase.getZone().convertUTCToLocal(instant);
+    long difference = FieldUtils.safeSubtract(value, get(instant));
+    localInstant = getType().getField(iBase.withUTC()).add(localInstant, difference);
+    return iBase.getZone().convertLocalToUTC(localInstant, false);
+}",-5.625470400523673
+708,True,Math,95,Low,143,149,-0.6458333333333334,-0.782608695652174,-0.625,-0.6666666666666666,-0.6666666666666666,-0.43721286370597234,-0.9196254389387436,-0.5714285714285714,15.333333333333334,-0.3020317196057893,"/**
+ * Access the initial domain value, based on <code>p</code>, used to
+ * bracket a CDF root.  This method is used by
+ * {@link #inverseCumulativeProbability(double)} to find critical values.
+ *
+ * @param p the desired probability for the critical value
+ * @return initial domain value
+ */
+protected double getInitialDomain(double p) {
+    double ret;
+    double d = getDenominatorDegreesOfFreedom();
+    // use mean
+    ret = d / (d - 2.0);
+    return ret;
+}",-5.617073955997918
+49,True,Cli,31,Low,77,87,-0.4791666666666667,-0.9354413702239789,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-0.5965665236051512,-0.6428571428571429,16.0,-0.31878706692616415,"/**
+ * Resets the member variables to their default values.
+ */
+private static void reset() {
+    description = null;
+    argName = ""arg"";
+    longopt = null;
+    type = null;
+    required = false;
+    numberOfArgs = Option.UNINITIALIZED;
+    optionalArg = false;
+    valuesep = (char) 0;
+}",-5.608793757517491
+388,True,Compress,2,High,131,135,-0.6875,-0.7457180500658762,-0.5,-0.6666666666666666,-0.5333333333333333,-0.4479326186830015,-1.1482637534139686,-0.5714285714285714,10.166666666666666,-0.3021301545964326,"public int read() throws IOException {
+    final int ret = input.read();
+    offset += (ret > 0 ? 1 : 0);
+    return ret;
+}",-5.602973148187851
+52,True,Cli,34,Low,79,89,-0.4791666666666667,-0.9354413702239789,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-0.5879828326180256,-0.6428571428571429,15.666666666666666,-0.31878706692616415,"/**
+ * Resets the member variables to their default values.
+ */
+private static void reset() {
+    description = null;
+    argName = null;
+    longopt = null;
+    type = null;
+    required = false;
+    numberOfArgs = Option.UNINITIALIZED;
+    optionalArg = false;
+    valuesep = (char) 0;
+}",-5.600210066530366
+476,True,JxPath,7,High,33,37,-0.6875,-0.7457180500658762,-0.5,-0.6666666666666666,-0.4666666666666667,-0.42189892802450224,-1.4697619976589942,-0.35714285714285715,1.0,-0.27796864417569794,"public Object computeValue(EvalContext context) {
+    double l = InfoSetUtil.doubleValue(args[0].computeValue(context));
+    double r = InfoSetUtil.doubleValue(args[1].computeValue(context));
+    return l > r ? Boolean.TRUE : Boolean.FALSE;
+}",-5.5933238104012615
+477,True,JxPath,7,High,34,38,-0.6875,-0.7457180500658762,-0.5,-0.6666666666666666,-0.4666666666666667,-0.42189892802450224,-1.4697619976589942,-0.35714285714285715,1.3333333333333335,-0.27796864417569794,"public Object computeValue(EvalContext context) {
+    double l = InfoSetUtil.doubleValue(args[0].computeValue(context));
+    double r = InfoSetUtil.doubleValue(args[1].computeValue(context));
+    return l >= r ? Boolean.TRUE : Boolean.FALSE;
+}",-5.5933238104012615
+478,True,JxPath,7,High,33,37,-0.6875,-0.7457180500658762,-0.5,-0.6666666666666666,-0.4666666666666667,-0.42189892802450224,-1.4697619976589942,-0.35714285714285715,1.0,-0.27796864417569794,"public Object computeValue(EvalContext context) {
+    double l = InfoSetUtil.doubleValue(args[0].computeValue(context));
+    double r = InfoSetUtil.doubleValue(args[1].computeValue(context));
+    return l < r ? Boolean.TRUE : Boolean.FALSE;
+}",-5.5933238104012615
+479,True,JxPath,7,High,34,38,-0.6875,-0.7457180500658762,-0.5,-0.6666666666666666,-0.4666666666666667,-0.42189892802450224,-1.4697619976589942,-0.35714285714285715,1.3333333333333335,-0.27796864417569794,"public Object computeValue(EvalContext context) {
+    double l = InfoSetUtil.doubleValue(args[0].computeValue(context));
+    double r = InfoSetUtil.doubleValue(args[1].computeValue(context));
+    return l <= r ? Boolean.TRUE : Boolean.FALSE;
+}",-5.5933238104012615
+389,True,Compress,2,High,141,146,-0.6458333333333334,-0.782608695652174,-0.5,-0.6666666666666666,-0.5333333333333333,-0.39892802450229703,-1.147483417869685,-0.5714285714285714,0.16666666666666669,-0.28323491617511587,"public int read(byte[] b, final int off, final int len) throws IOException {
+    int toRead = len;
+    final int ret = this.input.read(b, off, toRead);
+    offset += (ret > 0 ? ret : 0);
+    return ret;
+}",-5.529516958961176
+272,True,Closure,148,Medium,509,516,-0.6458333333333334,-0.782608695652174,-0.5,-0.6666666666666666,-0.5333333333333333,-0.42189892802450224,-1.2528287163480305,-0.42857142857142855,12.333333333333334,-0.2765113783359565,"/**
+ * Write any needed entries to complete the provided mapping.
+ */
+private void writeCharsBetween(Mapping prev, Mapping next) throws IOException {
+    int nextLine = getAdjustedLine(next.startPosition);
+    int nextCol = getAdjustedCol(next.startPosition);
+    // If the previous value is null, no mapping exists.
+    int id = (prev != null) ? prev.id : UNMAPPED;
+    writeCharsUpTo(nextLine, nextCol, id);
+}",-5.508252480265425
+625,True,Math,30,Low,168,184,-0.5625,-0.8669301712779974,-0.625,-0.6666666666666666,-0.6666666666666666,-0.18147013782542107,-1.1599687865782295,-0.5,6.833333333333333,-0.1657078171291863,"/**
+ * @param Umin smallest Mann-Whitney U value
+ * @param n1 number of subjects in first sample
+ * @param n2 number of subjects in second sample
+ * @return two-sided asymptotic p-value
+ * @throws ConvergenceException if the p-value can not be computed
+ * due to a convergence error
+ * @throws MaxCountExceededException if the maximum number of
+ * iterations is exceeded
+ */
+private double calculateAsymptoticPValue(final double Umin, final int n1, final int n2) throws ConvergenceException, MaxCountExceededException {
+    final int n1n2prod = n1 * n2;
+    // http://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U#Normal_approximation
+    final double EU = n1n2prod / 2.0;
+    final double VarU = n1n2prod * (n1 + n2 + 1) / 12.0;
+    final double z = (Umin - EU) / FastMath.sqrt(VarU);
+    final NormalDistribution standardNormal = new NormalDistribution(0, 1);
+    return 2 * standardNormal.cumulativeProbability(z);
+}",-5.394910246144167
+277,True,Closure,149,Medium,1355,1366,-0.4791666666666667,-0.9354413702239789,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-0.792430745220445,-0.21428571428571427,0.16666666666666669,-0.31878706692616415,"/**
+ * Generates JavaScript source code for an AST.
+ */
+private String toSource(Node n, SourceMap sourceMap) {
+    CodePrinter.Builder builder = new CodePrinter.Builder(n);
+    builder.setPrettyPrint(options.prettyPrint);
+    builder.setLineBreak(options.lineBreak);
+    builder.setSourceMap(sourceMap);
+    builder.setSourceMapDetailLevel(options.sourceMapDetailLevel);
+    Charset charset = options.outputCharset;
+    builder.setOutputCharset(charset);
+    return builder.build();
+}",-5.3760865505613555
+89,True,Closure,26,Medium,220,228,-0.5208333333333334,-0.9038208168642952,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-0.8767069840031225,-0.07142857142857142,0.33333333333333337,-0.31878706692616415,"/**
+ * Rewrite module.exports to moduleName.module$exports.
+ */
+private void visitModuleExports(Node prop) {
+    String moduleName = guessCJSModuleName(prop.getSourceFileName());
+    Node module = prop.getChildAtIndex(0);
+    module.putProp(Node.ORIGINALNAME_PROP, ""module"");
+    module.setString(moduleName);
+    Node exports = prop.getChildAtIndex(1);
+    exports.putProp(Node.ORIGINALNAME_PROP, ""exports"");
+    exports.setString(""module$exports"");
+}",-5.327551759793874
+373,True,Codec,11,High,114,120,-0.6041666666666666,-0.8247694334650856,-0.625,-0.6666666666666666,-0.6666666666666666,-0.3606431852986217,-1.172454155286774,-0.14285714285714285,3.166666666666667,-0.25239908541054346,"/**
+ * Encodes byte into its quoted-printable representation.
+ *
+ * @param b
+ *            byte to encode
+ * @param buffer
+ *            the buffer to write to
+ * @return The number of bytes written to the <code>buffer</code>
+ */
+private static final void encodeQuotedPrintable(int b, ByteArrayOutputStream buffer) {
+    buffer.write(ESCAPE_CHAR);
+    char hex1 = Character.toUpperCase(Character.forDigit((b >> 4) & 0xF, 16));
+    char hex2 = Character.toUpperCase(Character.forDigit(b & 0xF, 16));
+    buffer.write(hex1);
+    buffer.write(hex2);
+}",-5.315623002318167
+700,True,Math,91,High,258,262,-0.6875,-0.7457180500658762,-0.375,-0.6666666666666666,-0.4,-0.13246554364471666,-1.3246195864221613,-0.5,5.666666666666667,-0.2550568301579133,"/**
+ * Compares this object to another based on size.
+ * @param object the object to compare to
+ * @return -1 if this is less than <tt>object</tt>, +1 if this is greater
+ *         than <tt>object</tt>, 0 if they are equal.
+ */
+public int compareTo(Fraction object) {
+    double nOd = doubleValue();
+    double dOn = object.doubleValue();
+    return (nOd < dOn) ? -1 : ((nOd > dOn) ? +1 : 0);
+}",-5.0870266769573345
+42,True,Cli,26,Low,346,364,-0.3958333333333333,-0.9934123847167325,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-0.5341396800624268,-0.07142857142857142,0.33333333333333337,-0.31878706692616415,"/**
+ * Create an Option using the current settings and with
+ * the specified Option <code>char</code>.
+ *
+ * @param opt the <code>java.lang.String</code> representation
+ * of the Option
+ * @return the Option instance
+ * @throws IllegalArgumentException if <code>opt</code> is not
+ * a valid character.  See Option.
+ */
+public static Option create(String opt) throws IllegalArgumentException {
+    // create the option
+    Option option = new Option(opt, description);
+    // set the option properties
+    option.setLongOpt(longopt);
+    option.setRequired(required);
+    option.setOptionalArg(optionalArg);
+    option.setArgs(numberOfArgs);
+    option.setType(type);
+    option.setValueSeparator(valuesep);
+    option.setArgName(argName);
+    // reset the OptionBuilder properties
+    OptionBuilder.reset();
+    // return the Option instance
+    return option;
+}",-4.949576023705616
+233,True,Closure,134,Medium,553,565,-0.6041666666666666,-0.4295125164690382,-0.5,-0.3333333333333333,-0.5333333333333333,-0.6776416539050536,-0.8119391338275461,-0.5714285714285714,14.666666666666668,-0.31878706692616415,"/**
+ * Find the function that's being overridden on this type, if any.
+ */
+private FunctionType findOverriddenFunction(ObjectType ownerType, String propName) {
+    // First, check to see if the property is implemented
+    // on a superclass.
+    JSType propType = ownerType.getPropertyType(propName);
+    if (propType instanceof FunctionType) {
+        return (FunctionType) propType;
+    }
+    return null;
+}",-4.780142275889707
+190,True,Closure,100,Medium,139,147,-0.6458333333333334,-0.32938076416337286,-0.5,-0.3333333333333333,-0.5333333333333333,-0.6776416539050536,-0.7760436987904795,-0.6428571428571429,15.666666666666666,-0.31878706692616415,"private boolean shouldReportThis(Node n, Node parent) {
+    if (assignLhsChild != null) {
+        // Always report a THIS on the left side of an assign.
+        return true;
+    }
+    // Also report a THIS with a property access.
+    return false;
+}",-4.757210326642213
+325,True,Closure,165,Medium,85,93,-0.6458333333333334,-0.32938076416337286,-0.5,-0.3333333333333333,-0.5333333333333333,-0.6776416539050536,-0.8743659773702703,-0.5,12.666666666666668,-0.31878706692616415,"/**
+ * Creates a record.
+ * @return The record type.
+ */
+public JSType build() {
+    // If we have an empty record, simply return the object type.
+    if (isEmpty) {
+        return registry.getNativeObjectType(JSTypeNative.OBJECT_TYPE);
+    }
+    return new RecordType(registry, Collections.unmodifiableMap(properties));
+}",-4.712675462364862
+534,True,Lang,30,Low,1497,1502,-0.6458333333333334,-0.32938076416337286,-0.5,-0.3333333333333333,-0.5333333333333333,-0.6776416539050536,-0.8735856418259847,-0.5,0.5,-0.31878706692616415,"/**
+ * <p>
+ * Checks if the CharSequence contains any character in the given set of characters.
+ * </p>
+ *
+ * <p>
+ * A <code>null</code> CharSequence will return <code>false</code>. A <code>null</code> search CharSequence will return
+ * <code>false</code>.
+ * </p>
+ *
+ * <pre>
+ * StringUtils.containsAny(null, *)            = false
+ * StringUtils.containsAny("""", *)              = false
+ * StringUtils.containsAny(*, null)            = false
+ * StringUtils.containsAny(*, """")              = false
+ * StringUtils.containsAny(""zzabyycdxx"", ""za"") = true
+ * StringUtils.containsAny(""zzabyycdxx"", ""by"") = true
+ * StringUtils.containsAny(""aba"",""z"")          = false
+ * </pre>
+ *
+ * @param cs
+ *            the CharSequence to check, may be null
+ * @param searchChars
+ *            the chars to search for, may be null
+ * @return the <code>true</code> if any of the chars are found, <code>false</code> if no match or null input
+ * @since 2.4
+ */
+public static boolean containsAny(CharSequence cs, String searchChars) {
+    if (searchChars == null) {
+        return false;
+    }
+    return containsAny(cs, searchChars.toCharArray());
+}",-4.7118951268205755
+465,True,JxPath,2,High,72,78,-0.6041666666666666,-0.4295125164690382,-0.5,-0.3333333333333333,-0.5333333333333333,-0.6776416539050536,-0.7971127584861495,-0.5,6.833333333333333,-0.31878706692616415,"public Iterator iterate(EvalContext context) {
+    Object result = compute(context);
+    if (result instanceof EvalContext) {
+        return new ValueIterator((EvalContext) result);
+    }
+    return ValueUtils.iterate(result);
+}",-4.693887329119739
+198,True,Closure,106,Medium,188,193,-0.6458333333333334,-0.32938076416337286,-0.5,-0.3333333333333333,-0.5333333333333333,-0.6776416539050536,-0.7760436987904795,-0.5714285714285714,16.166666666666668,-0.31878706692616415,"/**
+ * Records a block-level description.
+ *
+ * @return {@code true} if the description was recorded.
+ */
+public boolean recordBlockDescription(String description) {
+    if (parseDocumentation) {
+        populated = true;
+    }
+    return currentInfo.documentBlock(description);
+}",-4.685781755213641
+230,True,Closure,134,Medium,352,357,-0.6458333333333334,-0.32938076416337286,-0.5,-0.3333333333333333,-0.4666666666666667,-0.6776416539050536,-0.9321108076472879,-0.42857142857142855,8.0,-0.31878706692616415,"/**
+ * Returns true if prop is in an independent set from all properties in
+ * this sub graph.  That is, if none of its types is contained in the
+ * related types for this sub graph and if none if its related types is one
+ * of the types in the sub graph.
+ */
+public boolean isIndependentOf(Property prop) {
+    if (typesRelatedToSet.intersects(prop.typesSet)) {
+        return false;
+    }
+    return !getRelated(prop.type).intersects(typesInSet);
+}",-4.632325054546641
+454,True,Csv,6,High,179,185,-0.6041666666666666,-0.18708827404479578,-0.5,-0.3333333333333333,-0.6666666666666666,-0.6776416539050536,-1.0374561061256355,-0.2857142857142857,5.166666666666667,-0.31878706692616415,"/**
+ * Puts all values of this record into the given Map.
+ *
+ * @param map The Map to populate.
+ * @return the given map.
+ */
+<M extends Map<String, String>> M putIn(final M map) {
+    for (final Entry<String, Integer> entry : mapping.entrySet()) {
+        final int col = entry.getValue().intValue();
+        map.put(entry.getKey(), values[col]);
+    }
+    return map;
+}",-4.610854053382601
+335,True,Closure,169,Medium,203,210,-0.6458333333333334,-0.32938076416337286,-0.5,-0.3333333333333333,-0.4,-0.6776416539050536,-0.9016777214202114,-0.5,2.666666666666667,-0.31878706692616415,"boolean checkArrowEquivalenceHelper(ArrowType that, boolean tolerateUnknowns) {
+    // Please keep this method in sync with the hashCode() method below.
+    if (!returnType.checkEquivalenceHelper(that.returnType, tolerateUnknowns)) {
+        return false;
+    }
+    return hasEqualParameters(that, tolerateUnknowns);
+}",-4.606653873081469
+217,True,Closure,122,Medium,251,258,-0.6875,-0.20289855072463758,-0.5,-0.3333333333333333,-0.4,-0.4663093415007657,-1.4705423332032777,-0.21428571428571427,15.166666666666668,-0.2850409842643108,"/**
+ * Check to see if the given block comment looks like it should be JSDoc.
+ */
+private void handleBlockComment(Comment comment) {
+    if (comment.getValue().indexOf(""/* @"") != -1 || comment.getValue().indexOf(""\n * @"") != -1) {
+        errorReporter.warning(SUSPICIOUS_COMMENT_WARNING, sourceName, comment.getLineno(), """", 0);
+    }
+}",-4.559910257312039
+569,True,Lang,49,High,465,471,-0.6041666666666666,-0.4295125164690382,-0.5,-0.3333333333333333,-0.5333333333333333,-0.44027565084226644,-0.8985563792430759,-0.42857142857142855,12.5,-0.29234443259182546,"// Calculations
+// -------------------------------------------------------------------
+/**
+ * <p>Reduce the fraction to the smallest values for the numerator and
+ * denominator, returning the result.</p>
+ *
+ * <p>For example, if this fraction represents 2/4, then the result
+ * will be 1/2.</p>
+ *
+ * @return a new reduced fraction instance, or this if no simplification possible
+ */
+public Fraction reduce() {
+    int gcd = greatestCommonDivisor(Math.abs(numerator), denominator);
+    if (gcd == 1) {
+        return this;
+    }
+    return Fraction.getFraction(numerator / gcd, denominator / gcd);
+}",-4.460093741050968
+26,True,Cli,16,Low,65,74,-0.6041666666666666,-0.4295125164690382,-0.5,-0.3333333333333333,-0.5333333333333333,-0.6776416539050536,-0.9890753023800245,-0.07142857142857142,0.16666666666666669,-0.31878706692616415,"public void addOption(Option option) {
+    options.add(option);
+    nameToOption.put(option.getPreferredName(), option);
+    for (Iterator i = option.getTriggers().iterator(); i.hasNext(); ) {
+        nameToOption.put(i.next(), option);
+    }
+// ensure that all parent options are also added
+}",-4.457278444442185
+242,True,Closure,137,Medium,460,465,-0.6458333333333334,-0.20816864295125165,-0.5,-0.3333333333333333,-0.4666666666666667,-0.6776416539050536,-0.8735856418259847,-0.42857142857142855,2.3333333333333335,-0.31878706692616415,"@Override
+public void addDeclaredName(String name) {
+    if (!declarations.containsKey(name)) {
+        declarations.put(name, getUniqueName(name));
+    }
+}",-4.452587767513216
+164,True,Closure,79,High,205,221,-0.5625,-0.5138339920948617,-0.5,-0.3333333333333333,-0.4666666666666667,-0.6776416539050536,-0.9321108076472879,-0.14285714285714285,1.5,-0.31878706692616415,"/**
+ * Create a new variable in a synthetic script. This will prevent
+ * subsequent compiler passes from crashing.
+ */
+private void createSynthesizedExternVar(String varName) {
+    Node nameNode = Node.newString(Token.NAME, varName);
+    // cases for this configuration though, and it makes them happier.
+    if (compiler.getCodingConvention().isConstant(varName)) {
+        nameNode.putBooleanProp(Node.IS_CONSTANT_NAME, true);
+    }
+    getSynthesizedExternsRoot().addChildToBack(new Node(Token.VAR, nameNode));
+    varsToDeclareInExterns.remove(varName);
+}",-4.4477306634305105

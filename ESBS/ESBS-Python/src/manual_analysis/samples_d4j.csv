@@ -1,0 +1,1701 @@
+,IsBuggy,ProjectName,ProjectVersion,Priority,StartLine,EndLine,LC,PI,MA,NBD,ML,D,MI,FO,R,E,SourceCode,LC_R,PI_R,MA_R,NBD_R,ML_R,D_R,FO_R,R_R,E_R,average_sum,average_sum_raw
+0,True,Cli,33,High,726,732,5.0,1.96,1.0,0.0,0.0,0.0,121.31,4.0,0.17,0.0,"/**
+ * Print the specified text to the specified PrintWriter.
+ *
+ * @param pw The printWriter to write the help to
+ * @param width The number of characters to display per line
+ * @param nextLineTabStop The position on the next line for the first tab.
+ * @param text The text to be written to the PrintWriter
+ */
+public void printWrapped(PrintWriter pw, int width, int nextLineTabStop, String text) {
+    StringBuffer sb = new StringBuffer(text.length());
+    renderWrappedText(sb, width, nextLineTabStop, text);
+    pw.println(sb.toString());
+}",-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-0.35714285714285715,,-0.31878706692616415,-4.745122961373284,11.96
+1,True,Cli,1,High,89,101,8.0,2.4,3.0,1.0,5.0,1.69,111.24,5.0,0.44,222.22,"/**
+ * Return the <code>Object</code> type of this <code>Option</code>.
+ *
+ * @param opt the name of the option
+ * @return the type of this <code>Option</code>
+ */
+public Object getOptionObject(String opt) {
+    String res = getOptionValue(opt);
+    if (!options.containsKey(opt)) {
+        return null;
+    }
+    Object type = ((Option) options.get(opt)).getType();
+    return (res == null) ? null : TypeHandler.createValue(res, type);
+}",-0.5625,-0.5138339920948617,-0.375,-0.3333333333333333,-0.3333333333333333,-0.41883614088820825,-0.2857142857142857,,-0.27123440688103384,-3.093785492245056,248.31
+2,True,Lang,13,High,262,270,9.0,2.95,2.0,1.0,0.0,0.0,110.29,5.0,0.0,0.0,"/**
+ * Overriden version that uses the parametrized <code>ClassLoader</code> or the <code>ClassLoader</code>
+ * of the current <code>Thread</code> to resolve the class.
+ * @param desc An instance of class <code>ObjectStreamClass</code>.
+ * @return A <code>Class</code> object corresponding to <code>desc</code>.
+ * @throws IOException Any of the usual Input/Output exceptions.
+ * @throws ClassNotFoundException If class of a serialized object cannot be found.
+ */
+@Override
+protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+    String name = desc.getName();
+    try {
+        return Class.forName(name, false, classLoader);
+    } catch (ClassNotFoundException ex) {
+        return Class.forName(name, false, Thread.currentThread().getContextClassLoader());
+    }
+}",-0.5208333333333334,-0.22397891963109345,-0.5,-0.3333333333333333,-0.6666666666666666,-0.6776416539050536,-0.2857142857142857,,-0.31878706692616415,-3.52695525950993,19.95
+3,True,Csv,6,High,179,185,7.0,3.02,2.0,1.0,0.0,0.0,114.45,5.0,0.31,0.0,"/**
+ * Puts all values of this record into the given Map.
+ *
+ * @param map The Map to populate.
+ * @return the given map.
+ */
+<M extends Map<String, String>> M putIn(final M map) {
+    for (final Entry<String, Integer> entry : mapping.entrySet()) {
+        final int col = entry.getValue().intValue();
+        map.put(entry.getKey(), values[col]);
+    }
+    return map;
+}",-0.6041666666666666,-0.18708827404479578,-0.5,-0.3333333333333333,-0.6666666666666666,-0.6776416539050536,-0.2857142857142857,,-0.31878706692616415,-3.5733979472569657,18.02
+4,True,Lang,46,Critical,154,167,13.0,2.89,3.0,1.0,2.0,1.86,103.93,4.0,0.22,220.14,"/**
+ * <p>Worker method for the {@link #escapeJavaScript(String)} method.</p>
+ *
+ * @param str String to escape values in, may be null
+ * @param escapeSingleQuotes escapes single quotes if <code>true</code>
+ * @param escapeForwardSlash TODO
+ * @return the escaped string
+ */
+private static String escapeJavaStyleString(String str, boolean escapeSingleQuotes) {
+    if (str == null) {
+        return null;
+    }
+    try {
+        StringWriter writer = new StringWriter(str.length() * 2);
+        escapeJavaStyleString(writer, str, escapeSingleQuotes);
+        return writer.toString();
+    } catch (IOException ioe) {
+        // this should never ever happen while writing to a StringWriter
+        ioe.printStackTrace();
+        return null;
+    }
+}",-0.3541666666666667,-0.2555994729907773,-0.375,-0.3333333333333333,-0.5333333333333333,-0.39280245022970894,-0.35714285714285715,,-0.27167950423002973,-2.8730576179267064,247.89
+5,True,Lang,7,High,713,726,9.0,2.67,4.0,1.0,4.0,0.0,113.61,1.0,0.01,0.0,"/**
+ * <p>Convert a <code>String</code> to a <code>BigDecimal</code>.</p>
+ *
+ * <p>Returns <code>null</code> if the string is <code>null</code>.</p>
+ *
+ * @param str  a <code>String</code> to convert, may be null
+ * @return converted <code>BigDecimal</code> (or null if the input is null)
+ * @throws NumberFormatException if the value cannot be converted
+ */
+public static BigDecimal createBigDecimal(String str) {
+    if (str == null) {
+        return null;
+    }
+    // handle JDK1.3.1 bug where """" throws IndexOutOfBoundsException
+    if (StringUtils.isBlank(str)) {
+        throw new NumberFormatException(""A blank string is not a valid number"");
+    }
+    // a wrong value.
+    return new BigDecimal(str);
+}",-0.5208333333333334,-0.3715415019762846,-0.25,-0.3333333333333333,-0.4,-0.6776416539050536,-0.5714285714285714,,-0.31878706692616415,-3.4435654609027404,21.67
+6,True,Lang,40,High,1044,1049,6.0,2.75,2.0,1.0,4.0,1.78,119.75,3.0,0.03,116.85,"/**
+ * <p>Checks if String contains a search String irrespective of case,
+ * handling <code>null</code>. Case-insensitivity is defined as by
+ * {@link String#equalsIgnoreCase(String)}.
+ *
+ * <p>A <code>null</code> String will return <code>false</code>.</p>
+ *
+ * <pre>
+ * StringUtils.contains(null, *) = false
+ * StringUtils.contains(*, null) = false
+ * StringUtils.contains("""", """") = true
+ * StringUtils.contains(""abc"", """") = true
+ * StringUtils.contains(""abc"", ""a"") = true
+ * StringUtils.contains(""abc"", ""z"") = false
+ * StringUtils.contains(""abc"", ""A"") = true
+ * StringUtils.contains(""abc"", ""Z"") = false
+ * </pre>
+ *
+ * @param str  the String to check, may be null
+ * @param searchStr  the String to find, may be null
+ * @return true if the String contains the search String irrespective of
+ * case or false if not or <code>null</code> string input
+ */
+public static boolean containsIgnoreCase(String str, String searchStr) {
+    if (str == null || searchStr == null) {
+        return false;
+    }
+    return contains(str.toUpperCase(), searchStr.toUpperCase());
+}",-0.6458333333333334,-0.32938076416337286,-0.5,-0.3333333333333333,-0.4,-0.40505359877488506,-0.42857142857142855,,-0.2937824394116584,-3.3359548975880116,137.38
+7,True,Math,49,High,379,389,11.0,2.67,2.0,1.0,2.0,1.76,105.99,8.0,0.08,247.38,"/**
+ * {@inheritDoc}
+ */
+@Override
+public OpenMapRealVector ebeMultiply(double[] v) {
+    checkVectorDimensions(v.length);
+    OpenMapRealVector res = new OpenMapRealVector(this);
+    Iterator iter = res.entries.iterator();
+    while (iter.hasNext()) {
+        iter.advance();
+        res.setEntry(iter.key(), iter.value() * v[iter.key()]);
+    }
+    return res;
+}",-0.4375,-0.3715415019762846,-0.5,-0.3333333333333333,-0.5333333333333333,-0.40811638591117916,-0.07142857142857142,,-0.26585044087106413,-2.921103566853766,275.81
+8,True,Compress,4,High,529,537,9.0,2.67,3.0,1.0,4.0,0.0,115.28,3.0,0.98,0.0,"/**
+ * Closes this output stream and releases any system resources
+ * associated with the stream.
+ *
+ * @exception  IOException  if an I/O error occurs.
+ */
+public void close() throws IOException {
+    finish();
+    if (raf != null) {
+        raf.close();
+    }
+    if (out != null) {
+        out.close();
+    }
+}",-0.5208333333333334,-0.3715415019762846,-0.375,-0.3333333333333333,-0.4,-0.6776416539050536,-0.42857142857142855,,-0.31878706692616415,-3.425708318045597,22.67
+9,True,Compress,4,High,124,131,8.0,3.32,2.0,1.0,2.0,1.38,117.27,3.0,0.97,59.38,"/**
+ * Closes the underlying OutputStream.
+ * @throws IOException on error
+ */
+public void close() throws IOException {
+    if (!closed) {
+        finish();
+        buffer.close();
+        out.close();
+        closed = true;
+    }
+}",-0.5625,-0.028985507246376895,-0.5,-0.3333333333333333,-0.5333333333333333,-0.4663093415007657,-0.42857142857142855,,-0.30608039356877126,-3.1591133375540092,80.08000000000001
+10,True,Closure,98,High,354,363,7.0,2.56,2.0,1.0,2.0,1.12,120.3,1.0,0.96,41.11,"/**
+ * @return Whether the variable is only assigned a value once for its
+ *     lifetime.
+ */
+boolean isAssignedOnceInLifetime() {
+    Reference ref = getOneAndOnlyAssignment();
+    if (ref == null) {
+        return false;
+    }
+    return true;
+}",-0.6041666666666666,-0.4295125164690382,-0.5,-0.3333333333333333,-0.5333333333333333,-0.506125574272588,-0.5714285714285714,,-0.3099899746101921,-3.787889970113723,57.79
+11,True,Lang,26,High,819,823,5.0,1.96,1.0,0.0,0.0,0.0,122.58,3.0,0.75,0.0,"/**
+ * <p>Formats a <code>Date</code> object.</p>
+ *
+ * @param date  the date to format
+ * @return the formatted string
+ */
+public String format(Date date) {
+    Calendar c = new GregorianCalendar(mTimeZone);
+    c.setTime(date);
+    return applyRules(c, new StringBuffer(mMaxLengthEstimate)).toString();
+}",-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-0.42857142857142855,,-0.31878706692616415,-4.8165515328018556,10.96
+12,True,Csv,1,High,55,63,9.0,2.51,2.0,1.0,2.0,1.5,114.07,1.0,0.74,83.03,"@Override
+public int read() throws IOException {
+    int current = super.read();
+    if (current == '\n') {
+        lineCounter++;
+    }
+    lastChar = current;
+    return lastChar;
+}",-0.5208333333333334,-0.45586297760210814,-0.5,-0.3333333333333333,-0.5333333333333333,-0.4479326186830015,-0.5714285714285714,,-0.3010195511150438,-3.6637437188287247,102.04
+13,True,Math,77,High,498,506,9.0,2.67,2.0,1.0,2.0,1.45,112.83,4.0,0.25,102.27,"public double getLInfNorm() {
+    double max = 0;
+    Iterator iter = entries.iterator();
+    while (iter.hasNext()) {
+        iter.advance();
+        max += iter.value();
+    }
+    return max;
+}",-0.5208333333333334,-0.3715415019762846,-0.5,-0.3333333333333333,-0.5333333333333333,-0.45558958652373654,-0.35714285714285715,,-0.2969024006368316,-3.3686763462797096,124.39
+14,True,Csv,5,High,323,327,5.0,1.96,1.0,0.0,0.0,0.0,124.33,2.0,0.99,0.0,"/**
+ * Outputs the record separator.
+ *
+ * @throws IOException
+ *             If an I/O error occurs
+ */
+public void println() throws IOException {
+    final String recordSeparator = format.getRecordSeparator();
+    out.append(recordSeparator);
+    newRecord = true;
+}",-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-0.5,,-0.31878706692616415,-4.887980104230428,9.96
+15,True,Closure,74,Medium,887,1069,147.0,5.09,70.0,5.0,67.0,15.23,34.8,42.0,0.0,28931.62,"/**
+ * Try to fold comparison nodes, e.g ==
+ */
+@SuppressWarnings(""fallthrough"")
+private Node tryFoldComparison(Node n, Node left, Node right) {
+    if (!NodeUtil.isLiteralValue(left, false) || !NodeUtil.isLiteralValue(right, false)) {
+        // We only handle non-literal operands for LT and GT.
+        if (n.getType() != Token.GT && n.getType() != Token.LT) {
+            return n;
+        }
+    }
+    int op = n.getType();
+    boolean result;
+    // TODO(johnlenz): Use the JSType to compare nodes of different types.
+    boolean rightLiteral = NodeUtil.isLiteralValue(right, false);
+    boolean undefinedRight = ((Token.NAME == right.getType() && right.getString().equals(""undefined"")) || (Token.VOID == right.getType() && NodeUtil.isLiteralValue(right.getFirstChild(), false)));
+    int lhType = left.getType();
+    int rhType = right.getType();
+    switch(lhType) {
+        case Token.VOID:
+            if (!NodeUtil.isLiteralValue(left.getFirstChild(), false)) {
+                return n;
+            } else if (!rightLiteral) {
+                return n;
+            } else {
+                result = compareToUndefined(right, op);
+            }
+            break;
+        case Token.NULL:
+        case Token.TRUE:
+        case Token.FALSE:
+            if (undefinedRight) {
+                result = compareToUndefined(left, op);
+                break;
+            }
+            if (rhType != Token.TRUE && rhType != Token.FALSE && rhType != Token.NULL) {
+                return n;
+            }
+            switch(op) {
+                case Token.SHEQ:
+                case Token.EQ:
+                    result = lhType == rhType;
+                    break;
+                case Token.SHNE:
+                case Token.NE:
+                    result = lhType != rhType;
+                    break;
+                case Token.GE:
+                case Token.LE:
+                case Token.GT:
+                case Token.LT:
+                    Boolean compareResult = compareAsNumbers(op, left, right);
+                    if (compareResult != null) {
+                        result = compareResult;
+                    } else {
+                        return n;
+                    }
+                    break;
+                default:
+                    // we only handle == and != here
+                    return n;
+            }
+            break;
+        case Token.THIS:
+            if (right.getType() != Token.THIS) {
+                return n;
+            }
+            switch(op) {
+                case Token.SHEQ:
+                case Token.EQ:
+                    result = true;
+                    break;
+                case Token.SHNE:
+                case Token.NE:
+                    result = false;
+                    break;
+                // whether it is a string, NaN or other number value.
+                default:
+                    return n;
+            }
+            break;
+        case Token.STRING:
+            if (undefinedRight) {
+                result = compareToUndefined(left, op);
+                break;
+            }
+            if (Token.STRING != right.getType()) {
+                // Only eval if they are the same type
+                return n;
+            }
+            switch(op) {
+                case Token.SHEQ:
+                case Token.EQ:
+                    result = left.getString().equals(right.getString());
+                    break;
+                case Token.SHNE:
+                case Token.NE:
+                    result = !left.getString().equals(right.getString());
+                    break;
+                default:
+                    // we only handle == and != here
+                    return n;
+            }
+            break;
+        case Token.NUMBER:
+            if (undefinedRight) {
+                result = compareToUndefined(left, op);
+                break;
+            }
+            if (Token.NUMBER != right.getType()) {
+                // Only eval if they are the same type
+                return n;
+            }
+            Boolean compareResult = compareAsNumbers(op, left, right);
+            if (compareResult != null) {
+                result = compareResult;
+            } else {
+                return null;
+            }
+            break;
+        case Token.NAME:
+            if (undefinedRight) {
+                result = compareToUndefined(left, op);
+                break;
+            }
+            if (rightLiteral) {
+                boolean undefinedLeft = (left.getString().equals(""undefined""));
+                if (undefinedLeft) {
+                    result = compareToUndefined(right, op);
+                    break;
+                }
+            }
+            if (Token.NAME != right.getType()) {
+                // Only eval if they are the same type
+                return n;
+            }
+            String ln = left.getString();
+            String rn = right.getString();
+            if (!ln.equals(rn)) {
+                // Not the same value name.
+                return n;
+            }
+            switch(op) {
+                // to handle EQ,NE,LE,GE,SHEQ, and SHNE.
+                case Token.LT:
+                case Token.GT:
+                    result = false;
+                    break;
+                default:
+                    // don't handle that op
+                    return n;
+            }
+            break;
+        default:
+            // assert, this should cover all consts
+            return n;
+    }
+    Node newNode = new Node(result ? Token.TRUE : Token.FALSE);
+    n.getParent().replaceChild(n, newNode);
+    reportCodeChange();
+    return newNode;
+}",5.229166666666667,0.903820816864295,8.0,1.0,3.8,1.6546707503828484,2.357142857142857,,5.872264550457028,28.817065641513693,29282.94
+16,True,Closure,18,Medium,1240,1362,82.0,4.92,23.0,4.0,32.0,4.62,57.59,40.0,0.0,5397.51,"// ------------------------------------------------------------------------
+// Parsing
+// ------------------------------------------------------------------------
+/**
+ * Parses the externs and main inputs.
+ *
+ * @return A synthetic root node whose two children are the externs root
+ *     and the main root
+ */
+Node parseInputs() {
+    boolean devMode = options.devMode != DevMode.OFF;
+    // individual file parse trees.
+    if (externsRoot != null) {
+        externsRoot.detachChildren();
+    }
+    if (jsRoot != null) {
+        jsRoot.detachChildren();
+    }
+    // Parse main JS sources.
+    jsRoot = IR.block();
+    jsRoot.setIsSyntheticBlock(true);
+    externsRoot = IR.block();
+    externsRoot.setIsSyntheticBlock(true);
+    externAndJsRoot = IR.block(externsRoot, jsRoot);
+    externAndJsRoot.setIsSyntheticBlock(true);
+    if (options.tracer.isOn()) {
+        tracker = new PerformanceTracker(jsRoot, options.tracer);
+        addChangeHandler(tracker.getCodeChangeHandler());
+    }
+    Tracer tracer = newTracer(""parseInputs"");
+    try {
+        // Parse externs sources.
+        for (CompilerInput input : externs) {
+            Node n = input.getAstRoot(this);
+            if (hasErrors()) {
+                return null;
+            }
+            externsRoot.addChildToBack(n);
+        }
+        // Modules inferred in ProcessCommonJS pass.
+        if (options.transformAMDToCJSModules || options.processCommonJSModules) {
+            processAMDAndCommonJSModules();
+        }
+        hoistExterns(externsRoot);
+        // Check if the sources need to be re-ordered.
+        boolean staleInputs = false;
+        if (options.dependencyOptions.needsManagement() && options.closurePass) {
+            for (CompilerInput input : inputs) {
+                // are not flagged even if they are dropped from the process.
+                for (String provide : input.getProvides()) {
+                    getTypeRegistry().forwardDeclareType(provide);
+                }
+            }
+            try {
+                inputs = (moduleGraph == null ? new JSModuleGraph(modules) : moduleGraph).manageDependencies(options.dependencyOptions, inputs);
+                staleInputs = true;
+            } catch (CircularDependencyException e) {
+                report(JSError.make(JSModule.CIRCULAR_DEPENDENCY_ERROR, e.getMessage()));
+                // If in IDE mode, we ignore the error and keep going.
+                if (hasErrors()) {
+                    return null;
+                }
+            } catch (MissingProvideException e) {
+                report(JSError.make(MISSING_ENTRY_ERROR, e.getMessage()));
+                // If in IDE mode, we ignore the error and keep going.
+                if (hasErrors()) {
+                    return null;
+                }
+            }
+        }
+        hoistNoCompileFiles();
+        if (staleInputs) {
+            repartitionInputs();
+        }
+        // Build the AST.
+        for (CompilerInput input : inputs) {
+            Node n = input.getAstRoot(this);
+            if (n == null) {
+                continue;
+            }
+            if (devMode) {
+                runSanityCheck();
+                if (hasErrors()) {
+                    return null;
+                }
+            }
+            if (options.sourceMapOutputPath != null || options.nameReferenceReportPath != null) {
+                // Annotate the nodes in the tree with information from the
+                // input file. This information is used to construct the SourceMap.
+                SourceInformationAnnotator sia = new SourceInformationAnnotator(input.getName(), options.devMode != DevMode.OFF);
+                NodeTraversal.traverse(this, n, sia);
+            }
+            jsRoot.addChildToBack(n);
+        }
+        if (hasErrors()) {
+            return null;
+        }
+        return externAndJsRoot;
+    } finally {
+        stopTracer(tracer, ""parseInputs"");
+    }
+}",2.5208333333333335,0.8142292490118577,2.125,0.6666666666666666,1.4666666666666666,0.02986217457886681,2.2142857142857144,,0.8362212946983131,10.673765099241418,5588.05
+17,True,Closure,142,Medium,1112,1206,64.0,6.3,19.0,5.0,22.0,8.4,63.26,27.0,0.0,8525.35,"/**
+ * Extracts the text found on the current line and all subsequent
+ * until either an annotation, end of comment or end of file is reached.
+ * Note that if this method detects an end of line as the first token, it
+ * will quit immediately (indicating that there is no text where it was
+ * expected).  Note that token = info.token; should be called after this
+ * method is used to update the token properly in the parser.
+ *
+ * @param token The start token.
+ * @param option How to handle whitespace.
+ *
+ * @return The extraction information.
+ */
+@SuppressWarnings(""fallthrough"")
+private ExtractionInfo extractMultilineTextualBlock(JsDocToken token, WhitespaceOption option) {
+    if (token == JsDocToken.EOC || token == JsDocToken.EOL || token == JsDocToken.EOF) {
+        return new ExtractionInfo("""", token);
+    }
+    stream.update();
+    int startLineno = stream.getLineno();
+    int startCharno = stream.getCharno() + 1;
+    // Read the content from the first line.
+    String line = stream.getRemainingJSDocLine();
+    if (option != WhitespaceOption.PRESERVE) {
+        line = line.trim();
+    }
+    StringBuilder builder = new StringBuilder();
+    builder.append(line);
+    state = State.SEARCHING_ANNOTATION;
+    token = next();
+    boolean ignoreStar = false;
+    do {
+        switch(token) {
+            case STAR:
+                if (!ignoreStar) {
+                    if (builder.length() > 0) {
+                        builder.append(' ');
+                    }
+                    builder.append('*');
+                }
+                token = next();
+                continue;
+            case EOL:
+                if (option != WhitespaceOption.SINGLE_LINE) {
+                    builder.append(""\n"");
+                }
+                ignoreStar = true;
+                token = next();
+                continue;
+            case ANNOTATION:
+            case EOC:
+            case EOF:
+                // When we're capturing a license block, annotations
+                // in the block are ok.
+                String multilineText = builder.toString();
+                if (option != WhitespaceOption.PRESERVE) {
+                    multilineText = multilineText.trim();
+                }
+                int endLineno = stream.getLineno();
+                int endCharno = stream.getCharno();
+                if (multilineText.length() > 0) {
+                    jsdocBuilder.markText(multilineText, startLineno, startCharno, endLineno, endCharno);
+                }
+                return new ExtractionInfo(multilineText, token);
+            default:
+                ignoreStar = false;
+                state = State.SEARCHING_ANNOTATION;
+                if (builder.length() > 0) {
+                    builder.append(' ');
+                }
+                builder.append(toString(token));
+                line = stream.getRemainingJSDocLine();
+                if (option != WhitespaceOption.PRESERVE) {
+                    line = trimEnd(line);
+                }
+                builder.append(line);
+                token = next();
+        }
+    } while (true);
+}",1.7708333333333333,1.541501976284585,1.625,1.0,0.8,0.6087289433384381,1.2857142857142858,,1.505544992815316,10.137323531485958,8677.05
+18,True,Closure,78,Medium,664,746,64.0,4.02,28.0,4.0,34.0,19.41,60.34,26.0,0.0,23177.65,"/**
+ * Try to fold arithmetic binary operators
+ */
+private Node performArithmeticOp(int opType, Node left, Node right) {
+    // to Number.
+    if (opType == Token.ADD && (NodeUtil.mayBeString(left, false) || NodeUtil.mayBeString(right, false))) {
+        return null;
+    }
+    double result;
+    // TODO(johnlenz): Handle NaN with unknown value. BIT ops convert NaN
+    // to zero so this is a little akward here.
+    Double lValObj = NodeUtil.getNumberValue(left);
+    if (lValObj == null) {
+        return null;
+    }
+    Double rValObj = NodeUtil.getNumberValue(right);
+    if (rValObj == null) {
+        return null;
+    }
+    double lval = lValObj;
+    double rval = rValObj;
+    switch(opType) {
+        case Token.BITAND:
+            result = ScriptRuntime.toInt32(lval) & ScriptRuntime.toInt32(rval);
+            break;
+        case Token.BITOR:
+            result = ScriptRuntime.toInt32(lval) | ScriptRuntime.toInt32(rval);
+            break;
+        case Token.BITXOR:
+            result = ScriptRuntime.toInt32(lval) ^ ScriptRuntime.toInt32(rval);
+            break;
+        case Token.ADD:
+            result = lval + rval;
+            break;
+        case Token.SUB:
+            result = lval - rval;
+            break;
+        case Token.MUL:
+            result = lval * rval;
+            break;
+        case Token.MOD:
+            if (rval == 0) {
+                error(DiagnosticType.error(""JSC_DIVIDE_BY_0_ERROR"", ""Divide by 0""), right);
+                return null;
+            }
+            result = lval % rval;
+            break;
+        case Token.DIV:
+            if (rval == 0) {
+                error(DiagnosticType.error(""JSC_DIVIDE_BY_0_ERROR"", ""Divide by 0""), right);
+                return null;
+            }
+            result = lval / rval;
+            break;
+        default:
+            throw new Error(""Unexpected arithmetic operator"");
+    }
+    // length of the left and right value plus 1 byte for the operator.
+    if (String.valueOf(result).length() <= String.valueOf(lval).length() + String.valueOf(rval).length() + 1 && // point, fixed-point math starts to break down and become inaccurate.
+    Math.abs(result) <= MAX_FOLD_NUMBER) {
+        Node newNumber = Node.newNumber(result);
+        return newNumber;
+    } else if (Double.isNaN(result)) {
+        return Node.newString(Token.NAME, ""NaN"");
+    } else if (result == Double.POSITIVE_INFINITY) {
+        return Node.newString(Token.NAME, ""Infinity"");
+    } else if (result == Double.NEGATIVE_INFINITY) {
+        return new Node(Token.NEG, Node.newString(Token.NAME, ""Infinity""));
+    }
+    return null;
+}",1.7708333333333333,0.33992094861660055,2.75,0.6666666666666666,1.6,2.2947932618683,1.2142857142857142,,4.640977630648377,15.277477555418992,23357.08
+19,True,Closure,144,Medium,550,644,54.0,6.51,18.0,5.0,41.0,9.19,64.33,41.0,0.0,13473.66,"/**
+ * Gets the function type from the function node and its attached
+ * {@link JSDocInfo}.
+ * @param name the function's name
+ * @param rValue the function node. It must be a {@link Token#FUNCTION}.
+ * @param info the {@link JSDocInfo} attached to the function definition
+ * @param lvalueNode The node where this function is being
+ *     assigned. For example, {@code A.prototype.foo = ...} would be used to
+ *     determine that this function is a method of A.prototype. May be
+ *     null to indicate that this is not being assigned to a qualified name.
+ */
+private FunctionType getFunctionType(String name, Node rValue, JSDocInfo info, @Nullable Node lvalueNode) {
+    FunctionType functionType = null;
+    // Handle function aliases.
+    if (rValue != null && rValue.isQualifiedName()) {
+        Var var = scope.getVar(rValue.getQualifiedName());
+        if (var != null && var.getType() instanceof FunctionType) {
+            functionType = (FunctionType) var.getType();
+            if (functionType != null && functionType.isConstructor()) {
+                typeRegistry.declareType(name, functionType.getInstanceType());
+            }
+        }
+        return functionType;
+    }
+    Node owner = null;
+    if (lvalueNode != null) {
+        owner = getPrototypePropertyOwner(lvalueNode);
+    }
+    Node errorRoot = rValue == null ? lvalueNode : rValue;
+    boolean isFnLiteral = rValue != null && rValue.getType() == Token.FUNCTION;
+    Node fnRoot = isFnLiteral ? rValue : null;
+    Node parametersNode = isFnLiteral ? rValue.getFirstChild().getNext() : null;
+    if (functionType == null && info != null && info.hasType()) {
+        JSType type = info.getType().evaluate(scope, typeRegistry);
+        // Known to be not null since we have the FUNCTION token there.
+        type = type.restrictByNotNullOrUndefined();
+        if (type.isFunctionType()) {
+            functionType = (FunctionType) type;
+            functionType.setJSDocInfo(info);
+        }
+    }
+    if (functionType == null) {
+        if (info == null || !FunctionTypeBuilder.isFunctionTypeDeclaration(info)) {
+            // to this function.
+            if (lvalueNode != null && lvalueNode.getType() == Token.GETPROP && lvalueNode.isQualifiedName()) {
+                Var var = scope.getVar(lvalueNode.getFirstChild().getQualifiedName());
+                if (var != null) {
+                    ObjectType ownerType = ObjectType.cast(var.getType());
+                    FunctionType propType = null;
+                    if (ownerType != null) {
+                        String propName = lvalueNode.getLastChild().getString();
+                        propType = findOverriddenFunction(ownerType, propName);
+                    }
+                    if (propType != null) {
+                        functionType = new FunctionTypeBuilder(name, compiler, errorRoot, sourceName, scope).setSourceNode(fnRoot).inferFromOverriddenFunction(propType, parametersNode).inferThisType(info, owner).buildAndRegister();
+                    }
+                }
+            }
+        }
+    }
+    if (functionType == null) {
+        functionType = new FunctionTypeBuilder(name, compiler, errorRoot, sourceName, scope).setSourceNode(fnRoot).inferTemplateTypeName(info).inferReturnType(info).inferInheritance(info).inferThisType(info, owner).inferParameterTypes(parametersNode, info).buildAndRegister();
+    }
+    // assigning the function type to the function node
+    if (rValue != null) {
+        setDeferredType(rValue, functionType);
+    }
+    // all done
+    return functionType;
+}",1.3541666666666667,1.6521739130434783,1.5,1.0,2.066666666666667,0.729709035222052,2.2857142857142856,,2.5644294461854837,13.152860013498632,13648.36
+20,True,Compress,41,Low,219,324,79.0,2.57,14.0,4.0,30.0,14.01,57.72,43.0,0.0,26725.43,"public ZipArchiveEntry getNextZipEntry() throws IOException {
+    boolean firstEntry = true;
+    if (closed || hitCentralDirectory) {
+        return null;
+    }
+    if (current != null) {
+        closeEntry();
+        firstEntry = false;
+    }
+    try {
+        if (firstEntry) {
+            // split archives have a special signature before the
+            // first local file header - look for it and fail with
+            // the appropriate error message if this is a split
+            // archive.
+            readFirstLocalFileHeader(LFH_BUF);
+        } else {
+            readFully(LFH_BUF);
+        }
+    } catch (final EOFException e) {
+        return null;
+    }
+    final ZipLong sig = new ZipLong(LFH_BUF);
+    if (sig.equals(ZipLong.CFH_SIG) || sig.equals(ZipLong.AED_SIG)) {
+        hitCentralDirectory = true;
+        skipRemainderOfArchive();
+    }
+    if (!sig.equals(ZipLong.LFH_SIG)) {
+        return null;
+    }
+    int off = WORD;
+    current = new CurrentEntry();
+    final int versionMadeBy = ZipShort.getValue(LFH_BUF, off);
+    off += SHORT;
+    current.entry.setPlatform((versionMadeBy >> ZipFile.BYTE_SHIFT) & ZipFile.NIBLET_MASK);
+    final GeneralPurposeBit gpFlag = GeneralPurposeBit.parse(LFH_BUF, off);
+    final boolean hasUTF8Flag = gpFlag.usesUTF8ForNames();
+    final ZipEncoding entryEncoding = hasUTF8Flag ? ZipEncodingHelper.UTF8_ZIP_ENCODING : zipEncoding;
+    current.hasDataDescriptor = gpFlag.usesDataDescriptor();
+    current.entry.setGeneralPurposeBit(gpFlag);
+    off += SHORT;
+    current.entry.setMethod(ZipShort.getValue(LFH_BUF, off));
+    off += SHORT;
+    final long time = ZipUtil.dosToJavaTime(ZipLong.getValue(LFH_BUF, off));
+    current.entry.setTime(time);
+    off += WORD;
+    ZipLong size = null, cSize = null;
+    if (!current.hasDataDescriptor) {
+        current.entry.setCrc(ZipLong.getValue(LFH_BUF, off));
+        off += WORD;
+        cSize = new ZipLong(LFH_BUF, off);
+        off += WORD;
+        size = new ZipLong(LFH_BUF, off);
+        off += WORD;
+    } else {
+        off += 3 * WORD;
+    }
+    final int fileNameLen = ZipShort.getValue(LFH_BUF, off);
+    off += SHORT;
+    final int extraLen = ZipShort.getValue(LFH_BUF, off);
+    off += SHORT;
+    final byte[] fileName = new byte[fileNameLen];
+    readFully(fileName);
+    current.entry.setName(entryEncoding.decode(fileName), fileName);
+    final byte[] extraData = new byte[extraLen];
+    readFully(extraData);
+    current.entry.setExtra(extraData);
+    if (!hasUTF8Flag && useUnicodeExtraFields) {
+        ZipUtil.setNameAndCommentFromExtraFields(current.entry, fileName, null);
+    }
+    processZip64Extra(size, cSize);
+    if (current.entry.getCompressedSize() != ArchiveEntry.SIZE_UNKNOWN) {
+        if (current.entry.getMethod() == ZipMethod.UNSHRINKING.getCode()) {
+            current.in = new UnshrinkingInputStream(new BoundedInputStream(in, current.entry.getCompressedSize()));
+        } else if (current.entry.getMethod() == ZipMethod.IMPLODING.getCode()) {
+            current.in = new ExplodingInputStream(current.entry.getGeneralPurposeBit().getSlidingDictionarySize(), current.entry.getGeneralPurposeBit().getNumberOfShannonFanoTrees(), new BoundedInputStream(in, current.entry.getCompressedSize()));
+        } else if (current.entry.getMethod() == ZipMethod.BZIP2.getCode()) {
+            current.in = new BZip2CompressorInputStream(new BoundedInputStream(in, current.entry.getCompressedSize()));
+        }
+    }
+    entriesRead++;
+    return current.entry;
+}",2.3958333333333335,-0.4242424242424243,1.0,0.6666666666666666,1.3333333333333333,1.4678407350689129,2.4285714285714284,,5.400163915658333,14.268166988389583,26912.01
+21,True,Math,24,Low,108,271,132.0,6.45,24.0,6.0,63.0,36.72,45.5,17.0,0.0,95216.65,"/**
+ * {@inheritDoc}
+ */
+@Override
+protected UnivariatePointValuePair doOptimize() {
+    final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
+    final double lo = getMin();
+    final double mid = getStartValue();
+    final double hi = getMax();
+    // Optional additional convergence criteria.
+    final ConvergenceChecker<UnivariatePointValuePair> checker = getConvergenceChecker();
+    double a;
+    double b;
+    if (lo < hi) {
+        a = lo;
+        b = hi;
+    } else {
+        a = hi;
+        b = lo;
+    }
+    double x = mid;
+    double v = x;
+    double w = x;
+    double d = 0;
+    double e = 0;
+    double fx = computeObjectiveValue(x);
+    if (!isMinim) {
+        fx = -fx;
+    }
+    double fv = fx;
+    double fw = fx;
+    UnivariatePointValuePair previous = null;
+    UnivariatePointValuePair current = new UnivariatePointValuePair(x, isMinim ? fx : -fx);
+    int iter = 0;
+    while (true) {
+        final double m = 0.5 * (a + b);
+        final double tol1 = relativeThreshold * FastMath.abs(x) + absoluteThreshold;
+        final double tol2 = 2 * tol1;
+        // Default stopping criterion.
+        final boolean stop = FastMath.abs(x - m) <= tol2 - 0.5 * (b - a);
+        if (!stop) {
+            double p = 0;
+            double q = 0;
+            double r = 0;
+            double u = 0;
+            if (FastMath.abs(e) > tol1) {
+                // Fit parabola.
+                r = (x - w) * (fx - fv);
+                q = (x - v) * (fx - fw);
+                p = (x - v) * q - (x - w) * r;
+                q = 2 * (q - r);
+                if (q > 0) {
+                    p = -p;
+                } else {
+                    q = -q;
+                }
+                r = e;
+                e = d;
+                if (p > q * (a - x) && p < q * (b - x) && FastMath.abs(p) < FastMath.abs(0.5 * q * r)) {
+                    // Parabolic interpolation step.
+                    d = p / q;
+                    u = x + d;
+                    // f must not be evaluated too close to a or b.
+                    if (u - a < tol2 || b - u < tol2) {
+                        if (x <= m) {
+                            d = tol1;
+                        } else {
+                            d = -tol1;
+                        }
+                    }
+                } else {
+                    // Golden section step.
+                    if (x < m) {
+                        e = b - x;
+                    } else {
+                        e = a - x;
+                    }
+                    d = GOLDEN_SECTION * e;
+                }
+            } else {
+                // Golden section step.
+                if (x < m) {
+                    e = b - x;
+                } else {
+                    e = a - x;
+                }
+                d = GOLDEN_SECTION * e;
+            }
+            // Update by at least ""tol1"".
+            if (FastMath.abs(d) < tol1) {
+                if (d >= 0) {
+                    u = x + tol1;
+                } else {
+                    u = x - tol1;
+                }
+            } else {
+                u = x + d;
+            }
+            double fu = computeObjectiveValue(u);
+            if (!isMinim) {
+                fu = -fu;
+            }
+            // User-defined convergence checker.
+            previous = current;
+            current = new UnivariatePointValuePair(u, isMinim ? fu : -fu);
+            if (checker != null) {
+                if (checker.converged(iter, previous, current)) {
+                    return current;
+                }
+            }
+            // Update a, b, v, w and x.
+            if (fu <= fx) {
+                if (u < x) {
+                    b = x;
+                } else {
+                    a = x;
+                }
+                v = w;
+                fv = fw;
+                w = x;
+                fw = fx;
+                x = u;
+                fx = fu;
+            } else {
+                if (u < x) {
+                    a = u;
+                } else {
+                    b = u;
+                }
+                if (fu <= fw || Precision.equals(w, x)) {
+                    v = w;
+                    fv = fw;
+                    w = u;
+                    fw = fu;
+                } else if (fu <= fv || Precision.equals(v, x) || Precision.equals(v, w)) {
+                    v = u;
+                    fv = fu;
+                }
+            }
+        } else {
+            // Default termination (Brent's criterion).
+            return current;
+        }
+        ++iter;
+    }
+}",4.604166666666667,1.6205533596837947,2.25,1.3333333333333333,3.533333333333333,4.945635528330781,0.5714285714285714,,20.056539132723536,38.91498992550002,95501.81999999999
+22,True,Chart,2,Low,740,785,43.0,5.87,12.0,4.0,23.0,10.12,72.95,13.0,0.0,7492.06,"/**
+ * Iterates over the items in an {@link XYDataset} to find
+ * the range of x-values.
+ *
+ * @param dataset  the dataset (<code>null</code> not permitted).
+ * @param includeInterval  a flag that determines, for an
+ *          {@link IntervalXYDataset}, whether the x-interval or just the
+ *          x-value is used to determine the overall range.
+ *
+ * @return The range (possibly <code>null</code>).
+ */
+public static Range iterateDomainBounds(XYDataset dataset, boolean includeInterval) {
+    if (dataset == null) {
+        throw new IllegalArgumentException(""Null 'dataset' argument."");
+    }
+    double minimum = Double.POSITIVE_INFINITY;
+    double maximum = Double.NEGATIVE_INFINITY;
+    int seriesCount = dataset.getSeriesCount();
+    double lvalue;
+    double uvalue;
+    if (includeInterval && dataset instanceof IntervalXYDataset) {
+        IntervalXYDataset intervalXYData = (IntervalXYDataset) dataset;
+        for (int series = 0; series < seriesCount; series++) {
+            int itemCount = dataset.getItemCount(series);
+            for (int item = 0; item < itemCount; item++) {
+                lvalue = intervalXYData.getStartXValue(series, item);
+                uvalue = intervalXYData.getEndXValue(series, item);
+                if (!Double.isNaN(lvalue)) {
+                    minimum = Math.min(minimum, lvalue);
+                }
+                if (!Double.isNaN(uvalue)) {
+                    maximum = Math.max(maximum, uvalue);
+                }
+            }
+        }
+    } else {
+        for (int series = 0; series < seriesCount; series++) {
+            int itemCount = dataset.getItemCount(series);
+            for (int item = 0; item < itemCount; item++) {
+                lvalue = dataset.getXValue(series, item);
+                uvalue = lvalue;
+                if (!Double.isNaN(lvalue)) {
+                    minimum = Math.min(minimum, lvalue);
+                    maximum = Math.max(maximum, uvalue);
+                }
+            }
+        }
+    }
+    if (minimum > maximum) {
+        return null;
+    } else {
+        return new Range(minimum, maximum);
+    }
+}",0.8958333333333334,1.3148880105401846,0.75,0.6666666666666666,0.8666666666666667,0.8721286370597242,0.2857142857142857,,1.2844321852460931,6.936329785226954,7603.05
+23,True,Lang,62,Low,884,945,61.0,10.15,16.0,8.0,22.0,13.51,65.51,23.0,0.0,11793.55,"/**
+ * <p>Unescapes the escaped entities in the <code>String</code> passed and
+ * writes the result to the <code>Writer</code> passed.</p>
+ *
+ * @param writer The <code>Writer</code> to write the results to; assumed to be non-null.
+ * @param string The <code>String</code> to write the results to; assumed to be non-null.
+ * @throws IOException when <code>Writer</code> passed throws the exception from
+ *                                       calls to the {@link Writer#write(int)} methods.
+ *
+ * @see #escape(String)
+ * @see Writer
+ */
+public void unescape(Writer writer, String string) throws IOException {
+    int firstAmp = string.indexOf('&');
+    if (firstAmp < 0) {
+        writer.write(string);
+        return;
+    }
+    writer.write(string, 0, firstAmp);
+    int len = string.length();
+    for (int i = firstAmp; i < len; i++) {
+        char c = string.charAt(i);
+        if (c == '&') {
+            int nextIdx = i + 1;
+            int semiColonIdx = string.indexOf(';', nextIdx);
+            if (semiColonIdx == -1) {
+                writer.write(c);
+                continue;
+            }
+            int amphersandIdx = string.indexOf('&', i + 1);
+            if (amphersandIdx != -1 && amphersandIdx < semiColonIdx) {
+                // Then the text looks like &...&...;
+                writer.write(c);
+                continue;
+            }
+            String entityContent = string.substring(nextIdx, semiColonIdx);
+            int entityValue = -1;
+            int entityContentLen = entityContent.length();
+            if (entityContentLen > 0) {
+                if (entityContent.charAt(0) == '#') {
+                    // escaped value content is an integer (decimal or hexidecimal)
+                    if (entityContentLen > 1) {
+                        char isHexChar = entityContent.charAt(1);
+                        try {
+                            switch(isHexChar) {
+                                case 'X':
+                                case 'x':
+                                    {
+                                        entityValue = Integer.parseInt(entityContent.substring(2), 16);
+                                    }
+                                default:
+                                    {
+                                        entityValue = Integer.parseInt(entityContent.substring(1), 10);
+                                    }
+                            }
+                        } catch (NumberFormatException e) {
+                        }
+                    }
+                } else {
+                    // escaped value content is an entity name
+                    entityValue = this.entityValue(entityContent);
+                }
+            }
+            if (entityValue == -1) {
+                writer.write('&');
+                writer.write(entityContent);
+                writer.write(';');
+            } else {
+                writer.write(entityValue);
+            }
+            // move index up to the semi-colon
+            i = semiColonIdx;
+        } else {
+            writer.write(c);
+        }
+    }
+}",1.6458333333333333,3.570487483530962,1.25,2.0,0.8,1.391271056661562,1.0,,2.204904202425139,13.862496075950997,11947.21
+24,True,Math,40,Low,142,345,126.0,4.76,30.0,4.0,53.0,44.2,44.51,33.0,0.0,123062.82,"/**
+ * {@inheritDoc}
+ */
+@Override
+protected double doSolve() {
+    // prepare arrays with the first points
+    final double[] x = new double[maximalOrder + 1];
+    final double[] y = new double[maximalOrder + 1];
+    x[0] = getMin();
+    x[1] = getStartValue();
+    x[2] = getMax();
+    verifySequence(x[0], x[1], x[2]);
+    // evaluate initial guess
+    y[1] = computeObjectiveValue(x[1]);
+    if (Precision.equals(y[1], 0.0, 1)) {
+        // return the initial guess if it is a perfect root.
+        return x[1];
+    }
+    // evaluate first  endpoint
+    y[0] = computeObjectiveValue(x[0]);
+    if (Precision.equals(y[0], 0.0, 1)) {
+        // return the first endpoint if it is a perfect root.
+        return x[0];
+    }
+    int nbPoints;
+    int signChangeIndex;
+    if (y[0] * y[1] < 0) {
+        // reduce interval if it brackets the root
+        nbPoints = 2;
+        signChangeIndex = 1;
+    } else {
+        // evaluate second endpoint
+        y[2] = computeObjectiveValue(x[2]);
+        if (Precision.equals(y[2], 0.0, 1)) {
+            // return the second endpoint if it is a perfect root.
+            return x[2];
+        }
+        if (y[1] * y[2] < 0) {
+            // use all computed point as a start sampling array for solving
+            nbPoints = 3;
+            signChangeIndex = 2;
+        } else {
+            throw new NoBracketingException(x[0], x[2], y[0], y[2]);
+        }
+    }
+    // prepare a work array for inverse polynomial interpolation
+    final double[] tmpX = new double[x.length];
+    // current tightest bracketing of the root
+    double xA = x[signChangeIndex - 1];
+    double yA = y[signChangeIndex - 1];
+    double absYA = FastMath.abs(yA);
+    int agingA = 0;
+    double xB = x[signChangeIndex];
+    double yB = y[signChangeIndex];
+    double absYB = FastMath.abs(yB);
+    int agingB = 0;
+    // search loop
+    while (true) {
+        // check convergence of bracketing interval
+        final double xTol = getAbsoluteAccuracy() + getRelativeAccuracy() * FastMath.max(FastMath.abs(xA), FastMath.abs(xB));
+        if (((xB - xA) <= xTol) || (FastMath.max(absYA, absYB) < getFunctionValueAccuracy())) {
+            switch(allowed) {
+                case ANY_SIDE:
+                    return absYA < absYB ? xA : xB;
+                case LEFT_SIDE:
+                    return xA;
+                case RIGHT_SIDE:
+                    return xB;
+                case BELOW_SIDE:
+                    return (yA <= 0) ? xA : xB;
+                case ABOVE_SIDE:
+                    return (yA < 0) ? xB : xA;
+                default:
+                    // this should never happen
+                    throw new MathInternalError(null);
+            }
+        }
+        // target for the next evaluation point
+        double targetY;
+        if (agingA >= MAXIMAL_AGING) {
+            // we keep updating the high bracket, try to compensate this
+            targetY = -REDUCTION_FACTOR * yB;
+        } else if (agingB >= MAXIMAL_AGING) {
+            // we keep updating the low bracket, try to compensate this
+            targetY = -REDUCTION_FACTOR * yA;
+        } else {
+            // bracketing is balanced, try to find the root itself
+            targetY = 0;
+        }
+        // make a few attempts to guess a root,
+        double nextX;
+        int start = 0;
+        int end = nbPoints;
+        do {
+            // guess a value for current target, using inverse polynomial interpolation
+            System.arraycopy(x, start, tmpX, start, end - start);
+            nextX = guessX(targetY, tmpX, y, start, end);
+            if (!((nextX > xA) && (nextX < xB))) {
+                // we try again with a lower interpolation order
+                if (signChangeIndex - start >= end - signChangeIndex) {
+                    // we have more points before the sign change, drop the lowest point
+                    ++start;
+                } else {
+                    // we have more points after sign change, drop the highest point
+                    --end;
+                }
+                // we need to do one more attempt
+                nextX = Double.NaN;
+            }
+        } while (Double.isNaN(nextX) && (end - start > 1));
+        if (Double.isNaN(nextX)) {
+            // fall back to bisection
+            nextX = xA + 0.5 * (xB - xA);
+            start = signChangeIndex - 1;
+            end = signChangeIndex;
+        }
+        // evaluate the function at the guessed root
+        final double nextY = computeObjectiveValue(nextX);
+        if (Precision.equals(nextY, 0.0, 1)) {
+            // we don't need to bother about the allowed solutions setting
+            return nextX;
+        }
+        if ((nbPoints > 2) && (end - start != nbPoints)) {
+            // we have been forced to ignore some points to keep bracketing,
+            // they are probably too far from the root, drop them from now on
+            nbPoints = end - start;
+            System.arraycopy(x, start, x, 0, nbPoints);
+            System.arraycopy(y, start, y, 0, nbPoints);
+            signChangeIndex -= start;
+        } else if (nbPoints == x.length) {
+            // we have to drop one point in order to insert the new one
+            nbPoints--;
+            // keep the tightest bracketing interval as centered as possible
+            if (signChangeIndex >= (x.length + 1) / 2) {
+                // we drop the lowest point, we have to shift the arrays and the index
+                System.arraycopy(x, 1, x, 0, nbPoints);
+                System.arraycopy(y, 1, y, 0, nbPoints);
+                --signChangeIndex;
+            }
+        }
+        // insert the last computed point
+        // (by construction, we know it lies inside the tightest bracketing interval)
+        System.arraycopy(x, signChangeIndex, x, signChangeIndex + 1, nbPoints - signChangeIndex);
+        x[signChangeIndex] = nextX;
+        System.arraycopy(y, signChangeIndex, y, signChangeIndex + 1, nbPoints - signChangeIndex);
+        y[signChangeIndex] = nextY;
+        ++nbPoints;
+        // update the bracketing interval
+        if (nextY * yA <= 0) {
+            // the sign change occurs before the inserted point
+            xB = nextX;
+            yB = nextY;
+            absYB = FastMath.abs(yB);
+            ++agingA;
+            agingB = 0;
+        } else {
+            // the sign change occurs after the inserted point
+            xA = nextX;
+            yA = nextY;
+            absYA = FastMath.abs(yA);
+            agingA = 0;
+            ++agingB;
+            // update the sign change index
+            signChangeIndex++;
+        }
+    }
+}",4.354166666666667,0.7299077733860342,3.0,0.6666666666666666,2.8666666666666667,6.091117917304748,1.7142857142857142,,26.015316270554997,45.4381276755315,123357.78
+25,True,Closure,54,Medium,1373,1489,55.0,4.07,17.0,4.0,44.0,7.52,63.72,45.0,0.0,12223.93,"/**
+ * Declare the symbol for a qualified name in the global scope.
+ *
+ * @param info The doc info for this property.
+ * @param n A top-level GETPROP node (it should not be contained inside
+ *     another GETPROP).
+ * @param parent The parent of {@code n}.
+ * @param rhsValue The node that {@code n} is being initialized to,
+ *     or {@code null} if this is a stub declaration.
+ */
+void maybeDeclareQualifiedName(NodeTraversal t, JSDocInfo info, Node n, Node parent, Node rhsValue) {
+    Node ownerNode = n.getFirstChild();
+    String ownerName = ownerNode.getQualifiedName();
+    String qName = n.getQualifiedName();
+    String propName = n.getLastChild().getString();
+    Preconditions.checkArgument(qName != null && ownerName != null);
+    // Precedence of type information on GETPROPs:
+    // 1) @type annnotation / @enum annotation
+    // 2) ASSIGN to FUNCTION literal
+    // 3) @param/@return annotation (with no function literal)
+    // 4) ASSIGN to something marked @const
+    // 5) ASSIGN to anything else
+    // 
+    // 1, 3, and 4 are declarations, 5 is inferred, and 2 is a declaration iff
+    // the function has jsdoc or has not been declared before.
+    // 
+    // FUNCTION literals are special because TypedScopeCreator is very smart
+    // about getting as much type information as possible for them.
+    // Determining type for #1 + #2 + #3 + #4
+    JSType valueType = getDeclaredType(t.getSourceName(), info, n, rhsValue);
+    if (valueType == null && rhsValue != null) {
+        // Determining type for #5
+        valueType = rhsValue.getJSType();
+    }
+    // allow F.prototype to be redefined arbitrarily.
+    if (""prototype"".equals(propName)) {
+        Var qVar = scope.getVar(qName);
+        if (qVar != null) {
+            // the @extends tag.
+            if (!qVar.isTypeInferred()) {
+                // what props are going to be on that prototype.
+                return;
+            }
+            if (qVar.getScope() == scope) {
+                scope.undeclare(qVar);
+            }
+        }
+    }
+    if (valueType == null) {
+        if (parent.getType() == Token.EXPR_RESULT) {
+            stubDeclarations.add(new StubDeclaration(n, t.getInput() != null && t.getInput().isExtern(), ownerName));
+        }
+        return;
+    }
+    boolean inferred = true;
+    if (info != null) {
+        // Determining declaration for #1 + #3 + #4
+        inferred = !(info.hasType() || info.hasEnumParameterType() || (info.isConstant() && valueType != null && !valueType.isUnknownType()) || FunctionTypeBuilder.isFunctionTypeDeclaration(info));
+    }
+    if (inferred) {
+        // Determining declaration for #2
+        inferred = !(rhsValue != null && rhsValue.getType() == Token.FUNCTION && (info != null || !scope.isDeclared(qName, false)));
+    }
+    if (!inferred) {
+        ObjectType ownerType = getObjectSlot(ownerName);
+        if (ownerType != null) {
+            // Only declare this as an official property if it has not been
+            // declared yet.
+            boolean isExtern = t.getInput() != null && t.getInput().isExtern();
+            if ((!ownerType.hasOwnProperty(propName) || ownerType.isPropertyTypeInferred(propName)) && ((isExtern && !ownerType.isNativeObjectType()) || !ownerType.isInstanceType())) {
+                // If the property is undeclared or inferred, declare it now.
+                ownerType.defineDeclaredProperty(propName, valueType, n);
+            }
+        }
+        // If the property is already declared, the error will be
+        // caught when we try to declare it in the current scope.
+        defineSlot(n, parent, valueType, inferred);
+    } else if (rhsValue != null && rhsValue.getType() == Token.TRUE) {
+        // We declare these for delegate proxy method properties.
+        FunctionType ownerType = JSType.toMaybeFunctionType(getObjectSlot(ownerName));
+        if (ownerType != null) {
+            JSType ownerTypeOfThis = ownerType.getTypeOfThis();
+            String delegateName = codingConvention.getDelegateSuperclassName();
+            JSType delegateType = delegateName == null ? null : typeRegistry.getType(delegateName);
+            if (delegateType != null && ownerTypeOfThis.isSubtype(delegateType)) {
+                defineSlot(n, parent, getNativeType(BOOLEAN_TYPE), true);
+            }
+        }
+    }
+}",1.3958333333333333,0.36627140974967076,1.375,0.6666666666666666,2.2666666666666666,0.4739663093415007,2.5714285714285716,,2.2970008356274754,11.412833792813885,12400.52
+26,True,Closure,65,Medium,1005,1075,65.0,5.59,27.0,5.0,32.0,15.1,60.96,31.0,0.0,15940.64,"/**
+ * Helper to escape javascript string as well as regular expression
+ */
+static String strEscape(String s, char quote, String doublequoteEscape, String singlequoteEscape, String backslashEscape, CharsetEncoder outputCharsetEncoder) {
+    StringBuilder sb = new StringBuilder(s.length() + 2);
+    sb.append(quote);
+    for (int i = 0; i < s.length(); i++) {
+        char c = s.charAt(i);
+        switch(c) {
+            case '\0':
+                sb.append(""\\0"");
+                break;
+            case '\n':
+                sb.append(""\\n"");
+                break;
+            case '\r':
+                sb.append(""\\r"");
+                break;
+            case '\t':
+                sb.append(""\\t"");
+                break;
+            case '\\':
+                sb.append(backslashEscape);
+                break;
+            case '\""':
+                sb.append(doublequoteEscape);
+                break;
+            case '\'':
+                sb.append(singlequoteEscape);
+                break;
+            case // Break --> into --\> or ]]> into ]]\>
+            '>':
+                if (i >= 2 && ((s.charAt(i - 1) == '-' && s.charAt(i - 2) == '-') || (s.charAt(i - 1) == ']' && s.charAt(i - 2) == ']'))) {
+                    sb.append(""\\>"");
+                } else {
+                    sb.append(c);
+                }
+                break;
+            case '<':
+                // Break </script into <\/script
+                final String END_SCRIPT = ""/script"";
+                // Break <!-- into <\!--
+                final String START_COMMENT = ""!--"";
+                if (s.regionMatches(true, i + 1, END_SCRIPT, 0, END_SCRIPT.length())) {
+                    sb.append(""<\\"");
+                } else if (s.regionMatches(false, i + 1, START_COMMENT, 0, START_COMMENT.length())) {
+                    sb.append(""<\\"");
+                } else {
+                    sb.append(c);
+                }
+                break;
+            default:
+                // character can be represented in this character set.
+                if (outputCharsetEncoder != null) {
+                    if (outputCharsetEncoder.canEncode(c)) {
+                        sb.append(c);
+                    } else {
+                        // Unicode-escape the character.
+                        appendHexJavaScriptRepresentation(sb, c);
+                    }
+                } else {
+                    // check is measurably faster than using the CharsetEncoder.
+                    if (c > 0x1f && c < 0x7f) {
+                        sb.append(c);
+                    } else {
+                        // Other characters can be misinterpreted by some js parsers,
+                        // or perhaps mangled by proxies along the way,
+                        // so we play it safe and unicode escape them.
+                        appendHexJavaScriptRepresentation(sb, c);
+                    }
+                }
+        }
+    }
+    sb.append(quote);
+    return sb.toString();
+}",1.8125,1.1673254281949934,2.625,1.0,1.4666666666666666,1.6347626339969372,1.5714285714285714,,3.092336301005642,14.37001960129281,16121.33
+27,True,Closure,132,Medium,636,868,140.0,5.61,21.0,5.0,83.0,10.67,44.03,147.0,0.0,34938.45,"/**
+ * Try turning IF nodes into smaller HOOKs
+ *
+ * Returns the replacement for n or the original if no replacement was
+ * necessary.
+ */
+private Node tryMinimizeIf(Node n) {
+    Node parent = n.getParent();
+    Node cond = n.getFirstChild();
+    /* If the condition is a literal, we'll let other
+     * optimizations try to remove useless code.
+     */
+    if (NodeUtil.isLiteralValue(cond, true)) {
+        return n;
+    }
+    Node thenBranch = cond.getNext();
+    Node elseBranch = thenBranch.getNext();
+    if (elseBranch == null) {
+        if (isFoldableExpressBlock(thenBranch)) {
+            Node expr = getBlockExpression(thenBranch);
+            if (!late && isPropertyAssignmentInExpression(expr)) {
+                // until CollapseProperties has been run.
+                return n;
+            }
+            if (cond.isNot()) {
+                // if(!x)bar(); -> x||bar();
+                if (isLowerPrecedenceInExpression(cond, OR_PRECEDENCE) && isLowerPrecedenceInExpression(expr.getFirstChild(), OR_PRECEDENCE)) {
+                    // It's not okay to add two sets of parentheses.
+                    return n;
+                }
+                Node or = IR.or(cond.removeFirstChild(), expr.removeFirstChild()).srcref(n);
+                Node newExpr = NodeUtil.newExpr(or);
+                parent.replaceChild(n, newExpr);
+                reportCodeChange();
+                return newExpr;
+            }
+            // if(x)foo(); -> x&&foo();
+            if (isLowerPrecedenceInExpression(cond, AND_PRECEDENCE) && isLowerPrecedenceInExpression(expr.getFirstChild(), AND_PRECEDENCE)) {
+                // we can further optimize its parent.
+                return n;
+            }
+            n.removeChild(cond);
+            Node and = IR.and(cond, expr.removeFirstChild()).srcref(n);
+            Node newExpr = NodeUtil.newExpr(and);
+            parent.replaceChild(n, newExpr);
+            reportCodeChange();
+            return newExpr;
+        } else {
+            // Try to combine two IF-ELSE
+            if (NodeUtil.isStatementBlock(thenBranch) && thenBranch.hasOneChild()) {
+                Node innerIf = thenBranch.getFirstChild();
+                if (innerIf.isIf()) {
+                    Node innerCond = innerIf.getFirstChild();
+                    Node innerThenBranch = innerCond.getNext();
+                    Node innerElseBranch = innerThenBranch.getNext();
+                    if (innerElseBranch == null && !(isLowerPrecedenceInExpression(cond, AND_PRECEDENCE) && isLowerPrecedenceInExpression(innerCond, AND_PRECEDENCE))) {
+                        n.detachChildren();
+                        n.addChildToBack(IR.and(cond, innerCond.detachFromParent()).srcref(cond));
+                        n.addChildrenToBack(innerThenBranch.detachFromParent());
+                        reportCodeChange();
+                        // the inner IF-ELSE wasn't able to be folded into && anyways.
+                        return n;
+                    }
+                }
+            }
+        }
+        return n;
+    }
+    /* TODO(dcc) This modifies the siblings of n, which is undesirable for a
+     * peephole optimization. This should probably get moved to another pass.
+     */
+    tryRemoveRepeatedStatements(n);
+    // An additional set of curly braces isn't worth it.
+    if (cond.isNot() && !consumesDanglingElse(elseBranch)) {
+        n.replaceChild(cond, cond.removeFirstChild());
+        n.removeChild(thenBranch);
+        n.addChildToBack(thenBranch);
+        reportCodeChange();
+        return n;
+    }
+    // if(x)return 1;else return 2; -> return x?1:2;
+    if (isReturnExpressBlock(thenBranch) && isReturnExpressBlock(elseBranch)) {
+        Node thenExpr = getBlockReturnExpression(thenBranch);
+        Node elseExpr = getBlockReturnExpression(elseBranch);
+        n.removeChild(cond);
+        thenExpr.detachFromParent();
+        elseExpr.detachFromParent();
+        // note - we ignore any cases with ""return;"", technically this
+        // can be converted to ""return undefined;"" or some variant, but
+        // that does not help code size.
+        Node returnNode = IR.returnNode(IR.hook(cond, thenExpr, elseExpr).srcref(n));
+        parent.replaceChild(n, returnNode);
+        reportCodeChange();
+        return returnNode;
+    }
+    boolean thenBranchIsExpressionBlock = isFoldableExpressBlock(thenBranch);
+    boolean elseBranchIsExpressionBlock = isFoldableExpressBlock(elseBranch);
+    if (thenBranchIsExpressionBlock && elseBranchIsExpressionBlock) {
+        Node thenOp = getBlockExpression(thenBranch).getFirstChild();
+        Node elseOp = getBlockExpression(elseBranch).getFirstChild();
+        if (thenOp.getType() == elseOp.getType()) {
+            // if(x)a=1;else a=2; -> a=x?1:2;
+            if (NodeUtil.isAssignmentOp(thenOp)) {
+                Node lhs = thenOp.getFirstChild();
+                if (areNodesEqualForInlining(lhs, elseOp.getFirstChild()) && // proceed even if there are side effects...
+                !mayEffectMutableState(lhs)) {
+                    n.removeChild(cond);
+                    Node assignName = thenOp.removeFirstChild();
+                    Node thenExpr = thenOp.removeFirstChild();
+                    Node elseExpr = elseOp.getLastChild();
+                    elseOp.removeChild(elseExpr);
+                    Node hookNode = IR.hook(cond, thenExpr, elseExpr).srcref(n);
+                    Node assign = new Node(thenOp.getType(), assignName, hookNode).srcref(thenOp);
+                    Node expr = NodeUtil.newExpr(assign);
+                    parent.replaceChild(n, expr);
+                    reportCodeChange();
+                    return expr;
+                }
+            }
+        }
+        // if(x)foo();else bar(); -> x?foo():bar()
+        n.removeChild(cond);
+        thenOp.detachFromParent();
+        elseOp.detachFromParent();
+        Node expr = IR.exprResult(IR.hook(cond, thenOp, elseOp).srcref(n));
+        parent.replaceChild(n, expr);
+        reportCodeChange();
+        return expr;
+    }
+    boolean thenBranchIsVar = isVarBlock(thenBranch);
+    boolean elseBranchIsVar = isVarBlock(elseBranch);
+    // if(x)var y=1;else y=2  ->  var y=x?1:2
+    if (thenBranchIsVar && elseBranchIsExpressionBlock && getBlockExpression(elseBranch).getFirstChild().isAssign()) {
+        Node var = getBlockVar(thenBranch);
+        Node elseAssign = getBlockExpression(elseBranch).getFirstChild();
+        Node name1 = var.getFirstChild();
+        Node maybeName2 = elseAssign.getFirstChild();
+        if (name1.hasChildren() && maybeName2.isName() && name1.getString().equals(maybeName2.getString())) {
+            Node thenExpr = name1.removeChildren();
+            Node elseExpr = elseAssign.getLastChild().detachFromParent();
+            cond.detachFromParent();
+            Node hookNode = IR.hook(cond, thenExpr, elseExpr).srcref(n);
+            var.detachFromParent();
+            name1.addChildrenToBack(hookNode);
+            parent.replaceChild(n, var);
+            reportCodeChange();
+            return var;
+        }
+    // if(x)y=1;else var y=2  ->  var y=x?1:2
+    } else if (elseBranchIsVar && thenBranchIsExpressionBlock && getBlockExpression(thenBranch).getFirstChild().isAssign()) {
+        Node var = getBlockVar(elseBranch);
+        Node thenAssign = getBlockExpression(thenBranch).getFirstChild();
+        Node maybeName1 = thenAssign.getFirstChild();
+        Node name2 = var.getFirstChild();
+        if (name2.hasChildren() && maybeName1.isName() && maybeName1.getString().equals(name2.getString())) {
+            Node thenExpr = thenAssign.getLastChild().detachFromParent();
+            Node elseExpr = name2.removeChildren();
+            cond.detachFromParent();
+            Node hookNode = IR.hook(cond, thenExpr, elseExpr).srcref(n);
+            var.detachFromParent();
+            name2.addChildrenToBack(hookNode);
+            parent.replaceChild(n, var);
+            reportCodeChange();
+            return var;
+        }
+    }
+    return n;
+}",4.9375,1.1778656126482214,1.875,1.0,4.866666666666666,0.9563552833078101,9.857142857142858,,7.157660756644095,31.82819117640965,35350.729999999996
+28,True,Closure,121,Medium,254,327,49.0,5.3,12.0,4.0,40.0,12.22,68.4,35.0,0.0,14465.02,"private void inlineNonConstants(Var v, ReferenceCollection referenceInfo, boolean maybeModifiedArguments) {
+    int refCount = referenceInfo.references.size();
+    Reference declaration = referenceInfo.references.get(0);
+    Reference init = referenceInfo.getInitializingReference();
+    int firstRefAfterInit = (declaration == init) ? 2 : 3;
+    if (refCount > 1 && isImmutableAndWellDefinedVariable(v, referenceInfo)) {
+        // if the variable is referenced more than once, we can only
+        // inline it if it's immutable and never defined before referenced.
+        Node value;
+        if (init != null) {
+            value = init.getAssignedValue();
+        } else {
+            // Create a new node for variable that is never initialized.
+            Node srcLocation = declaration.getNode();
+            value = NodeUtil.newUndefinedNode(srcLocation);
+        }
+        Preconditions.checkNotNull(value);
+        inlineWellDefinedVariable(v, value, referenceInfo.references);
+        staleVars.add(v);
+    } else if (refCount == firstRefAfterInit) {
+        // The variable likely only read once, try some more
+        // complex inlining heuristics.
+        Reference reference = referenceInfo.references.get(firstRefAfterInit - 1);
+        if (canInline(declaration, init, reference)) {
+            inline(v, declaration, init, reference);
+            staleVars.add(v);
+        }
+    } else if (declaration != init && refCount == 2) {
+        if (isValidDeclaration(declaration) && isValidInitialization(init)) {
+            // The only reference is the initialization, remove the assignment and
+            // the variable declaration.
+            Node value = init.getAssignedValue();
+            Preconditions.checkNotNull(value);
+            inlineWellDefinedVariable(v, value, referenceInfo.references);
+            staleVars.add(v);
+        }
+    }
+    // the next pass.)
+    if (!maybeModifiedArguments && !staleVars.contains(v) && referenceInfo.isWellDefined() && referenceInfo.isAssignedOnceInLifetime()) {
+        // Inlining the variable based solely on well-defined and assigned
+        // once is *NOT* correct. We relax the correctness requirement if
+        // the variable is declared constant.
+        List<Reference> refs = referenceInfo.references;
+        for (int i = 1; /* start from a read */
+        i < refs.size(); i++) {
+            Node nameNode = refs.get(i).getNode();
+            if (aliasCandidates.containsKey(nameNode)) {
+                AliasCandidate candidate = aliasCandidates.get(nameNode);
+                if (!staleVars.contains(candidate.alias) && !isVarInlineForbidden(candidate.alias)) {
+                    Reference aliasInit;
+                    aliasInit = candidate.refInfo.getInitializingReference();
+                    Node value = aliasInit.getAssignedValue();
+                    Preconditions.checkNotNull(value);
+                    inlineWellDefinedVariable(candidate.alias, value, candidate.refInfo.references);
+                    staleVars.add(candidate.alias);
+                }
+            }
+        }
+    }
+}",1.1458333333333333,1.0144927536231882,0.75,0.6666666666666666,2.0,1.1937212863705973,1.8571428571428572,,2.7765696903684574,11.4044265875051,14622.539999999999
+29,True,Math,25,Low,257,329,56.0,3.27,8.0,3.0,16.0,17.34,66.02,9.0,0.0,25496.55,"/**
+ * Estimate a first guess of the amplitude and angular frequency.
+ * This method assumes that the {@link #sortObservations()} method
+ * has been called previously.
+ *
+ * @throws ZeroException if the abscissa range is zero.
+ * @throws MathIllegalStateException when the guessing procedure cannot
+ * produce sensible results.
+ */
+private void guessAOmega() {
+    // initialize the sums for the linear model between the two integrals
+    double sx2 = 0;
+    double sy2 = 0;
+    double sxy = 0;
+    double sxz = 0;
+    double syz = 0;
+    double currentX = observations[0].getX();
+    double currentY = observations[0].getY();
+    double f2Integral = 0;
+    double fPrime2Integral = 0;
+    final double startX = currentX;
+    for (int i = 1; i < observations.length; ++i) {
+        // one step forward
+        final double previousX = currentX;
+        final double previousY = currentY;
+        currentX = observations[i].getX();
+        currentY = observations[i].getY();
+        // update the integrals of f<sup>2</sup> and f'<sup>2</sup>
+        // considering a linear model for f (and therefore constant f')
+        final double dx = currentX - previousX;
+        final double dy = currentY - previousY;
+        final double f2StepIntegral = dx * (previousY * previousY + previousY * currentY + currentY * currentY) / 3;
+        final double fPrime2StepIntegral = dy * dy / dx;
+        final double x = currentX - startX;
+        f2Integral += f2StepIntegral;
+        fPrime2Integral += fPrime2StepIntegral;
+        sx2 += x * x;
+        sy2 += f2Integral * f2Integral;
+        sxy += x * f2Integral;
+        sxz += x * fPrime2Integral;
+        syz += f2Integral * fPrime2Integral;
+    }
+    // compute the amplitude and pulsation coefficients
+    double c1 = sy2 * sxz - sxy * syz;
+    double c2 = sxy * sxz - sx2 * syz;
+    double c3 = sx2 * sy2 - sxy * sxy;
+    if ((c1 / c2 < 0) || (c2 / c3 < 0)) {
+        final int last = observations.length - 1;
+        // Range of the observations, assuming that the
+        // observations are sorted.
+        final double xRange = observations[last].getX() - observations[0].getX();
+        if (xRange == 0) {
+            throw new ZeroException();
+        }
+        omega = 2 * Math.PI / xRange;
+        double yMin = Double.POSITIVE_INFINITY;
+        double yMax = Double.NEGATIVE_INFINITY;
+        for (int i = 1; i < observations.length; ++i) {
+            final double y = observations[i].getY();
+            if (y < yMin) {
+                yMin = y;
+            }
+            if (y > yMax) {
+                yMax = y;
+            }
+        }
+        a = 0.5 * (yMax - yMin);
+    } else {
+        // In some ill-conditioned cases (cf. MATH-844), the guesser
+        // procedure cannot produce sensible results.
+        a = FastMath.sqrt(c1 / c2);
+        omega = FastMath.sqrt(c2 / c3);
+    }
+}",1.4375,-0.05533596837944663,0.25,0.3333333333333333,0.4,1.977794793261868,0.0,,5.137196978045788,9.480489136261543,25609.16

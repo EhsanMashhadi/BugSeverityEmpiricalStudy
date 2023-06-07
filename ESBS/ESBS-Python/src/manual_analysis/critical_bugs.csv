@@ -1,0 +1,1144 @@
+,ProjectName,ProjectVersion,IssueTracker,URL,Priority,ClassName,StartLine,EndLine,SourceCode
+14,Cli,2,jira,https://issues.apache.org/jira/browse/CLI-51,Critical,src/java/org/apache/commons/cli/PosixParser.java,278,308,"/**
+ * <p>Breaks <code>token</code> into its constituent parts
+ * using the following algorithm.
+ * <ul>
+ *  <li>ignore the first character (""<b>-</b>"")</li>
+ *  <li>foreach remaining character check if an {@link Option}
+ *  exists with that id.</li>
+ *  <li>if an {@link Option} does exist then add that character
+ *  prepended with ""<b>-</b>"" to the list of processed tokens.</li>
+ *  <li>if the {@link Option} can have an argument value and there
+ *  are remaining characters in the token then add the remaining
+ *  characters as a token to the list of processed tokens.</li>
+ *  <li>if an {@link Option} does <b>NOT</b> exist <b>AND</b>
+ *  <code>stopAtNonOption</code> <b>IS</b> set then add the special token
+ *  ""<b>--</b>"" followed by the remaining characters and also
+ *  the remaining tokens directly to the processed tokens list.</li>
+ *  <li>if an {@link Option} does <b>NOT</b> exist <b>AND</b>
+ *  <code>stopAtNonOption</code> <b>IS NOT</b> set then add that
+ *  character prepended with ""<b>-</b>"".</li>
+ * </ul>
+ * </p>
+ *
+ * @param token The current token to be <b>burst</b>
+ * @param stopAtNonOption Specifies whether to stop processing
+ * at the first non-Option encountered.
+ */
+protected void burstToken(String token, boolean stopAtNonOption) {
+    int tokenLength = token.length();
+    for (int i = 1; i < tokenLength; i++) {
+        String ch = String.valueOf(token.charAt(i));
+        boolean hasOption = options.hasOption(ch);
+        if (hasOption) {
+            tokens.add(""-"" + ch);
+            currentOption = options.getOption(ch);
+            if (currentOption.hasArg() && (token.length() != (i + 1))) {
+                tokens.add(token.substring(i + 1));
+                break;
+            }
+        } else if (stopAtNonOption) {
+            process(token.substring(i));
+        } else {
+            tokens.add(""-"" + ch);
+        }
+    }
+}"
+50,Cli,32,jira,https://issues.apache.org/jira/browse/CLI-193,Critical,src/main/java/org/apache/commons/cli/HelpFormatter.java,902,943,"/**
+ * Finds the next text wrap position after <code>startPos</code> for the
+ * text in <code>text</code> with the column width <code>width</code>.
+ * The wrap point is the last position before startPos+width having a
+ * whitespace character (space, \n, \r). If there is no whitespace character
+ * before startPos+width, it will return startPos+width.
+ *
+ * @param text The text being searched for the wrap position
+ * @param width width of the wrapped text
+ * @param startPos position from which to start the lookup whitespace
+ * character
+ * @return postion on which the text must be wrapped or -1 if the wrap
+ * position is at the end of the text
+ */
+protected int findWrapPos(String text, int width, int startPos) {
+    int pos;
+    // the line ends before the max wrap pos or a new line char found
+    if (((pos = text.indexOf('\n', startPos)) != -1 && pos <= width) || ((pos = text.indexOf('\t', startPos)) != -1 && pos <= width)) {
+        return pos + 1;
+    } else if (startPos + width >= text.length()) {
+        return -1;
+    }
+    // look for the last whitespace character before startPos+width
+    pos = startPos + width;
+    char c;
+    while ((pos >= startPos) && ((c = text.charAt(pos)) != ' ') && (c != '\n') && (c != '\r')) {
+        --pos;
+    }
+    // if we found it - just return
+    if (pos > startPos) {
+        return pos;
+    }
+    // if we didn't find one, simply chop at startPos+width
+    pos = startPos + width;
+    while ((pos <= text.length()) && ((c = text.charAt(pos)) != ' ') && (c != '\n') && (c != '\r')) {
+        ++pos;
+    }
+    return pos == text.length() ? -1 : pos;
+}"
+174,Closure,86,googleapis,https://storage.googleapis.com/google-code-archive/v2/code.google.com/closure-compiler/issues/issue-303.json,Critical,src/com/google/javascript/jscomp/NodeUtil.java,2424,2489,"/**
+ * @param locals A predicate to apply to unknown local values.
+ * @return Whether the node is known to be a value that is not a reference
+ *     outside the expression scope.
+ */
+static boolean evaluatesToLocalValue(Node value, Predicate<Node> locals) {
+    switch(value.getType()) {
+        case Token.ASSIGN:
+            // value is immutable.
+            return NodeUtil.isImmutableValue(value.getLastChild()) || (locals.apply(value) && evaluatesToLocalValue(value.getLastChild(), locals));
+        case Token.COMMA:
+            return evaluatesToLocalValue(value.getLastChild(), locals);
+        case Token.AND:
+        case Token.OR:
+            return evaluatesToLocalValue(value.getFirstChild(), locals) && evaluatesToLocalValue(value.getLastChild(), locals);
+        case Token.HOOK:
+            return evaluatesToLocalValue(value.getFirstChild().getNext(), locals) && evaluatesToLocalValue(value.getLastChild(), locals);
+        case Token.INC:
+        case Token.DEC:
+            if (value.getBooleanProp(Node.INCRDECR_PROP)) {
+                return evaluatesToLocalValue(value.getFirstChild(), locals);
+            } else {
+                return true;
+            }
+        case Token.THIS:
+            return locals.apply(value);
+        case Token.NAME:
+            return isImmutableValue(value) || locals.apply(value);
+        case Token.GETELEM:
+        case Token.GETPROP:
+            // There is no information about the locality of object properties.
+            return locals.apply(value);
+        case Token.CALL:
+            return callHasLocalResult(value) || isToStringMethodCall(value) || locals.apply(value);
+        case Token.NEW:
+            // the constructor (similar to callHasLocalResult)
+            return true;
+        case Token.FUNCTION:
+        case Token.REGEXP:
+        case Token.ARRAYLIT:
+        case Token.OBJECTLIT:
+            // Literals objects with non-literal children are allowed.
+            return true;
+        case Token.IN:
+            // TODO(johnlenz): should IN operator be included in #isSimpleOperator?
+            return true;
+        default:
+            // x -= g (x is now an local number)
+            if (isAssignmentOp(value) || isSimpleOperator(value) || isImmutableValue(value)) {
+                return true;
+            }
+            throw new IllegalStateException(""Unexpected expression node"" + value + ""\n parent:"" + value.getParent());
+    }
+}"
+366,Codec,5,jira,https://issues.apache.org/jira/browse/CODEC-98,Critical,src/java/org/apache/commons/codec/binary/Base64.java,550,599,"/**
+ * <p>
+ * Decodes all of the provided data, starting at inPos, for inAvail bytes. Should be called at least twice: once
+ * with the data to decode, and once with inAvail set to ""-1"" to alert decoder that EOF has been reached. The ""-1""
+ * call is not necessary when decoding, but it doesn't hurt, either.
+ * </p>
+ * <p>
+ * Ignores all non-base64 characters. This is how chunked (e.g. 76 character) data is handled, since CR and LF are
+ * silently ignored, but has implications for other bytes, too. This method subscribes to the garbage-in,
+ * garbage-out philosophy: it will not check the provided data for validity.
+ * </p>
+ * <p>
+ * Thanks to ""commons"" project in ws.apache.org for the bitwise operations, and general approach.
+ * http://svn.apache.org/repos/asf/webservices/commons/trunk/modules/util/
+ * </p>
+ *
+ * @param in
+ *            byte[] array of ascii data to base64 decode.
+ * @param inPos
+ *            Position to start reading data from.
+ * @param inAvail
+ *            Amount of bytes available from input for encoding.
+ */
+void decode(byte[] in, int inPos, int inAvail) {
+    if (eof) {
+        return;
+    }
+    if (inAvail < 0) {
+        eof = true;
+    }
+    for (int i = 0; i < inAvail; i++) {
+        if (buffer == null || buffer.length - pos < decodeSize) {
+            resizeBuffer();
+        }
+        byte b = in[inPos++];
+        if (b == PAD) {
+            // We're done.
+            eof = true;
+            break;
+        } else {
+            if (b >= 0 && b < DECODE_TABLE.length) {
+                int result = DECODE_TABLE[b];
+                if (result >= 0) {
+                    modulus = (++modulus) % 4;
+                    x = (x << 6) + result;
+                    if (modulus == 0) {
+                        buffer[pos++] = (byte) ((x >> 16) & MASK_8BITS);
+                        buffer[pos++] = (byte) ((x >> 8) & MASK_8BITS);
+                        buffer[pos++] = (byte) (x & MASK_8BITS);
+                    }
+                }
+            }
+        }
+    }
+    // This approach makes the '=' padding characters completely optional.
+    if (eof && modulus != 0) {
+        x = x << 6;
+        switch(modulus) {
+            case 2:
+                x = x << 6;
+                buffer[pos++] = (byte) ((x >> 16) & MASK_8BITS);
+                break;
+            case 3:
+                buffer[pos++] = (byte) ((x >> 16) & MASK_8BITS);
+                buffer[pos++] = (byte) ((x >> 8) & MASK_8BITS);
+                break;
+        }
+    }
+}"
+415,Compress,21,jira,https://issues.apache.org/jira/browse/COMPRESS-252,Critical,src/main/java/org/apache/commons/compress/archivers/sevenz/SevenZOutputFile.java,634,649,"private void writeBits(final DataOutput header, final BitSet bits, final int length) throws IOException {
+    int cache = 0;
+    int shift = 7;
+    for (int i = 0; i < length; i++) {
+        cache |= ((bits.get(i) ? 1 : 0) << shift);
+        --shift;
+        if (shift == 0) {
+            header.write(cache);
+            shift = 7;
+            cache = 0;
+        }
+    }
+    if (length > 0 && shift > 0) {
+        header.write(cache);
+    }
+}"
+422,Compress,24,jira,https://issues.apache.org/jira/browse/COMPRESS-262,Critical,src/main/java/org/apache/commons/compress/archivers/tar/TarUtils.java,102,153,"/**
+ * Parse an octal string from a buffer.
+ *
+ * <p>Leading spaces are ignored.
+ * The buffer must contain a trailing space or NUL,
+ * and may contain an additional trailing space or NUL.</p>
+ *
+ * <p>The input buffer is allowed to contain all NULs,
+ * in which case the method returns 0L
+ * (this allows for missing fields).</p>
+ *
+ * <p>To work-around some tar implementations that insert a
+ * leading NUL this method returns 0 if it detects a leading NUL
+ * since Commons Compress 1.4.</p>
+ *
+ * @param buffer The buffer from which to parse.
+ * @param offset The offset into the buffer from which to parse.
+ * @param length The maximum number of bytes to parse - must be at least 2 bytes.
+ * @return The long value of the octal string.
+ * @throws IllegalArgumentException if the trailing space/NUL is missing or if a invalid byte is detected.
+ */
+public static long parseOctal(final byte[] buffer, final int offset, final int length) {
+    long result = 0;
+    int end = offset + length;
+    int start = offset;
+    if (length < 2) {
+        throw new IllegalArgumentException(""Length "" + length + "" must be at least 2"");
+    }
+    if (buffer[start] == 0) {
+        return 0L;
+    }
+    // Skip leading spaces
+    while (start < end) {
+        if (buffer[start] == ' ') {
+            start++;
+        } else {
+            break;
+        }
+    }
+    // Trim all trailing NULs and spaces.
+    // The ustar and POSIX tar specs require a trailing NUL or
+    // space but some implementations use the extra digit for big
+    // sizes/uids/gids ...
+    byte trailer = buffer[end - 1];
+    if (trailer == 0 || trailer == ' ') {
+        end--;
+    } else {
+        throw new IllegalArgumentException(exceptionMessage(buffer, offset, length, end - 1, trailer));
+    }
+    trailer = buffer[end - 1];
+    while (start < end - 1 && (trailer == 0 || trailer == ' ')) {
+        end--;
+        trailer = buffer[end - 1];
+    }
+    for (; start < end; start++) {
+        final byte currentByte = buffer[start];
+        // CheckStyle:MagicNumber OFF
+        if (currentByte < '0' || currentByte > '7') {
+            throw new IllegalArgumentException(exceptionMessage(buffer, offset, length, start, currentByte));
+        }
+        // convert from ASCII
+        result = (result << 3) + (currentByte - '0');
+    // CheckStyle:MagicNumber ON
+    }
+    return result;
+}"
+501,JxPath,21,jira,https://issues.apache.org/jira/browse/JXPATH-151,Critical,src/java/org/apache/commons/jxpath/ri/model/beans/PropertyPointer.java,151,153,"/**
+ * If the property contains a collection, then the length of that
+ * collection, otherwise - 1.
+ * @return int length
+ */
+public int getLength() {
+    return ValueUtils.getLength(getBaseValue());
+}"
+514,Lang,12,jira,https://issues.apache.org/jira/browse/LANG-805,Critical,src/main/java/org/apache/commons/lang3/RandomStringUtils.java,223,282,"/**
+ * <p>Creates a random string based on a variety of options, using
+ * supplied source of randomness.</p>
+ *
+ * <p>If start and end are both {@code 0}, start and end are set
+ * to {@code ' '} and {@code 'z'}, the ASCII printable
+ * characters, will be used, unless letters and numbers are both
+ * {@code false}, in which case, start and end are set to
+ * {@code 0} and {@code Integer.MAX_VALUE}.
+ *
+ * <p>If set is not {@code null}, characters between start and
+ * end are chosen.</p>
+ *
+ * <p>This method accepts a user-supplied {@link Random}
+ * instance to use as a source of randomness. By seeding a single
+ * {@link Random} instance with a fixed seed and using it for each call,
+ * the same random sequence of strings can be generated repeatedly
+ * and predictably.</p>
+ *
+ * @param count  the length of random string to create
+ * @param start  the position in set of chars to start at
+ * @param end  the position in set of chars to end before
+ * @param letters  only allow letters?
+ * @param numbers  only allow numbers?
+ * @param chars  the set of chars to choose randoms from, must not be empty.
+ *  If {@code null}, then it will use the set of all chars.
+ * @param random  a source of randomness.
+ * @return the random string
+ * @throws ArrayIndexOutOfBoundsException if there are not
+ *  {@code (end - start) + 1} characters in the set array.
+ * @throws IllegalArgumentException if {@code count} &lt; 0 or the provided chars array is empty.
+ * @since 2.0
+ */
+public static String random(int count, int start, int end, boolean letters, boolean numbers, char[] chars, Random random) {
+    if (count == 0) {
+        return """";
+    } else if (count < 0) {
+        throw new IllegalArgumentException(""Requested random string length "" + count + "" is less than 0."");
+    }
+    if (start == 0 && end == 0) {
+        if (!letters && !numbers) {
+            end = Integer.MAX_VALUE;
+        } else {
+            end = 'z' + 1;
+            start = ' ';
+        }
+    }
+    char[] buffer = new char[count];
+    int gap = end - start;
+    while (count-- != 0) {
+        char ch;
+        if (chars == null) {
+            ch = (char) (random.nextInt(gap) + start);
+        } else {
+            ch = chars[random.nextInt(gap) + start];
+        }
+        if (letters && Character.isLetter(ch) || numbers && Character.isDigit(ch) || !letters && !numbers) {
+            if (ch >= 56320 && ch <= 57343) {
+                if (count == 0) {
+                    count++;
+                } else {
+                    // low surrogate, insert high surrogate after putting it in
+                    buffer[count] = ch;
+                    count--;
+                    buffer[count] = (char) (55296 + random.nextInt(128));
+                }
+            } else if (ch >= 55296 && ch <= 56191) {
+                if (count == 0) {
+                    count++;
+                } else {
+                    // high surrogate, insert low surrogate before putting it in
+                    buffer[count] = (char) (56320 + random.nextInt(128));
+                    count--;
+                    buffer[count] = ch;
+                }
+            } else if (ch >= 56192 && ch <= 56319) {
+                // private high surrogate, no effing clue, so skip it
+                count++;
+            } else {
+                buffer[count] = ch;
+            }
+        } else {
+            count++;
+        }
+    }
+    return new String(buffer);
+}"
+560,Lang,46,jira,https://issues.apache.org/jira/browse/LANG-421,Critical,src/java/org/apache/commons/lang/StringEscapeUtils.java,85,87,"// Java and JavaScript
+// --------------------------------------------------------------------------
+/**
+ * <p>Escapes the characters in a <code>String</code> using Java String rules.</p>
+ *
+ * <p>Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) </p>
+ *
+ * <p>So a tab becomes the characters <code>'\\'</code> and
+ * <code>'t'</code>.</p>
+ *
+ * <p>The only difference between Java strings and JavaScript strings
+ * is that in JavaScript, a single quote must be escaped.</p>
+ *
+ * <p>Example:
+ * <pre>
+ * input string: He didn't say, ""Stop!""
+ * output string: He didn't say, \""Stop!\""
+ * </pre>
+ * </p>
+ *
+ * @param str  String to escape values in, may be null
+ * @return String with escaped values, <code>null</code> if null string input
+ */
+public static String escapeJava(String str) {
+    return escapeJavaStyleString(str, false);
+}"
+561,Lang,46,jira,https://issues.apache.org/jira/browse/LANG-421,Critical,src/java/org/apache/commons/lang/StringEscapeUtils.java,101,103,"/**
+ * <p>Escapes the characters in a <code>String</code> using Java String rules to
+ * a <code>Writer</code>.</p>
+ *
+ * <p>A <code>null</code> string input has no effect.</p>
+ *
+ * @see #escapeJava(java.lang.String)
+ * @param out  Writer to write escaped string into
+ * @param str  String to escape values in, may be null
+ * @throws IllegalArgumentException if the Writer is <code>null</code>
+ * @throws IOException if error occurs on underlying Writer
+ */
+public static void escapeJava(Writer out, String str) throws IOException {
+    escapeJavaStyleString(out, str, false);
+}"
+562,Lang,46,jira,https://issues.apache.org/jira/browse/LANG-421,Critical,src/java/org/apache/commons/lang/StringEscapeUtils.java,126,128,"/**
+ * <p>Escapes the characters in a <code>String</code> using JavaScript String rules.</p>
+ * <p>Escapes any values it finds into their JavaScript String form.
+ * Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) </p>
+ *
+ * <p>So a tab becomes the characters <code>'\\'</code> and
+ * <code>'t'</code>.</p>
+ *
+ * <p>The only difference between Java strings and JavaScript strings
+ * is that in JavaScript, a single quote must be escaped.</p>
+ *
+ * <p>Example:
+ * <pre>
+ * input string: He didn't say, ""Stop!""
+ * output string: He didn\'t say, \""Stop!\""
+ * </pre>
+ * </p>
+ *
+ * @param str  String to escape values in, may be null
+ * @return String with escaped values, <code>null</code> if null string input
+ */
+public static String escapeJavaScript(String str) {
+    return escapeJavaStyleString(str, true);
+}"
+563,Lang,46,jira,https://issues.apache.org/jira/browse/LANG-421,Critical,src/java/org/apache/commons/lang/StringEscapeUtils.java,142,144,"/**
+ * <p>Escapes the characters in a <code>String</code> using JavaScript String rules
+ * to a <code>Writer</code>.</p>
+ *
+ * <p>A <code>null</code> string input has no effect.</p>
+ *
+ * @see #escapeJavaScript(java.lang.String)
+ * @param out  Writer to write escaped string into
+ * @param str  String to escape values in, may be null
+ * @throws IllegalArgumentException if the Writer is <code>null</code>
+ * @throws IOException if error occurs on underlying Writer
+ */
+public static void escapeJavaScript(Writer out, String str) throws IOException {
+    escapeJavaStyleString(out, str, true);
+}"
+564,Lang,46,jira,https://issues.apache.org/jira/browse/LANG-421,Critical,src/java/org/apache/commons/lang/StringEscapeUtils.java,154,167,"/**
+ * <p>Worker method for the {@link #escapeJavaScript(String)} method.</p>
+ *
+ * @param str String to escape values in, may be null
+ * @param escapeSingleQuotes escapes single quotes if <code>true</code>
+ * @param escapeForwardSlash TODO
+ * @return the escaped string
+ */
+private static String escapeJavaStyleString(String str, boolean escapeSingleQuotes) {
+    if (str == null) {
+        return null;
+    }
+    try {
+        StringWriter writer = new StringWriter(str.length() * 2);
+        escapeJavaStyleString(writer, str, escapeSingleQuotes);
+        return writer.toString();
+    } catch (IOException ioe) {
+        // this should never ever happen while writing to a StringWriter
+        ioe.printStackTrace();
+        return null;
+    }
+}"
+565,Lang,46,jira,https://issues.apache.org/jira/browse/LANG-421,Critical,src/java/org/apache/commons/lang/StringEscapeUtils.java,178,253,"/**
+ * <p>Worker method for the {@link #escapeJavaScript(String)} method.</p>
+ *
+ * @param out write to receieve the escaped string
+ * @param str String to escape values in, may be null
+ * @param escapeSingleQuote escapes single quotes if <code>true</code>
+ * @param escapeForwardSlash TODO
+ * @throws IOException if an IOException occurs
+ */
+private static void escapeJavaStyleString(Writer out, String str, boolean escapeSingleQuote) throws IOException {
+    if (out == null) {
+        throw new IllegalArgumentException(""The Writer must not be null"");
+    }
+    if (str == null) {
+        return;
+    }
+    int sz;
+    sz = str.length();
+    for (int i = 0; i < sz; i++) {
+        char ch = str.charAt(i);
+        // handle unicode
+        if (ch > 0xfff) {
+            out.write(""\\u"" + hex(ch));
+        } else if (ch > 0xff) {
+            out.write(""\\u0"" + hex(ch));
+        } else if (ch > 0x7f) {
+            out.write(""\\u00"" + hex(ch));
+        } else if (ch < 32) {
+            switch(ch) {
+                case '\b':
+                    out.write('\\');
+                    out.write('b');
+                    break;
+                case '\n':
+                    out.write('\\');
+                    out.write('n');
+                    break;
+                case '\t':
+                    out.write('\\');
+                    out.write('t');
+                    break;
+                case '\f':
+                    out.write('\\');
+                    out.write('f');
+                    break;
+                case '\r':
+                    out.write('\\');
+                    out.write('r');
+                    break;
+                default:
+                    if (ch > 0xf) {
+                        out.write(""\\u00"" + hex(ch));
+                    } else {
+                        out.write(""\\u000"" + hex(ch));
+                    }
+                    break;
+            }
+        } else {
+            switch(ch) {
+                case '\'':
+                    if (escapeSingleQuote) {
+                        out.write('\\');
+                    }
+                    out.write('\'');
+                    break;
+                case '""':
+                    out.write('\\');
+                    out.write('""');
+                    break;
+                case '\\':
+                    out.write('\\');
+                    out.write('\\');
+                    break;
+                case '/':
+                    out.write('\\');
+                    out.write('/');
+                    break;
+                default:
+                    out.write(ch);
+                    break;
+            }
+        }
+    }
+}"
+600,Math,7,jira,https://issues.apache.org/jira/browse/MATH-950,Critical,src/main/java/org/apache/commons/math3/ode/AbstractIntegrator.java,296,405,"/**
+ * Accept a step, triggering events and step handlers.
+ * @param interpolator step interpolator
+ * @param y state vector at step end time, must be reset if an event
+ * asks for resetting or if an events stops integration during the step
+ * @param yDot placeholder array where to put the time derivative of the state vector
+ * @param tEnd final integration time
+ * @return time at end of step
+ * @exception MaxCountExceededException if the interpolator throws one because
+ * the number of functions evaluations is exceeded
+ * @exception NoBracketingException if the location of an event cannot be bracketed
+ * @exception DimensionMismatchException if arrays dimensions do not match equations settings
+ * @since 2.2
+ */
+protected double acceptStep(final AbstractStepInterpolator interpolator, final double[] y, final double[] yDot, final double tEnd) throws MaxCountExceededException, DimensionMismatchException, NoBracketingException {
+    double previousT = interpolator.getGlobalPreviousTime();
+    final double currentT = interpolator.getGlobalCurrentTime();
+    // initialize the events states if needed
+    if (!statesInitialized) {
+        for (EventState state : eventsStates) {
+            state.reinitializeBegin(interpolator);
+        }
+        statesInitialized = true;
+    }
+    // search for next events that may occur during the step
+    final int orderingSign = interpolator.isForward() ? +1 : -1;
+    SortedSet<EventState> occuringEvents = new TreeSet<EventState>(new Comparator<EventState>() {
+
+        /**
+         * {@inheritDoc}
+         */
+        public int compare(EventState es0, EventState es1) {
+            return orderingSign * Double.compare(es0.getEventTime(), es1.getEventTime());
+        }
+    });
+    for (final EventState state : eventsStates) {
+        if (state.evaluateStep(interpolator)) {
+            // the event occurs during the current step
+            occuringEvents.add(state);
+        }
+    }
+    while (!occuringEvents.isEmpty()) {
+        // handle the chronologically first event
+        final Iterator<EventState> iterator = occuringEvents.iterator();
+        final EventState currentEvent = iterator.next();
+        iterator.remove();
+        // restrict the interpolator to the first part of the step, up to the event
+        final double eventT = currentEvent.getEventTime();
+        interpolator.setSoftPreviousTime(previousT);
+        interpolator.setSoftCurrentTime(eventT);
+        // get state at event time
+        interpolator.setInterpolatedTime(eventT);
+        final double[] eventY = interpolator.getInterpolatedState().clone();
+        // advance all event states to current time
+        currentEvent.stepAccepted(eventT, eventY);
+        isLastStep = currentEvent.stop();
+        // handle the first part of the step, up to the event
+        for (final StepHandler handler : stepHandlers) {
+            handler.handleStep(interpolator, isLastStep);
+        }
+        if (isLastStep) {
+            // the event asked to stop integration
+            System.arraycopy(eventY, 0, y, 0, y.length);
+            for (final EventState remaining : occuringEvents) {
+                remaining.stepAccepted(eventT, eventY);
+            }
+            return eventT;
+        }
+        boolean needReset = currentEvent.reset(eventT, eventY);
+        if (needReset) {
+            // some event handler has triggered changes that
+            // invalidate the derivatives, we need to recompute them
+            System.arraycopy(eventY, 0, y, 0, y.length);
+            computeDerivatives(eventT, y, yDot);
+            resetOccurred = true;
+            for (final EventState remaining : occuringEvents) {
+                remaining.stepAccepted(eventT, eventY);
+            }
+            return eventT;
+        }
+        // prepare handling of the remaining part of the step
+        previousT = eventT;
+        interpolator.setSoftPreviousTime(eventT);
+        interpolator.setSoftCurrentTime(currentT);
+        // check if the same event occurs again in the remaining part of the step
+        if (currentEvent.evaluateStep(interpolator)) {
+            // the event occurs during the current step
+            occuringEvents.add(currentEvent);
+        }
+    }
+    // last part of the step, after the last event
+    interpolator.setInterpolatedTime(currentT);
+    final double[] currentY = interpolator.getInterpolatedState();
+    for (final EventState state : eventsStates) {
+        state.stepAccepted(currentT, currentY);
+        isLastStep = isLastStep || state.stop();
+    }
+    isLastStep = isLastStep || Precision.equals(currentT, tEnd, 1);
+    // handle the remaining part of the step, after all events if any
+    for (StepHandler handler : stepHandlers) {
+        handler.handleStep(interpolator, isLastStep);
+    }
+    return currentT;
+}"
+604,Math,11,jira,https://issues.apache.org/jira/browse/MATH-929,Critical,src/main/java/org/apache/commons/math3/distribution/MultivariateNormalDistribution.java,177,186,"/**
+ * {@inheritDoc}
+ */
+public double density(final double[] vals) throws DimensionMismatchException {
+    final int dim = getDimension();
+    if (vals.length != dim) {
+        throw new DimensionMismatchException(vals.length, dim);
+    }
+    return FastMath.pow(2 * FastMath.PI, -dim / 2) * FastMath.pow(covarianceMatrixDeterminant, -0.5) * getExponentTerm(vals);
+}"
+605,Math,13,jira,https://issues.apache.org/jira/browse/MATH-924,Critical,src/main/java/org/apache/commons/math3/optimization/general/AbstractLeastSquaresOptimizer.java,561,564,"/**
+ * Computes the square-root of the weight matrix.
+ *
+ * @param m Symmetric, positive-definite (weight) matrix.
+ * @return the square-root of the weight matrix.
+ */
+private RealMatrix squareRoot(RealMatrix m) {
+    final EigenDecomposition dec = new EigenDecomposition(m);
+    return dec.getSquareRoot();
+}"
+606,Math,14,jira,https://issues.apache.org/jira/browse/MATH-924,Critical,src/main/java/org/apache/commons/math3/optim/nonlinear/vector/jacobian/AbstractLeastSquaresOptimizer.java,266,269,"/**
+ * Computes the square-root of the weight matrix.
+ *
+ * @param m Symmetric, positive-definite (weight) matrix.
+ * @return the square-root of the weight matrix.
+ */
+private RealMatrix squareRoot(RealMatrix m) {
+    final EigenDecomposition dec = new EigenDecomposition(m);
+    return dec.getSquareRoot();
+}"
+675,Math,71,jira,https://issues.apache.org/jira/browse/MATH-358,Critical,src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java,191,366,"/**
+ * {@inheritDoc}
+ */
+@Override
+public double integrate(final FirstOrderDifferentialEquations equations, final double t0, final double[] y0, final double t, final double[] y) throws DerivativeException, IntegratorException {
+    sanityChecks(equations, t0, y0, t, y);
+    setEquations(equations);
+    resetEvaluations();
+    final boolean forward = t > t0;
+    // create some internal working arrays
+    final int stages = c.length + 1;
+    if (y != y0) {
+        System.arraycopy(y0, 0, y, 0, y0.length);
+    }
+    final double[][] yDotK = new double[stages][y0.length];
+    final double[] yTmp = new double[y0.length];
+    // set up an interpolator sharing the integrator arrays
+    AbstractStepInterpolator interpolator;
+    if (requiresDenseOutput() || (!eventsHandlersManager.isEmpty())) {
+        final RungeKuttaStepInterpolator rki = (RungeKuttaStepInterpolator) prototype.copy();
+        rki.reinitialize(this, yTmp, yDotK, forward);
+        interpolator = rki;
+    } else {
+        interpolator = new DummyStepInterpolator(yTmp, yDotK[stages - 1], forward);
+    }
+    interpolator.storeTime(t0);
+    // set up integration control objects
+    stepStart = t0;
+    double hNew = 0;
+    boolean firstTime = true;
+    for (StepHandler handler : stepHandlers) {
+        handler.reset();
+    }
+    CombinedEventsManager manager = addEndTimeChecker(t0, t, eventsHandlersManager);
+    boolean lastStep = false;
+    // main integration loop
+    while (!lastStep) {
+        interpolator.shift();
+        double error = 0;
+        for (boolean loop = true; loop; ) {
+            if (firstTime || !fsal) {
+                // first stage
+                computeDerivatives(stepStart, y, yDotK[0]);
+            }
+            if (firstTime) {
+                final double[] scale = new double[y0.length];
+                if (vecAbsoluteTolerance == null) {
+                    for (int i = 0; i < scale.length; ++i) {
+                        scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * Math.abs(y[i]);
+                    }
+                } else {
+                    for (int i = 0; i < scale.length; ++i) {
+                        scale[i] = vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * Math.abs(y[i]);
+                    }
+                }
+                hNew = initializeStep(equations, forward, getOrder(), scale, stepStart, y, yDotK[0], yTmp, yDotK[1]);
+                firstTime = false;
+            }
+            stepSize = hNew;
+            // next stages
+            for (int k = 1; k < stages; ++k) {
+                for (int j = 0; j < y0.length; ++j) {
+                    double sum = a[k - 1][0] * yDotK[0][j];
+                    for (int l = 1; l < k; ++l) {
+                        sum += a[k - 1][l] * yDotK[l][j];
+                    }
+                    yTmp[j] = y[j] + stepSize * sum;
+                }
+                computeDerivatives(stepStart + c[k - 1] * stepSize, yTmp, yDotK[k]);
+            }
+            // estimate the state at the end of the step
+            for (int j = 0; j < y0.length; ++j) {
+                double sum = b[0] * yDotK[0][j];
+                for (int l = 1; l < stages; ++l) {
+                    sum += b[l] * yDotK[l][j];
+                }
+                yTmp[j] = y[j] + stepSize * sum;
+            }
+            // estimate the error at the end of the step
+            error = estimateError(yDotK, y, yTmp, stepSize);
+            if (error <= 1.0) {
+                // discrete events handling
+                interpolator.storeTime(stepStart + stepSize);
+                if (manager.evaluateStep(interpolator)) {
+                    final double dt = manager.getEventTime() - stepStart;
+                    if (Math.abs(dt) <= Math.ulp(stepStart)) {
+                        // we cannot simply truncate the step, reject the current computation
+                        // and let the loop compute another state with the truncated step.
+                        // it is so small (much probably exactly 0 due to limited accuracy)
+                        // that the code above would fail handling it.
+                        // So we set up an artificial 0 size step by copying states
+                        loop = false;
+                    } else {
+                        // reject the step to match exactly the next switch time
+                        hNew = dt;
+                    }
+                } else {
+                    // accept the step
+                    loop = false;
+                }
+            } else {
+                // reject the step and attempt to reduce error by stepsize control
+                final double factor = Math.min(maxGrowth, Math.max(minReduction, safety * Math.pow(error, exp)));
+                hNew = filterStep(stepSize * factor, forward, false);
+            }
+        }
+        // the step has been accepted
+        final double nextStep = stepStart + stepSize;
+        System.arraycopy(yTmp, 0, y, 0, y0.length);
+        manager.stepAccepted(nextStep, y);
+        lastStep = manager.stop();
+        // provide the step data to the step handler
+        interpolator.storeTime(nextStep);
+        for (StepHandler handler : stepHandlers) {
+            handler.handleStep(interpolator, lastStep);
+        }
+        stepStart = nextStep;
+        if (fsal) {
+            // save the last evaluation for the next step
+            System.arraycopy(yDotK[stages - 1], 0, yDotK[0], 0, y0.length);
+        }
+        if (manager.reset(stepStart, y) && !lastStep) {
+            // some event handler has triggered changes that
+            // invalidate the derivatives, we need to recompute them
+            computeDerivatives(stepStart, y, yDotK[0]);
+        }
+        if (!lastStep) {
+            // in some rare cases we may get here with stepSize = 0, for example
+            // when an event occurs at integration start, reducing the first step
+            // to zero; we have to reset the step to some safe non zero value
+            stepSize = filterStep(stepSize, forward, true);
+            // stepsize control for next step
+            final double factor = Math.min(maxGrowth, Math.max(minReduction, safety * Math.pow(error, exp)));
+            final double scaledH = stepSize * factor;
+            final double nextT = stepStart + scaledH;
+            final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);
+            hNew = filterStep(scaledH, forward, nextIsLast);
+        }
+    }
+    final double stopTime = stepStart;
+    resetInternalState();
+    return stopTime;
+}"
+676,Math,71,jira,https://issues.apache.org/jira/browse/MATH-358,Critical,src/main/java/org/apache/commons/math/ode/nonstiff/RungeKuttaIntegrator.java,95,220,"/**
+ * {@inheritDoc}
+ */
+public double integrate(final FirstOrderDifferentialEquations equations, final double t0, final double[] y0, final double t, final double[] y) throws DerivativeException, IntegratorException {
+    sanityChecks(equations, t0, y0, t, y);
+    setEquations(equations);
+    resetEvaluations();
+    final boolean forward = t > t0;
+    // create some internal working arrays
+    final int stages = c.length + 1;
+    if (y != y0) {
+        System.arraycopy(y0, 0, y, 0, y0.length);
+    }
+    final double[][] yDotK = new double[stages][];
+    for (int i = 0; i < stages; ++i) {
+        yDotK[i] = new double[y0.length];
+    }
+    final double[] yTmp = new double[y0.length];
+    // set up an interpolator sharing the integrator arrays
+    AbstractStepInterpolator interpolator;
+    if (requiresDenseOutput() || (!eventsHandlersManager.isEmpty())) {
+        final RungeKuttaStepInterpolator rki = (RungeKuttaStepInterpolator) prototype.copy();
+        rki.reinitialize(this, yTmp, yDotK, forward);
+        interpolator = rki;
+    } else {
+        interpolator = new DummyStepInterpolator(yTmp, yDotK[stages - 1], forward);
+    }
+    interpolator.storeTime(t0);
+    // set up integration control objects
+    stepStart = t0;
+    stepSize = forward ? step : -step;
+    for (StepHandler handler : stepHandlers) {
+        handler.reset();
+    }
+    CombinedEventsManager manager = addEndTimeChecker(t0, t, eventsHandlersManager);
+    boolean lastStep = false;
+    // main integration loop
+    while (!lastStep) {
+        interpolator.shift();
+        for (boolean loop = true; loop; ) {
+            // first stage
+            computeDerivatives(stepStart, y, yDotK[0]);
+            // next stages
+            for (int k = 1; k < stages; ++k) {
+                for (int j = 0; j < y0.length; ++j) {
+                    double sum = a[k - 1][0] * yDotK[0][j];
+                    for (int l = 1; l < k; ++l) {
+                        sum += a[k - 1][l] * yDotK[l][j];
+                    }
+                    yTmp[j] = y[j] + stepSize * sum;
+                }
+                computeDerivatives(stepStart + c[k - 1] * stepSize, yTmp, yDotK[k]);
+            }
+            // estimate the state at the end of the step
+            for (int j = 0; j < y0.length; ++j) {
+                double sum = b[0] * yDotK[0][j];
+                for (int l = 1; l < stages; ++l) {
+                    sum += b[l] * yDotK[l][j];
+                }
+                yTmp[j] = y[j] + stepSize * sum;
+            }
+            // discrete events handling
+            interpolator.storeTime(stepStart + stepSize);
+            if (manager.evaluateStep(interpolator)) {
+                final double dt = manager.getEventTime() - stepStart;
+                if (Math.abs(dt) <= Math.ulp(stepStart)) {
+                    // we cannot simply truncate the step, reject the current computation
+                    // and let the loop compute another state with the truncated step.
+                    // it is so small (much probably exactly 0 due to limited accuracy)
+                    // that the code above would fail handling it.
+                    // So we set up an artificial 0 size step by copying states
+                    loop = false;
+                } else {
+                    // reject the step to match exactly the next switch time
+                    stepSize = dt;
+                }
+            } else {
+                loop = false;
+            }
+        }
+        // the step has been accepted
+        final double nextStep = stepStart + stepSize;
+        System.arraycopy(yTmp, 0, y, 0, y0.length);
+        manager.stepAccepted(nextStep, y);
+        lastStep = manager.stop();
+        // provide the step data to the step handler
+        interpolator.storeTime(nextStep);
+        for (StepHandler handler : stepHandlers) {
+            handler.handleStep(interpolator, lastStep);
+        }
+        stepStart = nextStep;
+        if (manager.reset(stepStart, y) && !lastStep) {
+            // some events handler has triggered changes that
+            // invalidate the derivatives, we need to recompute them
+            computeDerivatives(stepStart, y, yDotK[0]);
+        }
+        // make sure step size is set to default before next step
+        stepSize = forward ? step : -step;
+    }
+    final double stopTime = stepStart;
+    stepStart = Double.NaN;
+    stepSize = Double.NaN;
+    return stopTime;
+}"
+677,Math,72,jira,https://issues.apache.org/jira/browse/MATH-344,Critical,src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java,98,144,"/**
+ * Find a zero in the given interval with an initial guess.
+ * <p>Throws <code>IllegalArgumentException</code> if the values of the
+ * function at the three points have the same sign (note that it is
+ * allowed to have endpoints with the same sign if the initial point has
+ * opposite sign function-wise).</p>
+ *
+ * @param f function to solve.
+ * @param min the lower bound for the interval.
+ * @param max the upper bound for the interval.
+ * @param initial the start value to use (must be set to min if no
+ * initial point is known).
+ * @return the value where the function is zero
+ * @throws MaxIterationsExceededException the maximum iteration count
+ * is exceeded
+ * @throws FunctionEvaluationException if an error occurs evaluating
+ *  the function
+ * @throws IllegalArgumentException if initial is not between min and max
+ * (even if it <em>is</em> a root)
+ */
+public double solve(final UnivariateRealFunction f, final double min, final double max, final double initial) throws MaxIterationsExceededException, FunctionEvaluationException {
+    clearResult();
+    verifySequence(min, initial, max);
+    // return the initial guess if it is good enough
+    double yInitial = f.value(initial);
+    if (Math.abs(yInitial) <= functionValueAccuracy) {
+        setResult(initial, 0);
+        return result;
+    }
+    // return the first endpoint if it is good enough
+    double yMin = f.value(min);
+    if (Math.abs(yMin) <= functionValueAccuracy) {
+        setResult(yMin, 0);
+        return result;
+    }
+    // reduce interval if min and initial bracket the root
+    if (yInitial * yMin < 0) {
+        return solve(f, min, yMin, initial, yInitial, min, yMin);
+    }
+    // return the second endpoint if it is good enough
+    double yMax = f.value(max);
+    if (Math.abs(yMax) <= functionValueAccuracy) {
+        setResult(yMax, 0);
+        return result;
+    }
+    // reduce interval if initial and max bracket the root
+    if (yInitial * yMax < 0) {
+        return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+    }
+    if (yMin * yMax > 0) {
+        throw MathRuntimeException.createIllegalArgumentException(NON_BRACKETING_MESSAGE, min, max, yMin, yMax);
+    }
+    // full Brent algorithm starting with provided initial guess
+    return solve(f, min, yMin, max, yMax, initial, yInitial);
+}"
+678,Math,73,jira,https://issues.apache.org/jira/browse/MATH-343,Critical,src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java,98,140,"/**
+ * Find a zero in the given interval with an initial guess.
+ * <p>Throws <code>IllegalArgumentException</code> if the values of the
+ * function at the three points have the same sign (note that it is
+ * allowed to have endpoints with the same sign if the initial point has
+ * opposite sign function-wise).</p>
+ *
+ * @param f function to solve.
+ * @param min the lower bound for the interval.
+ * @param max the upper bound for the interval.
+ * @param initial the start value to use (must be set to min if no
+ * initial point is known).
+ * @return the value where the function is zero
+ * @throws MaxIterationsExceededException the maximum iteration count
+ * is exceeded
+ * @throws FunctionEvaluationException if an error occurs evaluating
+ *  the function
+ * @throws IllegalArgumentException if initial is not between min and max
+ * (even if it <em>is</em> a root)
+ */
+public double solve(final UnivariateRealFunction f, final double min, final double max, final double initial) throws MaxIterationsExceededException, FunctionEvaluationException {
+    clearResult();
+    verifySequence(min, initial, max);
+    // return the initial guess if it is good enough
+    double yInitial = f.value(initial);
+    if (Math.abs(yInitial) <= functionValueAccuracy) {
+        setResult(initial, 0);
+        return result;
+    }
+    // return the first endpoint if it is good enough
+    double yMin = f.value(min);
+    if (Math.abs(yMin) <= functionValueAccuracy) {
+        setResult(yMin, 0);
+        return result;
+    }
+    // reduce interval if min and initial bracket the root
+    if (yInitial * yMin < 0) {
+        return solve(f, min, yMin, initial, yInitial, min, yMin);
+    }
+    // return the second endpoint if it is good enough
+    double yMax = f.value(max);
+    if (Math.abs(yMax) <= functionValueAccuracy) {
+        setResult(yMax, 0);
+        return result;
+    }
+    // reduce interval if initial and max bracket the root
+    if (yInitial * yMax < 0) {
+        return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+    }
+    // full Brent algorithm starting with provided initial guess
+    return solve(f, min, yMin, max, yMax, initial, yInitial);
+}"
+694,Math,84,jira,https://issues.apache.org/jira/browse/MATH-283,Critical,src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java,60,99,"/**
+ * {@inheritDoc}
+ */
+@Override
+protected void iterateSimplex(final Comparator<RealPointValuePair> comparator) throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
+    while (true) {
+        incrementIterationsCounter();
+        // save the original vertex
+        final RealPointValuePair[] original = simplex;
+        final RealPointValuePair best = original[0];
+        // perform a reflection step
+        final RealPointValuePair reflected = evaluateNewSimplex(original, 1.0, comparator);
+        if (comparator.compare(reflected, best) < 0) {
+            // compute the expanded simplex
+            final RealPointValuePair[] reflectedSimplex = simplex;
+            final RealPointValuePair expanded = evaluateNewSimplex(original, khi, comparator);
+            if (comparator.compare(reflected, expanded) <= 0) {
+                // accept the reflected simplex
+                simplex = reflectedSimplex;
+            }
+            return;
+        }
+        // compute the contracted simplex
+        final RealPointValuePair contracted = evaluateNewSimplex(original, gamma, comparator);
+        if (comparator.compare(contracted, best) < 0) {
+            // check convergence
+            return;
+        }
+    }
+}"
+715,Math,100,jira,https://issues.apache.org/jira/browse/MATH-200,Critical,src/java/org/apache/commons/math/estimation/AbstractEstimator.java,158,188,"/**
+ * Get the covariance matrix of unbound estimated parameters.
+ * @param problem estimation problem
+ * @return covariance matrix
+ * @exception EstimationException if the covariance matrix
+ * cannot be computed (singular problem)
+ */
+public double[][] getCovariances(EstimationProblem problem) throws EstimationException {
+    // set up the jacobian
+    updateJacobian();
+    // compute transpose(J).J, avoiding building big intermediate matrices
+    final int rows = problem.getMeasurements().length;
+    final int cols = problem.getAllParameters().length;
+    final int max = cols * rows;
+    double[][] jTj = new double[cols][cols];
+    for (int i = 0; i < cols; ++i) {
+        for (int j = i; j < cols; ++j) {
+            double sum = 0;
+            for (int k = 0; k < max; k += cols) {
+                sum += jacobian[k + i] * jacobian[k + j];
+            }
+            jTj[i][j] = sum;
+            jTj[j][i] = sum;
+        }
+    }
+    try {
+        // compute the covariances matrix
+        return new RealMatrixImpl(jTj).inverse().getData();
+    } catch (InvalidMatrixException ime) {
+        throw new EstimationException(""unable to compute covariances: singular problem"", new Object[0]);
+    }
+}"
+716,Math,100,jira,https://issues.apache.org/jira/browse/MATH-200,Critical,src/java/org/apache/commons/math/estimation/AbstractEstimator.java,199,214,"/**
+ * Guess the errors in unbound estimated parameters.
+ * <p>Guessing is covariance-based, it only gives rough order of magnitude.</p>
+ * @param problem estimation problem
+ * @return errors in estimated parameters
+ * @exception EstimationException if the covariances matrix cannot be computed
+ * or the number of degrees of freedom is not positive (number of measurements
+ * lesser or equal to number of parameters)
+ */
+public double[] guessParametersErrors(EstimationProblem problem) throws EstimationException {
+    int m = problem.getMeasurements().length;
+    int p = problem.getAllParameters().length;
+    if (m <= p) {
+        throw new EstimationException(""no degrees of freedom ({0} measurements, {1} parameters)"", new Object[] { new Integer(m), new Integer(p) });
+    }
+    double[] errors = new double[problem.getAllParameters().length];
+    final double c = Math.sqrt(getChiSquare(problem) / (m - p));
+    double[][] covar = getCovariances(problem);
+    for (int i = 0; i < errors.length; ++i) {
+        errors[i] = Math.sqrt(covar[i][i]) * c;
+    }
+    return errors;
+}"

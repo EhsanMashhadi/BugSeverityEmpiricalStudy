@@ -1,0 +1,1504 @@
+,IsBuggy,ProjectName,ProjectVersion,Priority,StartLine,EndLine,LC,PI,MA,NBD,ML,D,MI,FO,R,E,SourceCode,LC_R,PI_R,MA_R,NBD_R,ML_R,D_R,FO_R,R_R,E_R,average_sum,average_sum_raw
+0,True,commons-math,remotes/origin/bugs-dot-jar_MATH-705_645d642b,Major,127,134,5.0,1.96,1.0,0.0,0.0,0.0,121.82,1.0,0.0,0.0,"/**
+ * Reinitialize the instance
+ * <p>Some Runge-Kutta integrators need fewer functions evaluations
+ * than their counterpart step interpolators. So the interpolator
+ * should perform the last evaluations they need by themselves. The
+ * {@link RungeKuttaIntegrator RungeKuttaIntegrator} and {@link
+ * EmbeddedRungeKuttaIntegrator EmbeddedRungeKuttaIntegrator}
+ * abstract classes call this method in order to let the step
+ * interpolator perform the evaluations it needs. These evaluations
+ * will be performed during the call to <code>doFinalize</code> if
+ * any, i.e. only if the step handler either calls the {@link
+ * AbstractStepInterpolator#finalizeStep finalizeStep} method or the
+ * {@link AbstractStepInterpolator#getInterpolatedState
+ * getInterpolatedState} method (for an interpolator which needs a
+ * finalization) or if it clones the step interpolator.</p>
+ * @param rkIntegrator integrator being used
+ * @param y reference to the integrator array holding the state at
+ * the end of the step
+ * @param yDotArray reference to the integrator array holding all the
+ * intermediate slopes
+ * @param forward integration direction indicator
+ * @param primaryMapper equations mapper for the primary equations set
+ * @param secondaryMappers equations mappers for the secondary equations sets
+ */
+public void reinitialize(final AbstractIntegrator rkIntegrator, final double[] y, final double[][] yDotArray, final boolean forward, final EquationsMapper primaryMapper, final EquationsMapper[] secondaryMappers) {
+    reinitialize(y, forward, primaryMapper, secondaryMappers);
+    this.yDotK = yDotArray;
+    this.integrator = rkIntegrator;
+}",-0.5714285714285714,-0.8081395348837211,-0.5,-1.0,-0.5454545454545454,-0.5732323232323232,-0.5384615384615384,,-0.2301621211999065,-4.766878634660606,8.96
+1,True,wicket,remotes/origin/bugs-dot-jar_WICKET-4927_8c827e33,Major,177,182,5.0,1.96,1.0,0.0,0.0,0.0,128.95,2.0,0.67,0.0,"@Override
+public void write(byte[] array) {
+    writeBuffered();
+    originalResponse.write(array);
+}",-0.5714285714285714,-0.8081395348837211,-0.5,-1.0,-0.5454545454545454,-0.5732323232323232,-0.46153846153846156,,-0.2301621211999065,-4.689955557737529,9.96
+2,True,accumulo,remotes/origin/bugs-dot-jar_ACCUMULO-2494_0dc92ca1,Major,60,64,5.0,1.96,1.0,0.0,0.0,0.0,126.86,0.0,0.92,0.0,"public void clear() {
+    sum = 0;
+    count = 0;
+    partialStdDev = 0;
+}",-0.5714285714285714,-0.8081395348837211,-0.5,-1.0,-0.5454545454545454,-0.5732323232323232,-0.6153846153846154,,-0.2301621211999065,-4.8438017115836836,7.96
+3,True,camel,remotes/origin/bugs-dot-jar_CAMEL-7213_336663c9,Major,127,132,6.0,2.0,1.0,0.0,0.0,0.0,120.87,2.0,0.47,0.0,"@Converter
+public static ByteBuffer toByteBuffer(Float value) {
+    ByteBuffer buf = ByteBuffer.allocate(4);
+    buf.putFloat(value);
+    return buf;
+}",-0.5238095238095238,-0.7848837209302327,-0.5,-1.0,-0.5454545454545454,-0.5732323232323232,-0.46153846153846156,,-0.2301621211999065,-4.619080696164993,11.0
+4,True,commons-math,remotes/origin/bugs-dot-jar_MATH-373_bfe4623c,Major,99,103,5.0,1.96,1.0,0.0,0.0,0.0,126.72,0.0,1.0,0.0,"/**
+ * {@inheritDoc}
+ */
+@Override
+public void clear() {
+    value = Double.NaN;
+    n = 0;
+}",-0.5714285714285714,-0.8081395348837211,-0.5,-1.0,-0.5454545454545454,-0.5732323232323232,-0.6153846153846154,,-0.2301621211999065,-4.8438017115836836,7.96
+5,True,jackrabbit-oak,remotes/origin/bugs-dot-jar_OAK-1822_3e83a4c1,Major,159,164,6.0,1.89,1.0,0.0,0.0,0.0,117.59,1.0,0.63,0.0,"/**
+ * Set the property to the given value.
+ *
+ * @param property the property name
+ * @param value the value
+ */
+void set(String property, Object value) {
+    Operation op = new Operation();
+    op.type = Operation.Type.SET;
+    op.value = value;
+    changes.put(new Key(property, null), op);
+}",-0.5238095238095238,-0.8488372093023259,-0.5,-1.0,-0.5454545454545454,-0.5732323232323232,-0.5384615384615384,,-0.2301621211999065,-4.759957261460164,9.89
+6,True,jackrabbit-oak,remotes/origin/bugs-dot-jar_OAK-1822_016df669,Major,147,151,5.0,1.96,1.0,0.0,0.0,0.0,120.64,2.0,0.88,0.0,"/**
+ * Remove a map entry.
+ * The property is a map of revisions / values.
+ *
+ * @param property the property
+ * @param revision the revision
+ */
+public void removeMapEntry(@Nonnull String property, @Nonnull Revision revision) {
+    Operation op = new Operation();
+    op.type = Operation.Type.REMOVE_MAP_ENTRY;
+    changes.put(new Key(property, checkNotNull(revision)), op);
+}",-0.5714285714285714,-0.8081395348837211,-0.5,-1.0,-0.5454545454545454,-0.5732323232323232,-0.46153846153846156,,-0.2301621211999065,-4.689955557737529,9.96
+7,True,accumulo,remotes/origin/bugs-dot-jar_ACCUMULO-4138_4d23d784,Major,119,123,5.0,1.96,1.0,0.0,0.0,0.0,124.37,1.0,0.12,0.0,"public static Option startRowOpt() {
+    final Option o = new Option(START_ROW_OPT, ""begin-row"", true, ""begin row (NOT) inclusive"");
+    o.setArgName(""begin-row"");
+    return o;
+}",-0.5714285714285714,-0.8081395348837211,-0.5,-1.0,-0.5454545454545454,-0.5732323232323232,-0.5384615384615384,,-0.2301621211999065,-4.766878634660606,8.96
+8,True,jackrabbit-oak,remotes/origin/bugs-dot-jar_OAK-596_9b268da0,Major,147,152,6.0,2.0,1.0,0.0,0.0,0.0,123.04,2.0,0.31,0.0,"@Override
+public MongoNode copy() {
+    MongoNode copy = new MongoNode();
+    copy.putAll((Map) super.copy());
+    return copy;
+}",-0.5238095238095238,-0.7848837209302327,-0.5,-1.0,-0.5454545454545454,-0.5732323232323232,-0.46153846153846156,,-0.2301621211999065,-4.619080696164993,11.0
+9,True,wicket,remotes/origin/bugs-dot-jar_WICKET-5441_8ccb1f6d,Major,196,201,5.0,1.96,1.0,0.0,0.0,0.0,123.81,2.0,0.87,0.0,"/**
+ *  set resource caching to maximum and set cache-visibility to 'public'
+ *
+ *  @param response
+ */
+@Override
+public void decorateResponse(AbstractResource.ResourceResponse response, IStaticCacheableResource resource) {
+    response.setCacheDurationToMaximum();
+    response.setCacheScope(WebResponse.CacheScope.PUBLIC);
+}",-0.5714285714285714,-0.8081395348837211,-0.5,-1.0,-0.5454545454545454,-0.5732323232323232,-0.46153846153846156,,-0.2301621211999065,-4.689955557737529,9.96
+10,True,jackrabbit-oak,remotes/origin/bugs-dot-jar_OAK-3013_eabb4066,Major,91,96,6.0,2.0,1.0,0.0,0.0,0.0,123.04,2.0,0.12,0.0,"@Override
+public void setLimit(long limit) {
+    this.limit = limit;
+    left.setLimit(limit);
+    right.setLimit(limit);
+}",-0.5238095238095238,-0.7848837209302327,-0.5,-1.0,-0.5454545454545454,-0.5732323232323232,-0.46153846153846156,,-0.2301621211999065,-4.619080696164993,11.0
+11,True,jackrabbit-oak,remotes/origin/bugs-dot-jar_OAK-3019_5135cf4b,Major,108,114,5.0,1.96,1.0,0.0,0.0,0.0,121.41,1.0,0.0,0.0,"@Override
+public boolean childNodeChanged(String name, NodeState before, NodeState after) {
+    Node node = new Node(nodeAfter, name);
+    return after.compareAgainstBaseState(before, new Diff(versionManager, node, exceptions));
+}",-0.5714285714285714,-0.8081395348837211,-0.5,-1.0,-0.5454545454545454,-0.5732323232323232,-0.5384615384615384,,-0.2301621211999065,-4.766878634660606,8.96
+12,True,wicket,remotes/origin/bugs-dot-jar_WICKET-4927_8c827e33,Major,109,114,5.0,1.96,1.0,0.0,0.0,0.0,127.9,2.0,0.6,0.0,"@Override
+public void sendRedirect(String url) {
+    checkHeader();
+    bufferedResponse.sendRedirect(url);
+}",-0.5714285714285714,-0.8081395348837211,-0.5,-1.0,-0.5454545454545454,-0.5732323232323232,-0.46153846153846156,,-0.2301621211999065,-4.689955557737529,9.96
+13,True,flink,remotes/origin/bugs-dot-jar_FLINK-1640_8f321c72,Major,249,255,5.0,1.96,1.0,0.0,0.0,0.0,123.67,2.0,0.86,0.0,"/**
+ *  Normalizes a path string.
+ *
+ *  @param path
+ *         the path string to normalize
+ *  @return the normalized path string
+ */
+private String normalizePath(String path) {
+    // remove double slashes & backslashes
+    path = path.replace(""//"", ""/"");
+    path = path.replace(""\\"", ""/"");
+    return path;
+}",-0.5714285714285714,-0.8081395348837211,-0.5,-1.0,-0.5454545454545454,-0.5732323232323232,-0.46153846153846156,,-0.2301621211999065,-4.689955557737529,9.96
+14,True,wicket,remotes/origin/bugs-dot-jar_WICKET-2506_0f8a2990,Major,257,262,5.0,1.96,1.0,0.0,0.0,0.0,132.72,2.0,0.38,0.0,"@Override
+protected void onDetach() {
+    restoreOriginalChildVisibility();
+    super.onDetach();
+}",-0.5714285714285714,-0.8081395348837211,-0.5,-1.0,-0.5454545454545454,-0.5732323232323232,-0.46153846153846156,,-0.2301621211999065,-4.689955557737529,9.96
+15,True,maven,remotes/origin/bugs-dot-jar_MNG-1856_faa5cf27,Minor,65,187,60.0,2.49,16.0,2.0,30.0,3.04,64.6,67.0,0.0,3321.59,"private void assembleModelInheritance(Model child, Model parent, String childPathAdjustment, boolean appendPaths) {
+    // cannot inherit from null parent.
+    if (parent == null) {
+        return;
+    }
+    // Group id
+    if (child.getGroupId() == null) {
+        child.setGroupId(parent.getGroupId());
+    }
+    // version
+    if (child.getVersion() == null) {
+        if (child.getParent() != null) {
+            child.setVersion(child.getParent().getVersion());
+        }
+    }
+    // inceptionYear
+    if (child.getInceptionYear() == null) {
+        child.setInceptionYear(parent.getInceptionYear());
+    }
+    // url
+    if (child.getUrl() == null) {
+        if (parent.getUrl() != null) {
+            child.setUrl(appendPath(parent.getUrl(), child.getArtifactId(), childPathAdjustment, appendPaths));
+        } else {
+            child.setUrl(parent.getUrl());
+        }
+    }
+    // ----------------------------------------------------------------------
+    // Distribution
+    // ----------------------------------------------------------------------
+    assembleDistributionInheritence(child, parent, childPathAdjustment, appendPaths);
+    // issueManagement
+    if (child.getIssueManagement() == null) {
+        child.setIssueManagement(parent.getIssueManagement());
+    }
+    // description
+    if (child.getDescription() == null) {
+        child.setDescription(parent.getDescription());
+    }
+    // Organization
+    if (child.getOrganization() == null) {
+        child.setOrganization(parent.getOrganization());
+    }
+    // Scm
+    assembleScmInheritance(child, parent, childPathAdjustment, appendPaths);
+    // ciManagement
+    if (child.getCiManagement() == null) {
+        child.setCiManagement(parent.getCiManagement());
+    }
+    // developers
+    if (child.getDevelopers().size() == 0) {
+        child.setDevelopers(parent.getDevelopers());
+    }
+    // licenses
+    if (child.getLicenses().size() == 0) {
+        child.setLicenses(parent.getLicenses());
+    }
+    // developers
+    if (child.getContributors().size() == 0) {
+        child.setContributors(parent.getContributors());
+    }
+    // mailingLists
+    if (child.getMailingLists().size() == 0) {
+        child.setMailingLists(parent.getMailingLists());
+    }
+    // Build
+    assembleBuildInheritance(child, parent);
+    assembleDependencyInheritance(child, parent);
+    child.setRepositories(ModelUtils.mergeRepositoryLists(child.getRepositories(), parent.getRepositories()));
+    child.setPluginRepositories(ModelUtils.mergeRepositoryLists(child.getPluginRepositories(), parent.getPluginRepositories()));
+    assembleReportingInheritance(child, parent);
+    assembleDependencyManagementInheritance(child, parent);
+    assembleDistributionManagementInheritance(child, parent);
+    Properties props = new Properties();
+    props.putAll(parent.getProperties());
+    props.putAll(child.getProperties());
+    child.setProperties(props);
+}",2.0476190476190474,-0.5,2.0,0.0,2.1818181818181817,0.19444444444444445,4.538461538461538,,1.1087243939601592,11.571067606303371,3502.12
+16,True,jackrabbit-oak,remotes/origin/bugs-dot-jar_OAK-642_7a84b3a8,Minor,213,286,59.0,5.33,18.0,4.0,22.0,4.41,64.5,29.0,0.0,4751.6,"@Override
+@Nonnull
+public Node addNode(final String relPath, final String primaryNodeTypeName) throws RepositoryException {
+    checkStatus();
+    checkProtected();
+    return sessionDelegate.perform(new SessionOperation<Node>() {
+
+        @Override
+        public Node perform() throws RepositoryException {
+            String oakPath = sessionDelegate.getOakPathKeepIndexOrThrowNotFound(relPath);
+            String oakName = PathUtils.getName(oakPath);
+            String parentPath = sessionDelegate.getOakPath(PathUtils.getParentPath(oakPath));
+            // handle index
+            if (oakName.contains(""["")) {
+                throw new RepositoryException(""Cannot create a new node using a name including an index"");
+            }
+            NodeDelegate parent = dlg.getChild(parentPath);
+            if (parent == null) {
+                // is it a property?
+                String grandParentPath = PathUtils.getParentPath(parentPath);
+                NodeDelegate grandParent = dlg.getChild(grandParentPath);
+                if (grandParent != null) {
+                    String propName = PathUtils.getName(parentPath);
+                    if (grandParent.getProperty(propName) != null) {
+                        throw new ConstraintViolationException(""Can't add new node to property."");
+                    }
+                }
+                throw new PathNotFoundException(relPath);
+            }
+            if (parent.getChild(oakName) != null) {
+                throw new ItemExistsException(relPath);
+            }
+            String ntName = primaryNodeTypeName;
+            if (ntName == null) {
+                DefinitionProvider dp = sessionDelegate.getDefinitionProvider();
+                try {
+                    String childName = sessionDelegate.getOakName(PathUtils.getName(relPath));
+                    NodeDefinition def = dp.getDefinition(new NodeImpl<NodeDelegate>(parent), childName);
+                    ntName = def.getDefaultPrimaryTypeName();
+                } catch (RepositoryException e) {
+                    throw new ConstraintViolationException(""no matching child node definition found for "" + relPath);
+                }
+            }
+            // TODO: figure out the right place for this check
+            NodeTypeManager ntm = sessionDelegate.getNodeTypeManager();
+            // throws on not found
+            NodeType nt = ntm.getNodeType(ntName);
+            if (nt.isAbstract() || nt.isMixin()) {
+                throw new ConstraintViolationException();
+            }
+            // TODO: END
+            NodeDelegate added = parent.addChild(oakName);
+            if (added == null) {
+                throw new ItemExistsException();
+            }
+            if (getPrimaryNodeType().hasOrderableChildNodes()) {
+                dlg.setOrderableChildren(true);
+            }
+            NodeImpl<?> childNode = new NodeImpl<NodeDelegate>(added);
+            childNode.internalSetPrimaryType(ntName);
+            childNode.autoCreateItems();
+            return childNode;
+        }
+    });
+}",2.0,1.1511627906976745,2.3333333333333335,1.0,1.4545454545454546,0.5404040404040404,1.6153846153846154,,1.6851414428867413,11.77997167725186,4893.34
+17,True,camel,remotes/origin/bugs-dot-jar_CAMEL-8125_36e7b668,Minor,1999,2167,115.0,3.38,33.0,3.0,44.0,6.03,47.41,86.0,0.0,11164.5,"private void doStartCamel() throws Exception {
+    if (applicationContextClassLoader == null) {
+        // Using the TCCL as the default value of ApplicationClassLoader
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        if (cl == null) {
+            // use the classloader that loaded this class
+            cl = this.getClass().getClassLoader();
+        }
+        setApplicationContextClassLoader(cl);
+    }
+    if (log.isDebugEnabled()) {
+        log.debug(""Using ClassResolver={}, PackageScanClassResolver={}, ApplicationContextClassLoader={}"", new Object[] { getClassResolver(), getPackageScanClassResolver(), getApplicationContextClassLoader() });
+    }
+    if (isStreamCaching()) {
+        log.info(""StreamCaching is enabled on CamelContext: {}"", getName());
+    }
+    if (isTracing()) {
+        // tracing is added in the DefaultChannel so we can enable it on the fly
+        log.info(""Tracing is enabled on CamelContext: {}"", getName());
+    }
+    if (isUseMDCLogging()) {
+        // log if MDC has been enabled
+        log.info(""MDC logging is enabled on CamelContext: {}"", getName());
+    }
+    if (isHandleFault()) {
+        // only add a new handle fault if not already configured
+        if (HandleFault.getHandleFault(this) == null) {
+            log.info(""HandleFault is enabled on CamelContext: {}"", getName());
+            addInterceptStrategy(new HandleFault());
+        }
+    }
+    if (getDelayer() != null && getDelayer() > 0) {
+        log.info(""Delayer is enabled with: {} ms. on CamelContext: {}"", getDelayer(), getName());
+    }
+    // register debugger
+    if (getDebugger() != null) {
+        log.info(""Debugger: {} is enabled on CamelContext: {}"", getDebugger(), getName());
+        // register this camel context on the debugger
+        getDebugger().setCamelContext(this);
+        startService(getDebugger());
+        addInterceptStrategy(new Debug(getDebugger()));
+    }
+    // start management strategy before lifecycles are started
+    ManagementStrategy managementStrategy = getManagementStrategy();
+    // inject CamelContext if aware
+    if (managementStrategy instanceof CamelContextAware) {
+        ((CamelContextAware) managementStrategy).setCamelContext(this);
+    }
+    ServiceHelper.startService(managementStrategy);
+    // start lifecycle strategies
+    ServiceHelper.startServices(lifecycleStrategies);
+    Iterator<LifecycleStrategy> it = lifecycleStrategies.iterator();
+    while (it.hasNext()) {
+        LifecycleStrategy strategy = it.next();
+        try {
+            strategy.onContextStart(this);
+        } catch (VetoCamelContextStartException e) {
+            // okay we should not start Camel since it was vetoed
+            log.warn(""Lifecycle strategy vetoed starting CamelContext ({}) due {}"", getName(), e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            log.warn(""Lifecycle strategy "" + strategy + "" failed starting CamelContext ({}) due {}"", getName(), e.getMessage());
+            throw e;
+        }
+    }
+    // start notifiers as services
+    for (EventNotifier notifier : getManagementStrategy().getEventNotifiers()) {
+        if (notifier instanceof Service) {
+            Service service = (Service) notifier;
+            for (LifecycleStrategy strategy : lifecycleStrategies) {
+                strategy.onServiceAdd(this, service, null);
+            }
+        }
+        if (notifier instanceof Service) {
+            startService((Service) notifier);
+        }
+    }
+    // must let some bootstrap service be started before we can notify the starting event
+    EventHelper.notifyCamelContextStarting(this);
+    forceLazyInitialization();
+    // re-create endpoint registry as the cache size limit may be set after the constructor of this instance was called.
+    // and we needed to create endpoints up-front as it may be accessed before this context is started
+    endpoints = new EndpointRegistry(this, endpoints);
+    addService(endpoints);
+    // special for executorServiceManager as want to stop it manually
+    doAddService(executorServiceManager, false);
+    addService(producerServicePool);
+    addService(inflightRepository);
+    addService(shutdownStrategy);
+    addService(packageScanClassResolver);
+    addService(restRegistry);
+    if (runtimeEndpointRegistry != null) {
+        if (runtimeEndpointRegistry instanceof EventNotifier) {
+            getManagementStrategy().addEventNotifier((EventNotifier) runtimeEndpointRegistry);
+        }
+        addService(runtimeEndpointRegistry);
+    }
+    // eager lookup any configured properties component to avoid subsequent lookup attempts which may impact performance
+    // due we use properties component for property placeholder resolution at runtime
+    Component existing = lookupPropertiesComponent();
+    if (existing != null) {
+        // store reference to the existing properties component
+        if (existing instanceof PropertiesComponent) {
+            propertiesComponent = (PropertiesComponent) existing;
+        } else {
+            // properties component must be expected type
+            throw new IllegalArgumentException(""Found properties component of type: "" + existing.getClass() + "" instead of expected: "" + PropertiesComponent.class);
+        }
+    }
+    // start components
+    startServices(components.values());
+    // start the route definitions before the routes is started
+    startRouteDefinitions(routeDefinitions);
+    // is there any stream caching enabled then log an info about this and its limit of spooling to disk, so people is aware of this
+    boolean streamCachingInUse = isStreamCaching();
+    if (!streamCachingInUse) {
+        for (RouteDefinition route : routeDefinitions) {
+            Boolean routeCache = CamelContextHelper.parseBoolean(this, route.getStreamCache());
+            if (routeCache != null && routeCache) {
+                streamCachingInUse = true;
+                break;
+            }
+        }
+    }
+    if (isAllowUseOriginalMessage()) {
+        log.info(""AllowUseOriginalMessage is enabled. If access to the original message is not needed,"" + "" then its recommended to turn this option off as it may improve performance."");
+    }
+    if (streamCachingInUse) {
+        // stream caching is in use so enable the strategy
+        getStreamCachingStrategy().setEnabled(true);
+        addService(getStreamCachingStrategy());
+    } else {
+        // log if stream caching is not in use as this can help people to enable it if they use streams
+        log.info(""StreamCaching is not in use. If using streams then its recommended to enable stream caching."" + "" See more details at http://camel.apache.org/stream-caching.html"");
+    }
+    // start routes
+    if (doNotStartRoutesOnFirstStart) {
+        log.debug(""Skip starting of routes as CamelContext has been configured with autoStartup=false"");
+    }
+    // invoke this logic to warmup the routes and if possible also start the routes
+    doStartOrResumeRoutes(routeServices, true, !doNotStartRoutesOnFirstStart, false, true);
+// starting will continue in the start method
+}",4.666666666666667,0.017441860465116168,4.833333333333333,0.5,3.4545454545454546,0.9494949494949496,6.0,,4.270091822996864,24.691574087502385,11454.91
+18,True,camel,remotes/origin/bugs-dot-jar_CAMEL-5140_8898d491,Minor,76,201,93.0,2.94,18.0,2.0,26.0,9.11,54.67,66.0,0.0,15752.46,"public boolean process(Exchange exchange, AsyncCallback callback) {
+    // do we have an explicit method name we always should invoke (either configured on endpoint or as a header)
+    String explicitMethodName = exchange.getIn().getHeader(Exchange.BEAN_METHOD_NAME, method, String.class);
+    Object bean;
+    BeanInfo beanInfo;
+    try {
+        bean = beanHolder.getBean();
+        beanInfo = beanHolder.getBeanInfo();
+    } catch (Throwable e) {
+        exchange.setException(e);
+        callback.done(true);
+        return true;
+    }
+    // do we have a custom adapter for this POJO to a Processor
+    // should not be invoked if an explicit method has been set
+    Processor processor = getProcessor();
+    if (explicitMethodName == null && processor != null) {
+        LOG.trace(""Using a custom adapter as bean invocation: {}"", processor);
+        try {
+            processor.process(exchange);
+        } catch (Throwable e) {
+            exchange.setException(e);
+        }
+        callback.done(true);
+        return true;
+    }
+    Message in = exchange.getIn();
+    // is the message proxied using a BeanInvocation?
+    BeanInvocation beanInvoke = null;
+    if (in.getBody() != null && in.getBody() instanceof BeanInvocation) {
+        // BeanInvocation would be stored directly as the message body
+        // do not force any type conversion attempts as it would just be unnecessary and cost a bit performance
+        // so a regular instanceof check is sufficient
+        beanInvoke = (BeanInvocation) in.getBody();
+    }
+    if (beanInvoke != null) {
+        // Now it gets a bit complicated as ProxyHelper can proxy beans which we later
+        // intend to invoke (for example to proxy and invoke using spring remoting).
+        // and therefore the message body contains a BeanInvocation object.
+        // However this can causes problem if we in a Camel route invokes another bean,
+        // so we must test whether BeanHolder and BeanInvocation is the same bean or not
+        LOG.trace(""Exchange IN body is a BeanInvocation instance: {}"", beanInvoke);
+        Class<?> clazz = beanInvoke.getMethod().getDeclaringClass();
+        boolean sameBean = clazz.isInstance(bean);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(""BeanHolder bean: {} and beanInvocation bean: {} is same instance: {}"", new Object[] { bean.getClass(), clazz, sameBean });
+        }
+        if (sameBean) {
+            beanInvoke.invoke(bean, exchange);
+            // propagate headers
+            exchange.getOut().getHeaders().putAll(exchange.getIn().getHeaders());
+            callback.done(true);
+            return true;
+        }
+    }
+    // set temporary header which is a hint for the bean info that introspect the bean
+    if (in.getHeader(Exchange.BEAN_MULTI_PARAMETER_ARRAY) == null) {
+        in.setHeader(Exchange.BEAN_MULTI_PARAMETER_ARRAY, isMultiParameterArray());
+    }
+    MethodInvocation invocation;
+    // set explicit method name to invoke as a header, which is how BeanInfo can detect it
+    if (explicitMethodName != null) {
+        in.setHeader(Exchange.BEAN_METHOD_NAME, explicitMethodName);
+    }
+    try {
+        invocation = beanInfo.createInvocation(bean, exchange);
+    } catch (Throwable e) {
+        exchange.setException(e);
+        callback.done(true);
+        return true;
+    } finally {
+        // must remove headers as they were provisional
+        in.removeHeader(Exchange.BEAN_MULTI_PARAMETER_ARRAY);
+        in.removeHeader(Exchange.BEAN_METHOD_NAME);
+    }
+    if (invocation == null) {
+        throw new IllegalStateException(""No method invocation could be created, no matching method could be found on: "" + bean);
+    }
+    Object value;
+    try {
+        AtomicBoolean sync = new AtomicBoolean(true);
+        value = invocation.proceed(callback, sync);
+        if (!sync.get()) {
+            LOG.trace(""Processing exchangeId: {} is continued being processed asynchronously"", exchange.getExchangeId());
+            // so we break out now, then the callback will be invoked which then continue routing from where we left here
+            return false;
+        }
+        LOG.trace(""Processing exchangeId: {} is continued being processed synchronously"", exchange.getExchangeId());
+    } catch (InvocationTargetException e) {
+        // let's unwrap the exception when it's an invocation target exception
+        exchange.setException(e.getCause());
+        callback.done(true);
+        return true;
+    } catch (Throwable e) {
+        exchange.setException(e);
+        callback.done(true);
+        return true;
+    }
+    // if the method returns something then set the value returned on the Exchange
+    if (!invocation.getMethod().getReturnType().equals(Void.TYPE) && value != Void.TYPE) {
+        if (exchange.getPattern().isOutCapable()) {
+            // force out creating if not already created (as its lazy)
+            LOG.debug(""Setting bean invocation result on the OUT message: {}"", value);
+            exchange.getOut().setBody(value);
+            // propagate headers
+            exchange.getOut().getHeaders().putAll(exchange.getIn().getHeaders());
+        } else {
+            // if not out then set it on the in
+            LOG.debug(""Setting bean invocation result on the IN message: {}"", value);
+            exchange.getIn().setBody(value);
+        }
+    }
+    callback.done(true);
+    return true;
+}",3.619047619047619,-0.23837209302325593,2.3333333333333335,0.0,1.8181818181818181,1.7272727272727273,4.461538461538462,,6.119434389687448,19.84043625603815,15969.51
+19,True,wicket,remotes/origin/bugs-dot-jar_WICKET-5720_2fc6a395,Minor,653,700,30.0,6.4,9.0,7.0,19.0,12.48,81.42,10.0,0.0,6349.15,"/**
+ *  Joins string fragments using the specified separator
+ *
+ *  @param separator
+ *  @param fragments
+ *  @return combined fragments
+ */
+public static String join(final String separator, final String... fragments) {
+    if ((fragments == null) || (fragments.length < 1)) {
+        // no elements
+        return """";
+    } else if (fragments.length < 2) {
+        // single element
+        return fragments[0];
+    } else {
+        // two or more elements
+        StringBuilder buff = new StringBuilder(128);
+        if (fragments[0] != null) {
+            buff.append(fragments[0]);
+        }
+        for (int i = 1; i < fragments.length; i++) {
+            String fragment = fragments[i];
+            if ((fragments[i - 1] != null) || (fragment != null)) {
+                boolean lhsClosed = fragments[i - 1].endsWith(separator);
+                boolean rhsClosed = fragment.startsWith(separator);
+                if (lhsClosed && rhsClosed) {
+                    buff.append(fragment.substring(1));
+                } else if (!lhsClosed && !rhsClosed) {
+                    if (!Strings.isEmpty(fragment)) {
+                        buff.append(separator);
+                    }
+                    buff.append(fragment);
+                } else {
+                    buff.append(fragment);
+                }
+            }
+        }
+        return buff.toString();
+    }
+}",0.6190476190476191,1.7732558139534889,0.8333333333333334,2.5,1.1818181818181819,2.5782828282828287,0.15384615384615385,,2.3290915247132045,11.96867545499481,6443.029999999999
+20,True,camel,remotes/origin/bugs-dot-jar_CAMEL-3394_18e1a142,Minor,432,524,57.0,3.71,12.0,3.0,19.0,7.16,66.91,37.0,0.0,7040.69,"public void done(boolean doneSync) {
+    // we are done with the exchange pair
+    pair.done();
+    // we only have to handle async completion of the routing slip
+    if (doneSync) {
+        return;
+    }
+    // continue processing the multicast asynchronously
+    Exchange subExchange = exchange;
+    // Decide whether to continue with the multicast or not; similar logic to the Pipeline
+    // remember to test for stop on exception and aggregate before copying back results
+    boolean continueProcessing = PipelineHelper.continueProcessing(subExchange, ""Sequential processing failed for number "" + total.get(), LOG);
+    if (stopOnException && !continueProcessing) {
+        if (subExchange.getException() != null) {
+            // wrap in exception to explain where it failed
+            subExchange.setException(new CamelExchangeException(""Sequential processing failed for number "" + total, subExchange, subExchange.getException()));
+        } else {
+            // we want to stop on exception, and the exception was handled by the error handler
+            // this is similar to what the pipeline does, so we should do the same to not surprise end users
+            // so we should set the failed exchange as the result and be done
+            result.set(subExchange);
+        }
+        // and do the done work
+        doDone(original, subExchange, callback, false);
+        return;
+    }
+    try {
+        doAggregate(getAggregationStrategy(subExchange), result, subExchange);
+    } catch (Throwable e) {
+        // wrap in exception to explain where it failed
+        subExchange.setException(new CamelExchangeException(""Sequential processing failed for number "" + total, subExchange, e));
+        // and do the done work
+        doDone(original, subExchange, callback, false);
+        return;
+    }
+    total.incrementAndGet();
+    // maybe there are more processors to multicast
+    while (it.hasNext()) {
+        // prepare and run the next
+        ProcessorExchangePair pair = it.next();
+        subExchange = pair.getExchange();
+        updateNewExchange(subExchange, total.get(), pairs, it);
+        boolean sync = doProcessSequential(original, result, pairs, it, pair, callback, total);
+        if (!sync) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(""Processing exchangeId: "" + original.getExchangeId() + "" is continued being processed asynchronously"");
+            }
+            return;
+        }
+        // Decide whether to continue with the multicast or not; similar logic to the Pipeline
+        // remember to test for stop on exception and aggregate before copying back results
+        continueProcessing = PipelineHelper.continueProcessing(subExchange, ""Sequential processing failed for number "" + total.get(), LOG);
+        if (stopOnException && !continueProcessing) {
+            if (subExchange.getException() != null) {
+                // wrap in exception to explain where it failed
+                subExchange.setException(new CamelExchangeException(""Sequential processing failed for number "" + total, subExchange, subExchange.getException()));
+            } else {
+                // we want to stop on exception, and the exception was handled by the error handler
+                // this is similar to what the pipeline does, so we should do the same to not surprise end users
+                // so we should set the failed exchange as the result and be done
+                result.set(subExchange);
+            }
+            // and do the done work
+            doDone(original, subExchange, callback, false);
+            return;
+        }
+        try {
+            doAggregate(getAggregationStrategy(subExchange), result, subExchange);
+        } catch (Throwable e) {
+            // wrap in exception to explain where it failed
+            subExchange.setException(new CamelExchangeException(""Sequential processing failed for number "" + total, subExchange, e));
+            // and do the done work
+            doDone(original, subExchange, callback, false);
+            return;
+        }
+        total.incrementAndGet();
+    }
+    // do the done work
+    subExchange = result.get() != null ? result.get() : null;
+    doDone(original, subExchange, callback, false);
+}",1.9047619047619047,0.2093023255813953,1.3333333333333333,0.5,1.1818181818181819,1.234848484848485,2.230769230769231,,2.607841635561862,11.202675096674394,7179.5599999999995
+21,True,wicket,remotes/origin/bugs-dot-jar_WICKET-5689_2ac29d30,Minor,187,298,41.0,3.33,10.0,5.0,26.0,7.11,73.35,45.0,0.0,6174.67,"/*
+	 * TODO: simplify the code below. See WICKET-3347
+	 */
+@Override
+public void respond(RequestCycle requestCycle) {
+    Url currentUrl = requestCycle.getUrlRenderer().getBaseUrl();
+    Url targetUrl = requestCycle.mapUrlFor(getRenderPageRequestHandler());
+    // 
+    // the code below is little hairy but we have to handle 3 redirect policies,
+    // 3 rendering strategies and two kind of requests (ajax and normal)
+    // 
+    // try to get an already rendered buffered response for current URL
+    BufferedWebResponse bufferedResponse = getAndRemoveBufferedResponse(currentUrl);
+    if (bufferedResponse != null) {
+        logger.warn(""The Buffered response should be handled by BufferedResponseRequestHandler"");
+        // if there is saved response for this URL render it
+        bufferedResponse.writeTo((WebResponse) requestCycle.getResponse());
+    } else if (shouldRenderPageAndWriteResponse(requestCycle, currentUrl, targetUrl)) {
+        BufferedWebResponse response = renderPage(currentUrl, requestCycle);
+        if (response != null) {
+            response.writeTo((WebResponse) requestCycle.getResponse());
+        }
+    } else if (shouldRedirectToTargetUrl(requestCycle, currentUrl, targetUrl)) {
+        redirectTo(targetUrl, requestCycle);
+    // note: if we had session here we would render the page to buffer and then
+    // redirect to URL generated *after* page has been rendered (the statelessness
+    // may change during render). this would save one redirect because now we have
+    // to render to URL generated *before* page is rendered, render the page, get
+    // URL after render and if the URL is different (meaning page is not stateless),
+    // save the buffer and redirect again (which is pretty much what the next step
+    // does)
+    } else {
+        if (isRedirectToBuffer() == false && logger.isDebugEnabled()) {
+            String details = String.format(""redirect strategy: '%s', isAjax: '%s', redirect policy: '%s', "" + ""current url: '%s', target url: '%s', is new: '%s', is stateless: '%s', is temporary: '%s'"", Application.get().getRequestCycleSettings().getRenderStrategy(), isAjax(requestCycle), getRedirectPolicy(), currentUrl, targetUrl, isNewPageInstance(), isPageStateless(), isSessionTemporary());
+            logger.debug(""Falling back to Redirect_To_Buffer render strategy because none of the conditions "" + ""matched. Details: "" + details);
+        }
+        // force creation of possible stateful page to get the final target url
+        getPage();
+        Url beforeRenderUrl = requestCycle.mapUrlFor(getRenderPageRequestHandler());
+        // redirect to buffer
+        BufferedWebResponse response = renderPage(beforeRenderUrl, requestCycle);
+        if (response == null) {
+            return;
+        }
+        // the url might have changed after page has been rendered (e.g. the
+        // stateless flag might have changed because stateful components
+        // were added)
+        final Url afterRenderUrl = requestCycle.mapUrlFor(getRenderPageRequestHandler());
+        if (beforeRenderUrl.getSegments().equals(afterRenderUrl.getSegments()) == false) {
+            // the amount of segments is different - generated relative URLs
+            // will not work, we need to rerender the page. This can happen
+            // with IRequestHandlers that produce different URLs with
+            // different amount of segments for stateless and stateful pages
+            response = renderPage(afterRenderUrl, requestCycle);
+        }
+        if (currentUrl.equals(afterRenderUrl)) {
+            // no need to redirect when both urls are exactly the same
+            response.writeTo((WebResponse) requestCycle.getResponse());
+        } else // if page is still stateless after render
+        if (isPageStateless() && !enableRedirectForStatelessPage()) {
+            // we don't want the redirect to happen for stateless page
+            // example:
+            // when a normal mounted stateful page is hit at /mount/point
+            // wicket renders the page to buffer and redirects to /mount/point?12
+            // but for stateless page the redirect is not necessary
+            // also for listener interface on stateful page we want to redirect
+            // after the listener is invoked, but on stateless page the user
+            // must ask for redirect explicitly
+            response.writeTo((WebResponse) requestCycle.getResponse());
+        } else {
+            storeBufferedResponse(afterRenderUrl, response);
+            redirectTo(afterRenderUrl, requestCycle);
+        }
+    }
+}",1.1428571428571428,-0.011627906976744198,1.0,1.5,1.8181818181818181,1.222222222222222,2.8461538461538463,,2.258761074788582,11.776548197226868,6312.11
+22,True,flink,remotes/origin/bugs-dot-jar_FLINK-2437_a41bc8cc,Minor,1257,1309,44.0,4.46,13.0,4.0,40.0,8.12,70.78,38.0,0.0,8131.57,"/**
+ *  Checks if the given field is a valid pojo field:
+ *  - it is public
+ *  OR
+ *   - there are getter and setter methods for the field.
+ *
+ *  @param f field to check
+ *  @param clazz class of field
+ *  @param typeHierarchy type hierarchy for materializing generic types
+ */
+private boolean isValidPojoField(Field f, Class<?> clazz, ArrayList<Type> typeHierarchy) {
+    if (Modifier.isPublic(f.getModifiers())) {
+        return true;
+    } else {
+        boolean hasGetter = false, hasSetter = false;
+        final String fieldNameLow = f.getName().toLowerCase();
+        Type fieldType = f.getGenericType();
+        TypeVariable<?> fieldTypeGeneric = null;
+        if (fieldType instanceof TypeVariable) {
+            fieldTypeGeneric = (TypeVariable<?>) fieldType;
+            fieldType = materializeTypeVariable(typeHierarchy, (TypeVariable<?>) fieldType);
+        }
+        for (Method m : clazz.getMethods()) {
+            // check for getter
+            if (// The name should be ""get<FieldName>"" or ""<fieldName>"" (for scala) or ""is<fieldName>"" for boolean fields.
+            (m.getName().toLowerCase().equals(""get"" + fieldNameLow) || m.getName().toLowerCase().equals(""is"" + fieldNameLow) || m.getName().toLowerCase().equals(fieldNameLow)) && // no arguments for the getter
+            m.getParameterTypes().length == 0 && // return type is same as field type (or the generic variant of it)
+            (m.getGenericReturnType().equals(fieldType) || (fieldTypeGeneric != null && m.getGenericReturnType().equals(fieldTypeGeneric)))) {
+                if (hasGetter) {
+                    throw new IllegalStateException(""Detected more than one getter"");
+                }
+                hasGetter = true;
+            }
+            // check for setters (<FieldName>_$eq for scala)
+            if ((m.getName().toLowerCase().equals(""set"" + fieldNameLow) || m.getName().toLowerCase().equals(fieldNameLow + ""_$eq"")) && // one parameter of the field's type
+            m.getParameterTypes().length == 1 && (m.getGenericParameterTypes()[0].equals(fieldType) || (fieldTypeGeneric != null && m.getGenericParameterTypes()[0].equals(fieldTypeGeneric))) && // return type is void.
+            m.getReturnType().equals(Void.TYPE)) {
+                if (hasSetter) {
+                    throw new IllegalStateException(""Detected more than one setter"");
+                }
+                hasSetter = true;
+            }
+        }
+        if (hasGetter && hasSetter) {
+            return true;
+        } else {
+            if (!hasGetter) {
+                LOG.debug(""Class "" + clazz + "" does not contain a getter for field "" + f.getName());
+            }
+            if (!hasSetter) {
+                LOG.debug(""Class "" + clazz + "" does not contain a setter for field "" + f.getName());
+            }
+            return false;
+        }
+    }
+}",1.2857142857142858,0.6453488372093024,1.5,1.0,3.090909090909091,1.4772727272727273,2.3076923076923075,,3.0475601202808704,14.354497369078585,8283.15
+23,True,jackrabbit-oak,remotes/origin/bugs-dot-jar_OAK-1122_5286861d,Minor,406,526,122.0,7.93,43.0,6.0,43.0,12.04,42.82,65.0,0.0,28857.54,"public String commit(String path, String jsonDiff, String revisionId, String message) throws MicroKernelException {
+    if (rep == null) {
+        throw new IllegalStateException(""this instance has already been disposed"");
+    }
+    if (path.length() > 0 && !PathUtils.isAbsolute(path)) {
+        throw new IllegalArgumentException(""absolute path expected: "" + path);
+    }
+    if (jsonDiff == null || jsonDiff.length() == 0) {
+        return getHeadRevision();
+    }
+    Id revId = revisionId == null ? getHeadRevisionId() : Id.fromString(revisionId);
+    try {
+        JsopTokenizer t = new JsopTokenizer(jsonDiff);
+        CommitBuilder cb = rep.getCommitBuilder(revId, message);
+        while (true) {
+            int r = t.read();
+            if (r == JsopReader.END) {
+                break;
+            }
+            // used for error reporting
+            int pos;
+            switch(r) {
+                case '+':
+                    {
+                        pos = t.getLastPos();
+                        String subPath = t.readString();
+                        t.read(':');
+                        t.read('{');
+                        String nodePath = PathUtils.concat(path, subPath);
+                        if (!PathUtils.isAbsolute(nodePath)) {
+                            throw new Exception(""absolute path expected: "" + nodePath + "", pos: "" + pos);
+                        }
+                        String parentPath = PathUtils.getParentPath(nodePath);
+                        String nodeName = PathUtils.getName(nodePath);
+                        cb.addNode(parentPath, nodeName, JsonObject.create(t));
+                        break;
+                    }
+                case '-':
+                    {
+                        pos = t.getLastPos();
+                        String subPath = t.readString();
+                        String targetPath = PathUtils.concat(path, subPath);
+                        if (!PathUtils.isAbsolute(targetPath)) {
+                            throw new Exception(""absolute path expected: "" + targetPath + "", pos: "" + pos);
+                        }
+                        cb.removeNode(targetPath);
+                        break;
+                    }
+                case '^':
+                    {
+                        pos = t.getLastPos();
+                        String subPath = t.readString();
+                        t.read(':');
+                        String value;
+                        if (t.matches(JsopReader.NULL)) {
+                            value = null;
+                        } else {
+                            value = t.readRawValue().trim();
+                        }
+                        String targetPath = PathUtils.concat(path, subPath);
+                        if (!PathUtils.isAbsolute(targetPath)) {
+                            throw new Exception(""absolute path expected: "" + targetPath + "", pos: "" + pos);
+                        }
+                        String parentPath = PathUtils.getParentPath(targetPath);
+                        String propName = PathUtils.getName(targetPath);
+                        cb.setProperty(parentPath, propName, value);
+                        break;
+                    }
+                case '>':
+                    {
+                        pos = t.getLastPos();
+                        String subPath = t.readString();
+                        String srcPath = PathUtils.concat(path, subPath);
+                        if (!PathUtils.isAbsolute(srcPath)) {
+                            throw new Exception(""absolute path expected: "" + srcPath + "", pos: "" + pos);
+                        }
+                        t.read(':');
+                        pos = t.getLastPos();
+                        String targetPath = t.readString();
+                        if (!PathUtils.isAbsolute(targetPath)) {
+                            targetPath = PathUtils.concat(path, targetPath);
+                            if (!PathUtils.isAbsolute(targetPath)) {
+                                throw new Exception(""absolute path expected: "" + targetPath + "", pos: "" + pos);
+                            }
+                        }
+                        cb.moveNode(srcPath, targetPath);
+                        break;
+                    }
+                case '*':
+                    {
+                        pos = t.getLastPos();
+                        String subPath = t.readString();
+                        String srcPath = PathUtils.concat(path, subPath);
+                        if (!PathUtils.isAbsolute(srcPath)) {
+                            throw new Exception(""absolute path expected: "" + srcPath + "", pos: "" + pos);
+                        }
+                        t.read(':');
+                        pos = t.getLastPos();
+                        String targetPath = t.readString();
+                        if (!PathUtils.isAbsolute(targetPath)) {
+                            targetPath = PathUtils.concat(path, targetPath);
+                            if (!PathUtils.isAbsolute(targetPath)) {
+                                throw new Exception(""absolute path expected: "" + targetPath + "", pos: "" + pos);
+                            }
+                        }
+                        cb.copyNode(srcPath, targetPath);
+                        break;
+                    }
+                default:
+                    throw new IllegalArgumentException(""jsonDiff: illegal token '"" + t.getToken() + ""' at pos: "" + t.getLastPos());
+            }
+        }
+        Id newHead = cb.doCommit();
+        if (!newHead.equals(revId)) {
+            // non-empty commit
+            if (rep.getCommit(newHead).getBranchRootId() == null) {
+                // OAK-265: only trigger commit gate for non-branch commits
+                gate.commit(newHead.toString());
+            }
+        }
+        return newHead.toString();
+    } catch (Exception e) {
+        throw new MicroKernelException(e);
+    }
+}",5.0,2.662790697674419,6.5,2.0,3.3636363636363638,2.467171717171717,4.384615384615385,,11.401909015422072,37.78012317851996,29156.510000000002
+24,True,commons-math,remotes/origin/bugs-dot-jar_MATH-855_350f726c,Minor,107,270,132.0,6.45,24.0,6.0,63.0,36.72,45.5,17.0,0.0,95216.65,"/**
+ * {@inheritDoc}
+ */
+@Override
+protected UnivariatePointValuePair doOptimize() {
+    final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
+    final double lo = getMin();
+    final double mid = getStartValue();
+    final double hi = getMax();
+    // Optional additional convergence criteria.
+    final ConvergenceChecker<UnivariatePointValuePair> checker = getConvergenceChecker();
+    double a;
+    double b;
+    if (lo < hi) {
+        a = lo;
+        b = hi;
+    } else {
+        a = hi;
+        b = lo;
+    }
+    double x = mid;
+    double v = x;
+    double w = x;
+    double d = 0;
+    double e = 0;
+    double fx = computeObjectiveValue(x);
+    if (!isMinim) {
+        fx = -fx;
+    }
+    double fv = fx;
+    double fw = fx;
+    UnivariatePointValuePair previous = null;
+    UnivariatePointValuePair current = new UnivariatePointValuePair(x, isMinim ? fx : -fx);
+    int iter = 0;
+    while (true) {
+        final double m = 0.5 * (a + b);
+        final double tol1 = relativeThreshold * FastMath.abs(x) + absoluteThreshold;
+        final double tol2 = 2 * tol1;
+        // Default stopping criterion.
+        final boolean stop = FastMath.abs(x - m) <= tol2 - 0.5 * (b - a);
+        if (!stop) {
+            double p = 0;
+            double q = 0;
+            double r = 0;
+            double u = 0;
+            if (FastMath.abs(e) > tol1) {
+                // Fit parabola.
+                r = (x - w) * (fx - fv);
+                q = (x - v) * (fx - fw);
+                p = (x - v) * q - (x - w) * r;
+                q = 2 * (q - r);
+                if (q > 0) {
+                    p = -p;
+                } else {
+                    q = -q;
+                }
+                r = e;
+                e = d;
+                if (p > q * (a - x) && p < q * (b - x) && FastMath.abs(p) < FastMath.abs(0.5 * q * r)) {
+                    // Parabolic interpolation step.
+                    d = p / q;
+                    u = x + d;
+                    // f must not be evaluated too close to a or b.
+                    if (u - a < tol2 || b - u < tol2) {
+                        if (x <= m) {
+                            d = tol1;
+                        } else {
+                            d = -tol1;
+                        }
+                    }
+                } else {
+                    // Golden section step.
+                    if (x < m) {
+                        e = b - x;
+                    } else {
+                        e = a - x;
+                    }
+                    d = GOLDEN_SECTION * e;
+                }
+            } else {
+                // Golden section step.
+                if (x < m) {
+                    e = b - x;
+                } else {
+                    e = a - x;
+                }
+                d = GOLDEN_SECTION * e;
+            }
+            // Update by at least ""tol1"".
+            if (FastMath.abs(d) < tol1) {
+                if (d >= 0) {
+                    u = x + tol1;
+                } else {
+                    u = x - tol1;
+                }
+            } else {
+                u = x + d;
+            }
+            double fu = computeObjectiveValue(u);
+            if (!isMinim) {
+                fu = -fu;
+            }
+            // User-defined convergence checker.
+            previous = current;
+            current = new UnivariatePointValuePair(u, isMinim ? fu : -fu);
+            if (checker != null) {
+                if (checker.converged(iter, previous, current)) {
+                    return current;
+                }
+            }
+            // Update a, b, v, w and x.
+            if (fu <= fx) {
+                if (u < x) {
+                    b = x;
+                } else {
+                    a = x;
+                }
+                v = w;
+                fv = fw;
+                w = x;
+                fw = fx;
+                x = u;
+                fx = fu;
+            } else {
+                if (u < x) {
+                    a = u;
+                } else {
+                    b = u;
+                }
+                if (fu <= fw || Precision.equals(w, x)) {
+                    v = w;
+                    fv = fw;
+                    w = u;
+                    fw = fu;
+                } else if (fu <= fv || Precision.equals(v, x) || Precision.equals(v, w)) {
+                    v = u;
+                    fv = fu;
+                }
+            }
+        } else {
+            // Default termination (Brent's criterion).
+            return current;
+        }
+        ++iter;
+    }
+}",5.476190476190476,1.8023255813953492,3.3333333333333335,2.0,5.181818181818182,8.699494949494948,0.6923076923076923,,38.15033899534839,65.33580920988837,95501.81999999999
+25,True,wicket,remotes/origin/bugs-dot-jar_WICKET-2079_ceac38b1,Minor,1054,1150,52.0,7.88,14.0,6.0,29.0,8.67,68.02,31.0,0.0,8388.52,"/**
+ *  Throw an exception if not all components rendered.
+ *
+ *  @param renderedContainer
+ *             The page itself if it was a full page render or the container that was rendered
+ *             standalone
+ */
+private final void checkRendering(final MarkupContainer renderedContainer) {
+    // If the application wants component uses checked and
+    // the response is not a redirect
+    final IDebugSettings debugSettings = Application.get().getDebugSettings();
+    if (debugSettings.getComponentUseCheck() && !getResponse().isRedirect()) {
+        final List<Component> unrenderedComponents = new ArrayList<Component>();
+        final StringBuffer buffer = new StringBuffer();
+        renderedContainer.visitChildren(new IVisitor<Component>() {
+
+            public Object component(final Component component) {
+                // If component never rendered
+                if (renderedComponents == null || !renderedComponents.contains(component)) {
+                    // If auto component ...
+                    if (!component.isAuto() && component.isVisibleInHierarchy()) {
+                        // Increase number of unrendered components
+                        unrenderedComponents.add(component);
+                        // Add to explanatory string to buffer
+                        buffer.append(Integer.toString(unrenderedComponents.size()) + "". "" + component + ""\n"");
+                        String metadata = component.getMetaData(Component.CONSTRUCTED_AT_KEY);
+                        if (metadata != null) {
+                            buffer.append(metadata);
+                        }
+                        metadata = component.getMetaData(Component.ADDED_AT_KEY);
+                        if (metadata != null) {
+                            buffer.append(metadata);
+                        }
+                    } else {
+                        // not visible
+                        return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+                    }
+                }
+                return CONTINUE_TRAVERSAL;
+            }
+        });
+        // Throw exception if any errors were found
+        if (unrenderedComponents.size() > 0) {
+            // Get rid of set
+            renderedComponents = null;
+            Iterator<Component> iterator = unrenderedComponents.iterator();
+            while (iterator.hasNext()) {
+                Component component = iterator.next();
+                // Now first test if the component has a sibling that is a transparent resolver.
+                Iterator<? extends Component> iterator2 = component.getParent().iterator();
+                while (iterator2.hasNext()) {
+                    Component sibling = iterator2.next();
+                    if (!sibling.isVisible()) {
+                        boolean isTransparentMarkupContainer = sibling instanceof MarkupContainer && ((MarkupContainer) sibling).isTransparentResolver();
+                        boolean isComponentResolver = sibling instanceof IComponentResolver;
+                        if (isTransparentMarkupContainer || isComponentResolver) {
+                            // we found a transparent container that isn't visible
+                            // then ignore this component and only do a debug statement here.
+                            log.debug(""Component {} wasn't rendered but most likely it has a transparent parent: {}"", component, sibling);
+                            iterator.remove();
+                            break;
+                        }
+                    }
+                }
+            }
+            // if still > 0
+            if (unrenderedComponents.size() > 0) {
+                // Throw exception
+                throw new WicketRuntimeException(""The component(s) below failed to render. A common problem is that you have added a component in code but forgot to reference it in the markup (thus the component will never be rendered).\n\n"" + buffer.toString());
+            }
+        }
+    }
+    // Get rid of set
+    renderedComponents = null;
+}",1.6666666666666667,2.633720930232558,1.6666666666666667,2.0,2.090909090909091,1.6161616161616164,1.7692307692307692,,3.151133074820829,16.594488814688198,8537.07
+26,True,commons-math,remotes/origin/bugs-dot-jar_MATH-855_ac597cc1,Minor,108,271,132.0,6.45,24.0,6.0,63.0,36.81,45.41,19.0,0.0,97149.97,"/**
+ * {@inheritDoc}
+ */
+@Override
+protected UnivariatePointValuePair doOptimize() {
+    final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
+    final double lo = getMin();
+    final double mid = getStartValue();
+    final double hi = getMax();
+    // Optional additional convergence criteria.
+    final ConvergenceChecker<UnivariatePointValuePair> checker = getConvergenceChecker();
+    double a;
+    double b;
+    if (lo < hi) {
+        a = lo;
+        b = hi;
+    } else {
+        a = hi;
+        b = lo;
+    }
+    double x = mid;
+    double v = x;
+    double w = x;
+    double d = 0;
+    double e = 0;
+    double fx = computeObjectiveValue(x);
+    if (!isMinim) {
+        fx = -fx;
+    }
+    double fv = fx;
+    double fw = fx;
+    UnivariatePointValuePair previous = null;
+    UnivariatePointValuePair current = new UnivariatePointValuePair(x, isMinim ? fx : -fx);
+    int iter = 0;
+    while (true) {
+        final double m = 0.5 * (a + b);
+        final double tol1 = relativeThreshold * FastMath.abs(x) + absoluteThreshold;
+        final double tol2 = 2 * tol1;
+        // Default stopping criterion.
+        final boolean stop = FastMath.abs(x - m) <= tol2 - 0.5 * (b - a);
+        if (!stop) {
+            double p = 0;
+            double q = 0;
+            double r = 0;
+            double u = 0;
+            if (FastMath.abs(e) > tol1) {
+                // Fit parabola.
+                r = (x - w) * (fx - fv);
+                q = (x - v) * (fx - fw);
+                p = (x - v) * q - (x - w) * r;
+                q = 2 * (q - r);
+                if (q > 0) {
+                    p = -p;
+                } else {
+                    q = -q;
+                }
+                r = e;
+                e = d;
+                if (p > q * (a - x) && p < q * (b - x) && FastMath.abs(p) < FastMath.abs(0.5 * q * r)) {
+                    // Parabolic interpolation step.
+                    d = p / q;
+                    u = x + d;
+                    // f must not be evaluated too close to a or b.
+                    if (u - a < tol2 || b - u < tol2) {
+                        if (x <= m) {
+                            d = tol1;
+                        } else {
+                            d = -tol1;
+                        }
+                    }
+                } else {
+                    // Golden section step.
+                    if (x < m) {
+                        e = b - x;
+                    } else {
+                        e = a - x;
+                    }
+                    d = GOLDEN_SECTION * e;
+                }
+            } else {
+                // Golden section step.
+                if (x < m) {
+                    e = b - x;
+                } else {
+                    e = a - x;
+                }
+                d = GOLDEN_SECTION * e;
+            }
+            // Update by at least ""tol1"".
+            if (FastMath.abs(d) < tol1) {
+                if (d >= 0) {
+                    u = x + tol1;
+                } else {
+                    u = x - tol1;
+                }
+            } else {
+                u = x + d;
+            }
+            double fu = computeObjectiveValue(u);
+            if (!isMinim) {
+                fu = -fu;
+            }
+            // User-defined convergence checker.
+            previous = current;
+            current = new UnivariatePointValuePair(u, isMinim ? fu : -fu);
+            if (checker != null) {
+                if (checker.converged(iter, previous, current)) {
+                    return best(current, previous, isMinim);
+                }
+            }
+            // Update a, b, v, w and x.
+            if (fu <= fx) {
+                if (u < x) {
+                    b = x;
+                } else {
+                    a = x;
+                }
+                v = w;
+                fv = fw;
+                w = x;
+                fw = fx;
+                x = u;
+                fx = fu;
+            } else {
+                if (u < x) {
+                    a = u;
+                } else {
+                    b = u;
+                }
+                if (fu <= fw || Precision.equals(w, x)) {
+                    v = w;
+                    fv = fw;
+                    w = u;
+                    fw = fu;
+                } else if (fu <= fv || Precision.equals(v, x) || Precision.equals(v, w)) {
+                    v = u;
+                    fv = fu;
+                }
+            }
+        } else {
+            // Default termination (Brent's criterion).
+            return best(current, previous, isMinim);
+        }
+        ++iter;
+    }
+}",5.476190476190476,1.8023255813953492,3.3333333333333335,2.0,5.181818181818182,8.722222222222221,0.8461538461538461,,38.929633272332985,66.2916769134464,97437.23
+27,True,commons-math,remotes/origin/bugs-dot-jar_MATH-1058_4ebd967c,Minor,182,227,30.0,6.02,4.0,4.0,16.0,20.52,79.49,10.0,0.0,18890.09,"/**
+ * Returns the regularized beta function I(x, a, b).
+ *
+ * The implementation of this method is based on:
+ * <ul>
+ * <li>
+ * <a href=""http://mathworld.wolfram.com/RegularizedBetaFunction.html"">
+ * Regularized Beta Function</a>.</li>
+ * <li>
+ * <a href=""http://functions.wolfram.com/06.21.10.0001.01"">
+ * Regularized Beta Function</a>.</li>
+ * </ul>
+ *
+ * @param x the value.
+ * @param a Parameter {@code a}.
+ * @param b Parameter {@code b}.
+ * @param epsilon When the absolute value of the nth item in the
+ * series is less than epsilon the approximation ceases to calculate
+ * further elements in the series.
+ * @param maxIterations Maximum number of ""iterations"" to complete.
+ * @return the regularized beta function I(x, a, b)
+ * @throws org.apache.commons.math3.exception.MaxCountExceededException
+ * if the algorithm fails to converge.
+ */
+public static double regularizedBeta(double x, final double a, final double b, double epsilon, int maxIterations) {
+    double ret;
+    if (Double.isNaN(x) || Double.isNaN(a) || Double.isNaN(b) || x < 0 || x > 1 || a <= 0.0 || b <= 0.0) {
+        ret = Double.NaN;
+    } else if (x > (a + 1.0) / (a + b + 2.0)) {
+        ret = 1.0 - regularizedBeta(1.0 - x, b, a, epsilon, maxIterations);
+    } else {
+        ContinuedFraction fraction = new ContinuedFraction() {
+
+            @Override
+            protected double getB(int n, double x) {
+                double ret;
+                double m;
+                if (n % 2 == 0) {
+                    // even
+                    m = n / 2.0;
+                    ret = (m * (b - m) * x) / ((a + (2 * m) - 1) * (a + (2 * m)));
+                } else {
+                    m = (n - 1.0) / 2.0;
+                    ret = -((a + m) * (a + b + m) * x) / ((a + (2 * m)) * (a + (2 * m) + 1.0));
+                }
+                return ret;
+            }
+
+            @Override
+            protected double getA(int n, double x) {
+                return 1.0;
+            }
+        };
+        ret = FastMath.exp((a * FastMath.log(x)) + (b * FastMath.log(1.0 - x)) - FastMath.log(a) - logBeta(a, b)) * 1.0 / fraction.evaluate(x, epsilon, maxIterations);
+    }
+    return ret;
+}",0.6190476190476191,1.5523255813953487,0.0,1.0,0.9090909090909091,4.608585858585859,0.15384615384615385,,7.384169199390535,16.227065321356427,18980.63
+28,True,camel,remotes/origin/bugs-dot-jar_CAMEL-7459_57ba1bde,Minor,127,232,72.0,5.16,20.0,5.0,26.0,18.12,59.95,29.0,0.0,23040.17,"/**
+ * Parses the query part of the uri (eg the parameters).
+ * <p/>
+ * The URI parameters will by default be URI encoded. However you can define a parameter
+ * values with the syntax: <tt>key=RAW(value)</tt> which tells Camel to not encode the value,
+ * and use the value as is (eg key=value) and the value has <b>not</b> been encoded.
+ *
+ * @param uri the uri
+ * @param useRaw whether to force using raw values
+ * @return the parameters, or an empty map if no parameters (eg never null)
+ * @throws URISyntaxException is thrown if uri has invalid syntax.
+ * @see #RAW_TOKEN_START
+ * @see #RAW_TOKEN_END
+ */
+public static Map<String, Object> parseQuery(String uri, boolean useRaw) throws URISyntaxException {
+    // must check for trailing & as the uri.split(""&"") will ignore those
+    if (uri != null && uri.endsWith(""&"")) {
+        throw new URISyntaxException(uri, ""Invalid uri syntax: Trailing & marker found. "" + ""Check the uri and remove the trailing & marker."");
+    }
+    if (ObjectHelper.isEmpty(uri)) {
+        // return an empty map
+        return new LinkedHashMap<String, Object>(0);
+    }
+    try {
+        // use a linked map so the parameters is in the same order
+        Map<String, Object> rc = new LinkedHashMap<String, Object>();
+        boolean isKey = true;
+        boolean isValue = false;
+        boolean isRaw = false;
+        StringBuilder key = new StringBuilder();
+        StringBuilder value = new StringBuilder();
+        // parse the uri parameters char by char
+        for (int i = 0; i < uri.length(); i++) {
+            // current char
+            char ch = uri.charAt(i);
+            // look ahead of the next char
+            char next;
+            if (i < uri.length() - 2) {
+                next = uri.charAt(i + 1);
+            } else {
+                next = '\u0000';
+            }
+            // are we a raw value
+            isRaw = value.toString().startsWith(RAW_TOKEN_START);
+            // if we are in raw mode, then we keep adding until we hit the end marker
+            if (isRaw) {
+                if (isKey) {
+                    key.append(ch);
+                } else if (isValue) {
+                    value.append(ch);
+                }
+                // we only end the raw marker if its )& or at the end of the value
+                boolean end = ch == RAW_TOKEN_END.charAt(0) && (next == '&' || next == '\u0000');
+                if (end) {
+                    // raw value end, so add that as a parameter, and reset flags
+                    addParameter(key.toString(), value.toString(), rc, useRaw || isRaw);
+                    key.setLength(0);
+                    value.setLength(0);
+                    isKey = true;
+                    isValue = false;
+                    isRaw = false;
+                    // skip to next as we are in raw mode and have already added the value
+                    i++;
+                }
+                continue;
+            }
+            // if its a key and there is a = sign then the key ends and we are in value mode
+            if (isKey && ch == '=') {
+                isKey = false;
+                isValue = true;
+                isRaw = false;
+                continue;
+            }
+            // the & denote parameter is ended
+            if (ch == '&') {
+                // parameter is ended, as we hit & separator
+                addParameter(key.toString(), value.toString(), rc, useRaw || isRaw);
+                key.setLength(0);
+                value.setLength(0);
+                isKey = true;
+                isValue = false;
+                isRaw = false;
+                continue;
+            }
+            // regular char so add it to the key or value
+            if (isKey) {
+                key.append(ch);
+            } else if (isValue) {
+                value.append(ch);
+            }
+        }
+        // any left over parameters, then add that
+        if (key.length() > 0) {
+            addParameter(key.toString(), value.toString(), rc, useRaw || isRaw);
+        }
+        return rc;
+    } catch (UnsupportedEncodingException e) {
+        URISyntaxException se = new URISyntaxException(e.toString(), ""Invalid encoding"");
+        se.initCause(e);
+        throw se;
+    }
+}",2.619047619047619,1.052325581395349,2.6666666666666665,1.5,1.8181818181818181,4.002525252525253,1.6153846153846154,,9.057008456744839,24.33114000994616,23215.449999999997
+29,True,commons-math,remotes/origin/bugs-dot-jar_MATH-1283_9e0c5ad4,Minor,655,717,35.0,4.39,7.0,3.0,11.0,21.78,77.96,8.0,0.0,14584.45,"/**
+ * Returns the value of Γ(x). Based on the <em>NSWC Library of
+ * Mathematics Subroutines</em> double precision implementation,
+ * {@code DGAMMA}.
+ *
+ * @param x Argument.
+ * @return the value of {@code Gamma(x)}.
+ * @since 3.1
+ */
+public static double gamma(final double x) {
+    if ((x == FastMath.rint(x)) && (x <= 0.0)) {
+        return Double.NaN;
+    }
+    final double ret;
+    final double absX = FastMath.abs(x);
+    if (absX <= 20.0) {
+        if (x >= 1.0) {
+            /*
+                 * From the recurrence relation
+                 * Gamma(x) = (x - 1) * ... * (x - n) * Gamma(x - n),
+                 * then
+                 * Gamma(t) = 1 / [1 + invGamma1pm1(t - 1)],
+                 * where t = x - n. This means that t must satisfy
+                 * -0.5 <= t - 1 <= 1.5.
+                 */
+            double prod = 1.0;
+            double t = x;
+            while (t > 2.5) {
+                t -= 1.0;
+                prod *= t;
+            }
+            ret = prod / (1.0 + invGamma1pm1(t - 1.0));
+        } else {
+            /*
+                 * From the recurrence relation
+                 * Gamma(x) = Gamma(x + n + 1) / [x * (x + 1) * ... * (x + n)]
+                 * then
+                 * Gamma(x + n + 1) = 1 / [1 + invGamma1pm1(x + n)],
+                 * which requires -0.5 <= x + n <= 1.5.
+                 */
+            double prod = x;
+            double t = x;
+            while (t < -0.5) {
+                t += 1.0;
+                prod *= t;
+            }
+            ret = 1.0 / (prod * (1.0 + invGamma1pm1(t)));
+        }
+    } else {
+        final double y = absX + LANCZOS_G + 0.5;
+        final double gammaAbs = SQRT_TWO_PI / x * FastMath.pow(y, absX + 0.5) * FastMath.exp(-y) * lanczos(absX);
+        if (x > 0.0) {
+            ret = gammaAbs;
+        } else {
+            /*
+                 * From the reflection formula
+                 * Gamma(x) * Gamma(1 - x) * sin(pi * x) = pi,
+                 * and the recurrence relation
+                 * Gamma(1 - x) = -x * Gamma(-x),
+                 * it is found
+                 * Gamma(x) = -pi / [x * sin(pi * x) * Gamma(-x)].
+                 */
+            ret = -FastMath.PI / (x * FastMath.sin(FastMath.PI * x) * gammaAbs);
+        }
+    }
+    return ret;
+}",0.8571428571428571,0.6046511627906975,0.5,0.5,0.45454545454545453,4.926767676767677,0.0,,5.648625879735254,13.49173303098194,14674.62

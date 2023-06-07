@@ -1,0 +1,242 @@
+,IsBuggy,ProjectName,ProjectVersion,Priority,StartLine,EndLine,SLOC,IC,MCCABE,NBD,MCCLURE,DIFF,MI,TFO,READABILITY,EFFORT,SourceCode,average_sum
+576,True,Lang,55,High,114,120,-0.6041666666666666,-0.4295125164690382,-0.375,-0.3333333333333333,-0.4666666666666667,-0.49693721286370596,-0.8181818181818193,-0.5714285714285714,14.833333333333334,-0.30145608889963593,"/**
+ * <p>Stop the stopwatch.</p>
+ *
+ * <p>This method ends a new timing session, allowing the time to be retrieved.</p>
+ *
+ * @throws IllegalStateException if the StopWatch is not running.
+ */
+public void stop() {
+    if (this.runningState != STATE_RUNNING && this.runningState != STATE_SUSPENDED) {
+        throw new IllegalStateException(""Stopwatch is not running. "");
+    }
+    stopTime = System.currentTimeMillis();
+    this.runningState = STATE_STOPPED;
+}",-4.3966828745094375
+55,True,Cli,38,High,299,312,-0.5625,-0.5138339920948617,-0.375,-0.3333333333333333,-0.26666666666666666,-0.12327718223583456,-0.9882949668357389,-0.21428571428571427,5.833333333333333,-0.19612850902017595,"/**
+ * Tells if the token looks like a short option.
+ *
+ * @param token
+ */
+private boolean isShortOption(String token) {
+    // short options (-S, -SV, -S=V, -SV1=V2, -S1S2)
+    if (!token.startsWith(""-"") || token.length() == 1) {
+        return false;
+    }
+    // remove leading ""-"" and ""=value""
+    int pos = token.indexOf(""="");
+    String optName = pos == -1 ? token.substring(1) : token.substring(1, pos);
+    return options.hasShortOption(optName);
+// check for several concatenated short options
+}",-3.573320364472326
+648,True,Math,49,High,367,376,-0.4791666666666667,-0.44532279314888024,-0.5,-0.3333333333333333,-0.5333333333333333,-0.41424196018376724,-0.6948888021849398,0.07142857142857142,1.0,-0.2646328428346282,"/**
+ * {@inheritDoc}
+ */
+public OpenMapRealVector ebeMultiply(RealVector v) {
+    checkVectorDimensions(v.getDimension());
+    OpenMapRealVector res = new OpenMapRealVector(this);
+    Iterator iter = res.entries.iterator();
+    while (iter.hasNext()) {
+        iter.advance();
+        res.setEntry(iter.key(), iter.value() * v.getEntry(iter.key()));
+    }
+    return res;
+}",-3.5934911602569772
+492,True,JxPath,14,High,665,669,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.6776416539050536,-1.2996488490050726,-0.2857142857142857,7.833333333333333,-0.31878706692616415,"protected Object functionRound(EvalContext context) {
+    assertArgCount(1);
+    double v = InfoSetUtil.doubleValue(getArg1().computeValue(context));
+    return new Double(Math.round(v));
+}",-5.973343238949786
+454,True,Csv,6,High,179,185,-0.6041666666666666,-0.18708827404479578,-0.5,-0.3333333333333333,-0.6666666666666666,-0.6776416539050536,-1.0374561061256355,-0.2857142857142857,5.166666666666667,-0.31878706692616415,"/**
+ * Puts all values of this record into the given Map.
+ *
+ * @param map The Map to populate.
+ * @return the given map.
+ */
+<M extends Map<String, String>> M putIn(final M map) {
+    for (final Entry<String, Integer> entry : mapping.entrySet()) {
+        final int col = entry.getValue().intValue();
+        map.put(entry.getKey(), values[col]);
+    }
+    return map;
+}",-4.610854053382601
+466,True,JxPath,2,High,80,91,-0.4791666666666667,-0.44532279314888024,-0.375,-0.3333333333333333,-0.4666666666666667,-0.45558958652373654,-0.6519703472493166,-0.21428571428571427,0.16666666666666669,-0.2758929498077843,"public Iterator iteratePointers(EvalContext context) {
+    Object result = compute(context);
+    if (result == null) {
+        return Collections.EMPTY_LIST.iterator();
+    }
+    if (result instanceof EvalContext) {
+        return (EvalContext) result;
+    }
+    return new PointerIterator(ValueUtils.iterate(result), new QName(null, ""value""), context.getRootContext().getCurrentNodePointer().getLocale());
+}",-3.697228057682098
+604,True,Math,11,Critical,177,186,-0.6041666666666666,-0.4295125164690382,-0.375,-0.3333333333333333,-0.4666666666666667,-0.10949464012251146,-1.108466640655483,-0.35714285714285715,6.666666666666667,-0.20736935697342365,"/**
+ * {@inheritDoc}
+ */
+public double density(final double[] vals) throws DimensionMismatchException {
+    final int dim = getDimension();
+    if (vals.length != dim) {
+        throw new DimensionMismatchException(vals.length, dim);
+    }
+    return FastMath.pow(2 * FastMath.PI, -dim / 2) * FastMath.pow(covarianceMatrixDeterminant, -0.5) * getExponentTerm(vals);
+}",-3.99115267802998
+630,True,Math,36,High,683,689,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.4479326186830015,-0.9828326180257512,-0.5,15.833333333333334,-0.3081946059765019,"/**
+ * <p>
+ * Gets the fraction as a <tt>double</tt>. This calculates the fraction as
+ * the numerator divided by denominator.
+ * </p>
+ *
+ * @return the fraction as a <tt>double</tt>
+ * @see java.lang.Number#doubleValue()
+ */
+@Override
+public double doubleValue() {
+    double result = numerator.doubleValue() / denominator.doubleValue();
+    // Calculate how far to shift them to put them in range.
+    return result;
+}",-5.630511226084464
+646,True,Math,49,High,342,351,-0.4791666666666667,-0.44532279314888024,-0.5,-0.3333333333333333,-0.5333333333333333,-0.41424196018376724,-0.6948888021849398,0.07142857142857142,0.8333333333333334,-0.2646328428346282,"/**
+ * {@inheritDoc}
+ */
+public OpenMapRealVector ebeDivide(RealVector v) {
+    checkVectorDimensions(v.getDimension());
+    OpenMapRealVector res = new OpenMapRealVector(this);
+    Iterator iter = res.entries.iterator();
+    while (iter.hasNext()) {
+        iter.advance();
+        res.setEntry(iter.key(), iter.value() / v.getEntry(iter.key()));
+    }
+    return res;
+}",-3.5934911602569772
+553,True,Lang,40,High,1044,1049,-0.6458333333333334,-0.32938076416337286,-0.5,-0.3333333333333333,-0.4,-0.40505359877488506,-1.0140460397971134,-0.42857142857142855,0.5,-0.2937824394116584,"/**
+ * <p>Checks if String contains a search String irrespective of case,
+ * handling <code>null</code>. Case-insensitivity is defined as by
+ * {@link String#equalsIgnoreCase(String)}.
+ *
+ * <p>A <code>null</code> String will return <code>false</code>.</p>
+ *
+ * <pre>
+ * StringUtils.contains(null, *) = false
+ * StringUtils.contains(*, null) = false
+ * StringUtils.contains("""", """") = true
+ * StringUtils.contains(""abc"", """") = true
+ * StringUtils.contains(""abc"", ""a"") = true
+ * StringUtils.contains(""abc"", ""z"") = false
+ * StringUtils.contains(""abc"", ""A"") = true
+ * StringUtils.contains(""abc"", ""Z"") = false
+ * </pre>
+ *
+ * @param str  the String to check, may be null
+ * @param searchStr  the String to find, may be null
+ * @return true if the String contains the search String irrespective of
+ * case or false if not or <code>null</code> string input
+ */
+public static boolean containsIgnoreCase(String str, String searchStr) {
+    if (str == null || searchStr == null) {
+        return false;
+    }
+    return contains(str.toUpperCase(), searchStr.toUpperCase());
+}",-4.350000937385125
+476,True,JxPath,7,High,33,37,-0.6875,-0.7457180500658762,-0.5,-0.6666666666666666,-0.4666666666666667,-0.42189892802450224,-1.4697619976589942,-0.35714285714285715,1.0,-0.27796864417569794,"public Object computeValue(EvalContext context) {
+    double l = InfoSetUtil.doubleValue(args[0].computeValue(context));
+    double r = InfoSetUtil.doubleValue(args[1].computeValue(context));
+    return l > r ? Boolean.TRUE : Boolean.FALSE;
+}",-5.5933238104012615
+388,True,Compress,2,High,131,135,-0.6875,-0.7457180500658762,-0.5,-0.6666666666666666,-0.5333333333333333,-0.4479326186830015,-1.1482637534139686,-0.5714285714285714,10.166666666666666,-0.3021301545964326,"public int read() throws IOException {
+    final int ret = input.read();
+    offset += (ret > 0 ? 1 : 0);
+    return ret;
+}",-5.602973148187851
+479,True,JxPath,7,High,34,38,-0.6875,-0.7457180500658762,-0.5,-0.6666666666666666,-0.4666666666666667,-0.42189892802450224,-1.4697619976589942,-0.35714285714285715,1.3333333333333335,-0.27796864417569794,"public Object computeValue(EvalContext context) {
+    double l = InfoSetUtil.doubleValue(args[0].computeValue(context));
+    double r = InfoSetUtil.doubleValue(args[1].computeValue(context));
+    return l <= r ? Boolean.TRUE : Boolean.FALSE;
+}",-5.5933238104012615
+71,True,Closure,10,High,1415,1421,-0.6041666666666666,-0.18708827404479578,-0.5,-0.3333333333333333,-0.5333333333333333,-0.6776416539050536,-0.5396020288724146,-0.5,8.833333333333334,-0.31878706692616415,"static boolean mayBeString(Node n, boolean recurse) {
+    if (recurse) {
+        return allResultsMatch(n, MAY_BE_STRING_PREDICATE);
+    } else {
+        return mayBeStringHelper(n);
+    }
+}",-4.193952357081762
+631,True,Math,36,High,730,736,-0.6875,-0.7457180500658762,-0.625,-0.6666666666666666,-0.6666666666666666,-0.4479326186830015,-0.9828326180257512,-0.5,15.333333333333334,-0.3081946059765019,"/**
+ * <p>
+ * Gets the fraction as a <tt>float</tt>. This calculates the fraction as
+ * the numerator divided by denominator.
+ * </p>
+ *
+ * @return the fraction as a <tt>float</tt>.
+ * @see java.lang.Number#floatValue()
+ */
+@Override
+public float floatValue() {
+    float result = numerator.floatValue() / denominator.floatValue();
+    // Calculate how far to shift them to put them in range.
+    return result;
+}",-5.630511226084464
+683,True,Math,77,High,717,724,-0.5625,-0.38208168642951257,-0.5,-0.3333333333333333,-0.6666666666666666,-0.42189892802450224,-0.6051502145922745,-0.5,14.0,-0.2978118543547319,"/**
+ * {@inheritDoc}
+ */
+@Override
+public double getLInfNorm() {
+    double max = 0;
+    for (double a : data) {
+        max += Math.max(max, Math.abs(a));
+    }
+    return max;
+}",-4.269442683401021
+187,True,Closure,98,High,354,363,-0.6041666666666666,-0.4295125164690382,-0.5,-0.3333333333333333,-0.5333333333333333,-0.506125574272588,-0.580959812719469,-0.5714285714285714,16.0,-0.3099899746101921,"/**
+ * @return Whether the variable is only assigned a value once for its
+ *     lifetime.
+ */
+boolean isAssignedOnceInLifetime() {
+    Reference ref = getOneAndOnlyAssignment();
+    if (ref == null) {
+        return false;
+    }
+    return true;
+}",-4.368849782833192
+373,True,Codec,11,High,114,120,-0.6041666666666666,-0.8247694334650856,-0.625,-0.6666666666666666,-0.6666666666666666,-0.3606431852986217,-1.172454155286774,-0.14285714285714285,3.166666666666667,-0.25239908541054346,"/**
+ * Encodes byte into its quoted-printable representation.
+ *
+ * @param b
+ *            byte to encode
+ * @param buffer
+ *            the buffer to write to
+ * @return The number of bytes written to the <code>buffer</code>
+ */
+private static final void encodeQuotedPrintable(int b, ByteArrayOutputStream buffer) {
+    buffer.write(ESCAPE_CHAR);
+    char hex1 = Character.toUpperCase(Character.forDigit((b >> 4) & 0xF, 16));
+    char hex2 = Character.toUpperCase(Character.forDigit(b & 0xF, 16));
+    buffer.write(hex1);
+    buffer.write(hex2);
+}",-5.315623002318167
+30,True,Cli,18,High,231,242,-0.5625,-0.13438735177865607,-0.375,0.0,-0.3333333333333333,-0.6776416539050536,-0.6917674600078042,-0.42857142857142855,1.8333333333333335,-0.31878706692616415,"/**
+ * <p>If an {@link Option} exists for <code>token</code> then
+ * set the current option and add the token to the processed
+ * list.</p>
+ *
+ * <p>If an {@link Option} does not exist and <code>stopAtNonOption</code>
+ * is set then ignore the current token and add the remaining tokens
+ * to the processed tokens list directly.</p>
+ *
+ * @param token The current option token
+ * @param stopAtNonOption Specifies whether flattening should halt
+ * at the first non option.
+ */
+private void processOptionToken(String token, boolean stopAtNonOption) {
+    if (options.hasOption(token)) {
+        currentOption = options.getOption(token);
+        tokens.add(token);
+    } else if (stopAtNonOption) {
+        eatTheRest = true;
+    }
+}",-3.52198829452244
+465,True,JxPath,2,High,72,78,-0.6041666666666666,-0.4295125164690382,-0.5,-0.3333333333333333,-0.5333333333333333,-0.6776416539050536,-0.7971127584861495,-0.5,6.833333333333333,-0.31878706692616415,"public Iterator iterate(EvalContext context) {
+    Object result = compute(context);
+    if (result instanceof EvalContext) {
+        return new ValueIterator((EvalContext) result);
+    }
+    return ValueUtils.iterate(result);
+}",-4.693887329119739

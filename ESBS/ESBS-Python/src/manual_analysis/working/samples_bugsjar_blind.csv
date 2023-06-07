@@ -1,0 +1,2868 @@
+SourceCode,FixedCode
+"@Override
+public Reader getCharacterStream() {
+    InputStream is = getByteStream();
+    return camelContext.getTypeConverter().convertTo(Reader.class, is);
+}","@Override
+public Reader getCharacterStream() {
+    return null;
+}"
+"@Override
+public String toString() {
+    StringBuilder buff = new StringBuilder(""contains"").append('(').append(left).append("", "").append(right).append(')');
+    return buff.toString();
+}","@Override
+public String toString() {
+    StringBuilder buff = new StringBuilder(""contains("");
+    Expression l = left;
+    if (l instanceof Property) {
+        Property p = (Property) l;
+        if (p.thereWasNoAt) {
+            l = new Property(p.selector, p.name + ""/*"", true);
+        }
+    }
+    buff.append(l);
+    buff.append("", "").append(right).append(')');
+    return buff.toString();
+}"
+"@Override
+public Result filter(final Logger logger, final Level level, final Marker marker, final Message msg, final Throwable t) {
+    final String text = useRawMessage ? msg.getFormat() : msg.getFormattedMessage();
+    return filter(text);
+}","@Override
+public Result filter(final Logger logger, final Level level, final Marker marker, final Message msg, final Throwable t) {
+    if (msg == null) {
+        return onMismatch;
+    }
+    final String text = useRawMessage ? msg.getFormat() : msg.getFormattedMessage();
+    return filter(text);
+}"
+"/**
+ *  set resource caching to maximum and set cache-visibility to 'public'
+ *
+ *  @param response
+ */
+@Override
+public void decorateResponse(AbstractResource.ResourceResponse response, IStaticCacheableResource resource) {
+    response.setCacheDurationToMaximum();
+    response.setCacheScope(WebResponse.CacheScope.PUBLIC);
+}","/**
+ *  set resource caching to maximum and set cache-visibility to 'public'
+ *
+ *  @param response
+ */
+@Override
+public void decorateResponse(AbstractResource.ResourceResponse response, IStaticCacheableResource resource) {
+    String requestedVersion = RequestCycle.get().getMetaData(URL_VERSION);
+    String calculatedVersion = this.resourceVersion.getVersion(resource);
+    if (calculatedVersion != null && calculatedVersion.equals(requestedVersion)) {
+        response.setCacheDurationToMaximum();
+        response.setCacheScope(WebResponse.CacheScope.PUBLIC);
+    }
+}"
+"@Override
+public boolean isGranted(@Nonnull String path, long permissions) {
+    Iterator<PermissionEntry> it = getEntryIterator(new EntryPredicate(path, Permissions.respectParentPermissions(permissions)));
+    return hasPermissions(it, permissions, path);
+}","@Override
+public boolean isGranted(@Nonnull String path, long permissions) {
+    EntryPredicate predicate = new EntryPredicate(path, Permissions.respectParentPermissions(permissions));
+    return hasPermissions(getEntryIterator(predicate), predicate, permissions, path);
+}"
+"/**
+ *  Normalizes a path string.
+ *
+ *  @param path
+ *         the path string to normalize
+ *  @return the normalized path string
+ */
+private String normalizePath(String path) {
+    // remove double slashes & backslashes
+    path = path.replace(""//"", ""/"");
+    path = path.replace(""\\"", ""/"");
+    return path;
+}","/**
+ *  Normalizes a path string.
+ *
+ *  @param path
+ *         the path string to normalize
+ *  @return the normalized path string
+ */
+private String normalizePath(String path) {
+    // remove leading and tailing whitespaces
+    path = path.trim();
+    // remove consecutive slashes & backslashes
+    path = path.replace(""\\"", ""/"");
+    path = path.replaceAll(""/+"", ""/"");
+    // remove tailing separator
+    if (!path.equals(SEPARATOR) && path.endsWith(SEPARATOR)) {
+        path = path.substring(0, path.length() - SEPARATOR.length());
+    }
+    return path;
+}"
+"/**
+ * Clear the array contents, resetting the number of elements to zero.
+ */
+@Override
+public synchronized void clear() {
+    numElements = 0;
+    startIndex = 0;
+}","/**
+ * Clear the array contents, resetting the number of elements to zero.
+ */
+@Override
+public void clear() {
+    numElements = 0;
+    startIndex = 0;
+}"
+"public static Option startRowOpt() {
+    final Option o = new Option(START_ROW_OPT, ""begin-row"", true, ""begin row (inclusive)"");
+    o.setArgName(""begin-row"");
+    return o;
+}","public static Option startRowOpt() {
+    final Option o = new Option(START_ROW_OPT, ""begin-row"", true, ""begin row (exclusive)"");
+    o.setArgName(""begin-row"");
+    return o;
+}"
+"/**
+ * Add a new or update an existing map entry.
+ * The property is a map of revisions / values.
+ *
+ * @param property the property
+ * @param revision the revision
+ * @param value the value
+ */
+void setMapEntry(@Nonnull String property, @Nonnull Revision revision, String value) {
+    Operation op = new Operation();
+    op.type = Operation.Type.SET_MAP_ENTRY;
+    op.value = value;
+    changes.put(new Key(property, checkNotNull(revision)), op);
+}","/**
+ * Add a new or update an existing map entry.
+ * The property is a map of revisions / values.
+ *
+ * @param property the property
+ * @param revision the revision
+ * @param value the value
+ */
+void setMapEntry(@Nonnull String property, @Nonnull Revision revision, String value) {
+    Operation op = new Operation(Operation.Type.SET_MAP_ENTRY, value);
+    changes.put(new Key(property, checkNotNull(revision)), op);
+}"
+"public static Option startRowOpt() {
+    final Option o = new Option(START_ROW_OPT, ""begin-row"", true, ""begin row (inclusive)"");
+    o.setArgName(""begin-row"");
+    return o;
+}","public static Option startRowOpt() {
+    final Option o = new Option(START_ROW_OPT, ""begin-row"", true, ""begin row (NOT) inclusive"");
+    o.setArgName(""begin-row"");
+    return o;
+}"
+"@Override
+public void rename(String oldTableName, String newTableName) throws AccumuloSecurityException, TableNotFoundException, AccumuloException, TableExistsException {
+    MockTable t = acu.tables.remove(oldTableName);
+    acu.tables.put(newTableName, t);
+}","@Override
+public void rename(String oldTableName, String newTableName) throws AccumuloSecurityException, TableNotFoundException, AccumuloException, TableExistsException {
+    if (!exists(oldTableName))
+        throw new TableNotFoundException(oldTableName, oldTableName, """");
+    if (exists(newTableName))
+        throw new TableExistsException(newTableName, newTableName, """");
+    MockTable t = acu.tables.remove(oldTableName);
+    acu.tables.put(newTableName, t);
+}"
+"@Override
+public void detach(Component component) {
+    webResponse = null;
+    super.detach(component);
+}","@Override
+public void detach(Component component) {
+    originalResponse = null;
+    super.detach(component);
+}"
+"@Override
+public Validator childNodeAdded(String name, NodeState after) throws CommitFailedException {
+    Tree treeAfter = checkNotNull(parentAfter.getChild(name));
+    checkValidTree(parentAfter, treeAfter, after);
+    return new AccessControlValidator(this, treeAfter);
+}","@Override
+public Validator childNodeAdded(String name, NodeState after) throws CommitFailedException {
+    Tree treeAfter = checkNotNull(parentAfter.getChild(name));
+    checkValidTree(parentAfter, treeAfter, after);
+    return newValidator(this, treeAfter);
+}"
+"@Nonnull
+@Override
+public NodeState merge(@Nonnull NodeBuilder builder, @Nonnull CommitHook commitHook, @Nullable CommitInfo info) throws CommitFailedException {
+    return asDocumentRootBuilder(builder).merge(commitHook, info);
+}","@Nonnull
+@Override
+public NodeState merge(@Nonnull NodeBuilder builder, @Nonnull CommitHook commitHook, @Nonnull CommitInfo info) throws CommitFailedException {
+    return asDocumentRootBuilder(builder).merge(commitHook, info);
+}"
+"/**
+ * Set the property to the given value.
+ *
+ * @param property the property name
+ * @param value the value
+ */
+void set(String property, Object value) {
+    Operation op = new Operation();
+    op.type = Operation.Type.SET;
+    op.value = value;
+    changes.put(new Key(property, null), op);
+}","/**
+ * Set the property to the given value.
+ *
+ * @param property the property name
+ * @param value the value
+ */
+void set(String property, Object value) {
+    Operation op = new Operation(Operation.Type.SET, value);
+    changes.put(new Key(property, null), op);
+}"
+"public void done(boolean doneSync) {
+    // we are done with the exchange pair
+    pair.done();
+    // we only have to handle async completion of the routing slip
+    if (doneSync) {
+        return;
+    }
+    // continue processing the multicast asynchronously
+    Exchange subExchange = exchange;
+    // Decide whether to continue with the multicast or not; similar logic to the Pipeline
+    // remember to test for stop on exception and aggregate before copying back results
+    boolean continueProcessing = PipelineHelper.continueProcessing(subExchange, ""Sequential processing failed for number "" + total.get(), LOG);
+    if (stopOnException && !continueProcessing) {
+        if (subExchange.getException() != null) {
+            // wrap in exception to explain where it failed
+            subExchange.setException(new CamelExchangeException(""Sequential processing failed for number "" + total, subExchange, subExchange.getException()));
+        } else {
+            // we want to stop on exception, and the exception was handled by the error handler
+            // this is similar to what the pipeline does, so we should do the same to not surprise end users
+            // so we should set the failed exchange as the result and be done
+            result.set(subExchange);
+        }
+        // and do the done work
+        doDone(original, subExchange, callback, false);
+        return;
+    }
+    try {
+        doAggregate(getAggregationStrategy(subExchange), result, subExchange);
+    } catch (Throwable e) {
+        // wrap in exception to explain where it failed
+        subExchange.setException(new CamelExchangeException(""Sequential processing failed for number "" + total, subExchange, e));
+        // and do the done work
+        doDone(original, subExchange, callback, false);
+        return;
+    }
+    total.incrementAndGet();
+    // maybe there are more processors to multicast
+    while (it.hasNext()) {
+        // prepare and run the next
+        ProcessorExchangePair pair = it.next();
+        subExchange = pair.getExchange();
+        updateNewExchange(subExchange, total.get(), pairs, it);
+        boolean sync = doProcessSequential(original, result, pairs, it, pair, callback, total);
+        if (!sync) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(""Processing exchangeId: "" + original.getExchangeId() + "" is continued being processed asynchronously"");
+            }
+            return;
+        }
+        // Decide whether to continue with the multicast or not; similar logic to the Pipeline
+        // remember to test for stop on exception and aggregate before copying back results
+        continueProcessing = PipelineHelper.continueProcessing(subExchange, ""Sequential processing failed for number "" + total.get(), LOG);
+        if (stopOnException && !continueProcessing) {
+            if (subExchange.getException() != null) {
+                // wrap in exception to explain where it failed
+                subExchange.setException(new CamelExchangeException(""Sequential processing failed for number "" + total, subExchange, subExchange.getException()));
+            } else {
+                // we want to stop on exception, and the exception was handled by the error handler
+                // this is similar to what the pipeline does, so we should do the same to not surprise end users
+                // so we should set the failed exchange as the result and be done
+                result.set(subExchange);
+            }
+            // and do the done work
+            doDone(original, subExchange, callback, false);
+            return;
+        }
+        try {
+            doAggregate(getAggregationStrategy(subExchange), result, subExchange);
+        } catch (Throwable e) {
+            // wrap in exception to explain where it failed
+            subExchange.setException(new CamelExchangeException(""Sequential processing failed for number "" + total, subExchange, e));
+            // and do the done work
+            doDone(original, subExchange, callback, false);
+            return;
+        }
+        total.incrementAndGet();
+    }
+    // do the done work
+    subExchange = result.get() != null ? result.get() : null;
+    doDone(original, subExchange, callback, false);
+}","public void done(boolean doneSync) {
+    // we are done with the exchange pair
+    pair.done();
+    // we only have to handle async completion of the routing slip
+    if (doneSync) {
+        return;
+    }
+    // continue processing the multicast asynchronously
+    Exchange subExchange = exchange;
+    // Decide whether to continue with the multicast or not; similar logic to the Pipeline
+    // remember to test for stop on exception and aggregate before copying back results
+    boolean continueProcessing = PipelineHelper.continueProcessing(subExchange, ""Sequential processing failed for number "" + total.get(), LOG);
+    if (stopOnException && !continueProcessing) {
+        if (subExchange.getException() != null) {
+            // wrap in exception to explain where it failed
+            subExchange.setException(new CamelExchangeException(""Sequential processing failed for number "" + total, subExchange, subExchange.getException()));
+        } else {
+            // we want to stop on exception, and the exception was handled by the error handler
+            // this is similar to what the pipeline does, so we should do the same to not surprise end users
+            // so we should set the failed exchange as the result and be done
+            result.set(subExchange);
+        }
+        // and do the done work
+        doDone(original, subExchange, callback, false, true);
+        return;
+    }
+    try {
+        doAggregate(getAggregationStrategy(subExchange), result, subExchange);
+    } catch (Throwable e) {
+        // wrap in exception to explain where it failed
+        subExchange.setException(new CamelExchangeException(""Sequential processing failed for number "" + total, subExchange, e));
+        // and do the done work
+        doDone(original, subExchange, callback, false, true);
+        return;
+    }
+    total.incrementAndGet();
+    // maybe there are more processors to multicast
+    while (it.hasNext()) {
+        // prepare and run the next
+        ProcessorExchangePair pair = it.next();
+        subExchange = pair.getExchange();
+        updateNewExchange(subExchange, total.get(), pairs, it);
+        boolean sync = doProcessSequential(original, result, pairs, it, pair, callback, total);
+        if (!sync) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(""Processing exchangeId: "" + original.getExchangeId() + "" is continued being processed asynchronously"");
+            }
+            return;
+        }
+        // Decide whether to continue with the multicast or not; similar logic to the Pipeline
+        // remember to test for stop on exception and aggregate before copying back results
+        continueProcessing = PipelineHelper.continueProcessing(subExchange, ""Sequential processing failed for number "" + total.get(), LOG);
+        if (stopOnException && !continueProcessing) {
+            if (subExchange.getException() != null) {
+                // wrap in exception to explain where it failed
+                subExchange.setException(new CamelExchangeException(""Sequential processing failed for number "" + total, subExchange, subExchange.getException()));
+            } else {
+                // we want to stop on exception, and the exception was handled by the error handler
+                // this is similar to what the pipeline does, so we should do the same to not surprise end users
+                // so we should set the failed exchange as the result and be done
+                result.set(subExchange);
+            }
+            // and do the done work
+            doDone(original, subExchange, callback, false, true);
+            return;
+        }
+        try {
+            doAggregate(getAggregationStrategy(subExchange), result, subExchange);
+        } catch (Throwable e) {
+            // wrap in exception to explain where it failed
+            subExchange.setException(new CamelExchangeException(""Sequential processing failed for number "" + total, subExchange, e));
+            // and do the done work
+            doDone(original, subExchange, callback, false, true);
+            return;
+        }
+        total.incrementAndGet();
+    }
+    // do the done work
+    subExchange = result.get() != null ? result.get() : null;
+    doDone(original, subExchange, callback, false, true);
+}"
+"private void read() throws ParseException {
+    currentTokenQuoted = false;
+    if (expected != null) {
+        expected.clear();
+    }
+    int[] types = characterTypes;
+    int i = parseIndex;
+    int type = types[i];
+    while (type == 0) {
+        type = types[++i];
+    }
+    int start = i;
+    char[] chars = statementChars;
+    char c = chars[i++];
+    currentToken = """";
+    switch(type) {
+        case CHAR_NAME:
+            while (true) {
+                type = types[i];
+                if (type != CHAR_NAME && type != CHAR_VALUE) {
+                    c = chars[i];
+                    break;
+                }
+                i++;
+            }
+            currentToken = statement.substring(start, i);
+            if (currentToken.isEmpty()) {
+                throw getSyntaxError();
+            }
+            currentTokenType = IDENTIFIER;
+            parseIndex = i;
+            return;
+        case CHAR_SPECIAL_2:
+            if (types[i] == CHAR_SPECIAL_2) {
+                i++;
+            }
+        // fall through
+        case CHAR_SPECIAL_1:
+            currentToken = statement.substring(start, i);
+            switch(c) {
+                case '+':
+                    currentTokenType = PLUS;
+                    break;
+                case '-':
+                    currentTokenType = MINUS;
+                    break;
+                case '(':
+                    currentTokenType = OPEN;
+                    break;
+                case ')':
+                    currentTokenType = CLOSE;
+                    break;
+                default:
+                    currentTokenType = KEYWORD;
+            }
+            parseIndex = i;
+            return;
+        case CHAR_VALUE:
+            long number = c - '0';
+            while (true) {
+                c = chars[i];
+                if (c < '0' || c > '9') {
+                    if (c == '.') {
+                        readDecimal(start, i);
+                        break;
+                    }
+                    if (c == 'E' || c == 'e') {
+                        readDecimal(start, i);
+                        break;
+                    }
+                    currentTokenType = VALUE_NUMBER;
+                    currentToken = String.valueOf(number);
+                    parseIndex = i;
+                    break;
+                }
+                number = number * 10 + (c - '0');
+                if (number > Integer.MAX_VALUE) {
+                    readDecimal(start, i);
+                    break;
+                }
+                i++;
+            }
+            return;
+        case CHAR_DECIMAL:
+            if (types[i] != CHAR_VALUE) {
+                currentTokenType = KEYWORD;
+                currentToken = ""."";
+                parseIndex = i;
+                return;
+            }
+            readDecimal(i - 1, i);
+            return;
+        case CHAR_STRING:
+            readString(i, '\'');
+            return;
+        case CHAR_END:
+            currentToken = """";
+            currentTokenType = END;
+            parseIndex = i;
+            return;
+        default:
+            throw getSyntaxError();
+    }
+}","private void read() throws ParseException {
+    currentTokenQuoted = false;
+    if (expected != null) {
+        expected.clear();
+    }
+    int[] types = characterTypes;
+    int i = parseIndex;
+    int type = types[i];
+    while (type == 0) {
+        type = types[++i];
+    }
+    int start = i;
+    char[] chars = statementChars;
+    char c = chars[i++];
+    currentToken = """";
+    switch(type) {
+        case CHAR_NAME:
+            while (true) {
+                type = types[i];
+                // for example in ""fn:lower-case""
+                if (type != CHAR_NAME && type != CHAR_VALUE && chars[i] != '-') {
+                    c = chars[i];
+                    break;
+                }
+                i++;
+            }
+            currentToken = statement.substring(start, i);
+            if (currentToken.isEmpty()) {
+                throw getSyntaxError();
+            }
+            currentTokenType = IDENTIFIER;
+            parseIndex = i;
+            return;
+        case CHAR_SPECIAL_2:
+            if (types[i] == CHAR_SPECIAL_2) {
+                i++;
+            }
+        // fall through
+        case CHAR_SPECIAL_1:
+            currentToken = statement.substring(start, i);
+            switch(c) {
+                case '+':
+                    currentTokenType = PLUS;
+                    break;
+                case '-':
+                    currentTokenType = MINUS;
+                    break;
+                case '(':
+                    currentTokenType = OPEN;
+                    break;
+                case ')':
+                    currentTokenType = CLOSE;
+                    break;
+                default:
+                    currentTokenType = KEYWORD;
+            }
+            parseIndex = i;
+            return;
+        case CHAR_VALUE:
+            long number = c - '0';
+            while (true) {
+                c = chars[i];
+                if (c < '0' || c > '9') {
+                    if (c == '.') {
+                        readDecimal(start, i);
+                        break;
+                    }
+                    if (c == 'E' || c == 'e') {
+                        readDecimal(start, i);
+                        break;
+                    }
+                    currentTokenType = VALUE_NUMBER;
+                    currentToken = String.valueOf(number);
+                    parseIndex = i;
+                    break;
+                }
+                number = number * 10 + (c - '0');
+                if (number > Integer.MAX_VALUE) {
+                    readDecimal(start, i);
+                    break;
+                }
+                i++;
+            }
+            return;
+        case CHAR_DECIMAL:
+            if (types[i] != CHAR_VALUE) {
+                currentTokenType = KEYWORD;
+                currentToken = ""."";
+                parseIndex = i;
+                return;
+            }
+            readDecimal(i - 1, i);
+            return;
+        case CHAR_STRING:
+            readString(i, '\'');
+            return;
+        case CHAR_END:
+            currentToken = """";
+            currentTokenType = END;
+            parseIndex = i;
+            return;
+        default:
+            throw getSyntaxError();
+    }
+}"
+"/**
+ * Checks if the given path needs to be fully parsed to apply namespace
+ * mappings or to validate its syntax. If the given path is ""simple"", i.e.
+ * it doesn't contain any complex constructs, and there are no local
+ * namespace remappings, it's possible to skip the full path parsing
+ * and simply use the JCR path string as-is as an Oak path.
+ *
+ * @param path JCR path
+ * @return {@code true} if the path needs to be fully parsed,
+ *         {@code false} if not
+ */
+private boolean needsFullMapping(String path) {
+    int length = path.length();
+    if (length == 0) {
+        return true;
+    }
+    // index of the last slash in the path
+    int slash = -1;
+    // index of the last colon in the path
+    int colon = -1;
+    switch(path.charAt(0)) {
+        // possibly an expanded name
+        case '{':
+        // starts with an identifier
+        case '[':
+        // possibly ""."" or ""..""
+        case '.':
+        case // colon as the first character
+        ':':
+            return true;
+        case '/':
+            if (length == 1) {
+                // the root path
+                return false;
+            }
+            slash = 0;
+            break;
+    }
+    for (int i = 1; i < length; i++) {
+        switch(path.charAt(i)) {
+            // possibly an expanded name
+            case '{':
+            case // possibly an index
+            '[':
+                return true;
+            case '.':
+                if (i == slash + 1) {
+                    // possibly ""."" or ""..""
+                    return true;
+                }
+                break;
+            case ':':
+                if (// ""x/:y""
+                i == slash + 1 || // ""x::y""
+                i == colon + i || // ""x:y:z""
+                colon > slash || i + 1 == length) {
+                    // ""x:""
+                    return true;
+                }
+                colon = i;
+                break;
+            case '/':
+                if (// ""x//y""
+                i == slash + 1 || // ""x:/y""
+                i == colon + i || i + 1 == length) {
+                    // ""x/""
+                    return true;
+                }
+                slash = i;
+                break;
+        }
+    }
+    return colon != -1 && !nameMapper.getSessionLocalMappings().isEmpty();
+}","/**
+ * Checks if the given path needs to be fully parsed to apply namespace
+ * mappings or to validate its syntax. If the given path is ""simple"", i.e.
+ * it doesn't contain any complex constructs, and there are no local
+ * namespace remappings, it's possible to skip the full path parsing
+ * and simply use the JCR path string as-is as an Oak path.
+ *
+ * @param path JCR path
+ * @return {@code true} if the path needs to be fully parsed,
+ *         {@code false} if not
+ */
+private boolean needsFullMapping(String path) {
+    int length = path.length();
+    if (length == 0) {
+        return true;
+    }
+    // index of the last slash in the path
+    int slash = -1;
+    // index of the last colon in the path
+    int colon = -1;
+    switch(path.charAt(0)) {
+        // possibly an expanded name
+        case '{':
+        // starts with an identifier
+        case '[':
+        // possibly ""."" or ""..""
+        case '.':
+        case // colon as the first character
+        ':':
+            return true;
+        case '/':
+            if (length == 1) {
+                // the root path
+                return false;
+            }
+            slash = 0;
+            break;
+    }
+    for (int i = 1; i < length; i++) {
+        switch(path.charAt(i)) {
+            // possibly an expanded name
+            case '{':
+            // possibly an index
+            case '[':
+            // illegal character if not part of index
+            case ']':
+            // illegal character
+            case '|':
+            case // illegal character
+            '*':
+                return true;
+            case '.':
+                if (i == slash + 1) {
+                    // possibly ""."" or ""..""
+                    return true;
+                }
+                break;
+            case ':':
+                if (// ""x/:y""
+                i == slash + 1 || // ""x::y""
+                i == colon + i || // ""x:y:z""
+                colon > slash || i + 1 == length) {
+                    // ""x:""
+                    return true;
+                }
+                colon = i;
+                break;
+            case '/':
+                if (// ""x//y""
+                i == slash + 1 || // ""x:/y""
+                i == colon + i || i + 1 == length) {
+                    // ""x/""
+                    return true;
+                }
+                slash = i;
+                break;
+        }
+    }
+    return colon != -1 && !nameMapper.getSessionLocalMappings().isEmpty();
+}"
+"public RedeliveryPolicy createRedeliveryPolicy(CamelContext context, RedeliveryPolicy parentPolicy) {
+    RedeliveryPolicy answer;
+    if (parentPolicy != null) {
+        answer = parentPolicy.copy();
+    } else {
+        answer = new RedeliveryPolicy();
+    }
+    try {
+        // copy across the properties - if they are set
+        if (maximumRedeliveries != null) {
+            answer.setMaximumRedeliveries(CamelContextHelper.parseInteger(context, maximumRedeliveries));
+        }
+        if (redeliveryDelay != null) {
+            answer.setRedeliveryDelay(CamelContextHelper.parseLong(context, redeliveryDelay));
+        }
+        if (asyncDelayedRedelivery != null) {
+            if (CamelContextHelper.parseBoolean(context, asyncDelayedRedelivery)) {
+                answer.asyncDelayedRedelivery();
+            }
+        }
+        if (retriesExhaustedLogLevel != null) {
+            answer.setRetriesExhaustedLogLevel(retriesExhaustedLogLevel);
+        }
+        if (retryAttemptedLogLevel != null) {
+            answer.setRetryAttemptedLogLevel(retryAttemptedLogLevel);
+        }
+        if (backOffMultiplier != null) {
+            answer.setBackOffMultiplier(CamelContextHelper.parseDouble(context, backOffMultiplier));
+        }
+        if (useExponentialBackOff != null) {
+            answer.setUseExponentialBackOff(CamelContextHelper.parseBoolean(context, useExponentialBackOff));
+        }
+        if (collisionAvoidanceFactor != null) {
+            answer.setCollisionAvoidanceFactor(CamelContextHelper.parseDouble(context, collisionAvoidanceFactor));
+        }
+        if (useCollisionAvoidance != null) {
+            answer.setUseCollisionAvoidance(CamelContextHelper.parseBoolean(context, useCollisionAvoidance));
+        }
+        if (maximumRedeliveryDelay != null) {
+            answer.setMaximumRedeliveryDelay(CamelContextHelper.parseLong(context, maximumRedeliveryDelay));
+        }
+        if (logStackTrace != null) {
+            answer.setLogStackTrace(CamelContextHelper.parseBoolean(context, logStackTrace));
+        }
+        if (logRetryStackTrace != null) {
+            answer.setLogRetryStackTrace(CamelContextHelper.parseBoolean(context, logRetryStackTrace));
+        }
+        if (logHandled != null) {
+            answer.setLogHandled(CamelContextHelper.parseBoolean(context, logHandled));
+        }
+        if (logNewException != null) {
+            answer.setLogNewException(CamelContextHelper.parseBoolean(context, logNewException));
+        }
+        if (logContinued != null) {
+            answer.setLogContinued(CamelContextHelper.parseBoolean(context, logContinued));
+        }
+        if (logRetryAttempted != null) {
+            answer.setLogRetryAttempted(CamelContextHelper.parseBoolean(context, logRetryAttempted));
+        }
+        if (logExhausted != null) {
+            answer.setLogExhausted(CamelContextHelper.parseBoolean(context, logExhausted));
+        }
+        if (logExhaustedMessageHistory != null) {
+            answer.setLogExhaustedMessageHistory(CamelContextHelper.parseBoolean(context, logExhaustedMessageHistory));
+        }
+        if (disableRedelivery != null) {
+            if (CamelContextHelper.parseBoolean(context, disableRedelivery)) {
+                answer.setMaximumRedeliveries(0);
+            }
+        }
+        if (delayPattern != null) {
+            answer.setDelayPattern(delayPattern);
+        }
+        if (allowRedeliveryWhileStopping != null) {
+            answer.setAllowRedeliveryWhileStopping(CamelContextHelper.parseBoolean(context, allowRedeliveryWhileStopping));
+        }
+        if (exchangeFormatterRef != null) {
+            answer.setExchangeFormatterRef(exchangeFormatterRef);
+        }
+    } catch (Exception e) {
+        throw ObjectHelper.wrapRuntimeCamelException(e);
+    }
+    return answer;
+}","public RedeliveryPolicy createRedeliveryPolicy(CamelContext context, RedeliveryPolicy parentPolicy) {
+    RedeliveryPolicy answer;
+    if (parentPolicy != null) {
+        answer = parentPolicy.copy();
+    } else {
+        answer = new RedeliveryPolicy();
+    }
+    try {
+        // copy across the properties - if they are set
+        if (maximumRedeliveries != null) {
+            answer.setMaximumRedeliveries(CamelContextHelper.parseInteger(context, maximumRedeliveries));
+        }
+        if (redeliveryDelay != null) {
+            answer.setRedeliveryDelay(CamelContextHelper.parseLong(context, redeliveryDelay));
+        }
+        if (asyncDelayedRedelivery != null) {
+            if (CamelContextHelper.parseBoolean(context, asyncDelayedRedelivery)) {
+                answer.asyncDelayedRedelivery();
+            }
+        }
+        if (retriesExhaustedLogLevel != null) {
+            answer.setRetriesExhaustedLogLevel(retriesExhaustedLogLevel);
+        }
+        if (retryAttemptedLogLevel != null) {
+            answer.setRetryAttemptedLogLevel(retryAttemptedLogLevel);
+        }
+        if (backOffMultiplier != null) {
+            answer.setBackOffMultiplier(CamelContextHelper.parseDouble(context, backOffMultiplier));
+        }
+        if (useExponentialBackOff != null) {
+            answer.setUseExponentialBackOff(CamelContextHelper.parseBoolean(context, useExponentialBackOff));
+        }
+        if (collisionAvoidanceFactor != null) {
+            answer.setCollisionAvoidanceFactor(CamelContextHelper.parseDouble(context, collisionAvoidanceFactor));
+        }
+        if (useCollisionAvoidance != null) {
+            answer.setUseCollisionAvoidance(CamelContextHelper.parseBoolean(context, useCollisionAvoidance));
+        }
+        if (maximumRedeliveryDelay != null) {
+            answer.setMaximumRedeliveryDelay(CamelContextHelper.parseLong(context, maximumRedeliveryDelay));
+        }
+        if (logStackTrace != null) {
+            answer.setLogStackTrace(CamelContextHelper.parseBoolean(context, logStackTrace));
+        }
+        if (logRetryStackTrace != null) {
+            answer.setLogRetryStackTrace(CamelContextHelper.parseBoolean(context, logRetryStackTrace));
+        }
+        if (logHandled != null) {
+            answer.setLogHandled(CamelContextHelper.parseBoolean(context, logHandled));
+        }
+        if (logNewException != null) {
+            answer.setLogNewException(CamelContextHelper.parseBoolean(context, logNewException));
+        }
+        if (logContinued != null) {
+            answer.setLogContinued(CamelContextHelper.parseBoolean(context, logContinued));
+        }
+        if (logRetryAttempted != null) {
+            answer.setLogRetryAttempted(CamelContextHelper.parseBoolean(context, logRetryAttempted));
+        }
+        if (logExhausted != null) {
+            answer.setLogExhausted(CamelContextHelper.parseBoolean(context, logExhausted));
+        }
+        if (logExhaustedMessageHistory != null) {
+            answer.setLogExhaustedMessageHistory(CamelContextHelper.parseBoolean(context, logExhaustedMessageHistory));
+        }
+        if (disableRedelivery != null) {
+            if (CamelContextHelper.parseBoolean(context, disableRedelivery)) {
+                answer.setMaximumRedeliveries(0);
+            }
+        }
+        if (delayPattern != null) {
+            answer.setDelayPattern(CamelContextHelper.parseText(context, delayPattern));
+        }
+        if (allowRedeliveryWhileStopping != null) {
+            answer.setAllowRedeliveryWhileStopping(CamelContextHelper.parseBoolean(context, allowRedeliveryWhileStopping));
+        }
+        if (exchangeFormatterRef != null) {
+            answer.setExchangeFormatterRef(CamelContextHelper.parseText(context, exchangeFormatterRef));
+        }
+    } catch (Exception e) {
+        throw ObjectHelper.wrapRuntimeCamelException(e);
+    }
+    return answer;
+}"
+"Iterator<ResultRowImpl> getRows() {
+    prepare();
+    Iterator<ResultRowImpl> it;
+    if (explain) {
+        String plan = source.getPlan(rootState);
+        columns = new ColumnImpl[] { new ColumnImpl(""explain"", ""plan"", ""plan"") };
+        ResultRowImpl r = new ResultRowImpl(this, new String[0], new PropertyValue[] { PropertyValues.newString(plan) }, null);
+        it = Arrays.asList(r).iterator();
+    } else {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(""plan: "" + source.getPlan(rootState));
+        }
+        if (orderings == null) {
+            // can apply limit and offset directly
+            it = new RowIterator(rootState, limit, offset);
+        } else {
+            // read and order first; skip and limit afterwards
+            it = new RowIterator(rootState, Long.MAX_VALUE, 0);
+        }
+        long readCount = 0;
+        if (orderings != null) {
+            // TODO ""order by"" is not necessary if the used index returns
+            // rows in the same order
+            // avoid overflow (both offset and limit could be Long.MAX_VALUE)
+            int keep = (int) Math.min(Integer.MAX_VALUE, Math.min(Integer.MAX_VALUE, offset) + Math.min(Integer.MAX_VALUE, limit));
+            ArrayList<ResultRowImpl> list = new ArrayList<ResultRowImpl>();
+            while (it.hasNext()) {
+                readCount++;
+                ResultRowImpl r = it.next();
+                list.add(r);
+                // which is close to the optimum O(n*log(keep))
+                if (list.size() > keep * 2) {
+                    // remove tail entries right now, to save memory
+                    Collections.sort(list);
+                    keepFirst(list, keep);
+                }
+            }
+            Collections.sort(list);
+            keepFirst(list, keep);
+            it = list.iterator();
+            // if there are many entries)
+            for (int i = 0; i < offset && it.hasNext(); i++) {
+                it.next();
+            }
+            size = list.size() - offset;
+        } else if (measure) {
+            while (it.hasNext()) {
+                readCount++;
+                it.next();
+            }
+        }
+        if (measure) {
+            columns = new ColumnImpl[] { new ColumnImpl(""measure"", ""selector"", ""selector""), new ColumnImpl(""measure"", ""scanCount"", ""scanCount"") };
+            ArrayList<ResultRowImpl> list = new ArrayList<ResultRowImpl>();
+            ResultRowImpl r = new ResultRowImpl(this, new String[0], new PropertyValue[] { PropertyValues.newString(""query""), PropertyValues.newLong(readCount) }, null);
+            list.add(r);
+            for (SelectorImpl selector : selectors) {
+                r = new ResultRowImpl(this, new String[0], new PropertyValue[] { PropertyValues.newString(selector.getSelectorName()), PropertyValues.newLong(selector.getScanCount()) }, null);
+                list.add(r);
+            }
+            it = list.iterator();
+        }
+    }
+    return it;
+}","Iterator<ResultRowImpl> getRows() {
+    prepare();
+    Iterator<ResultRowImpl> it;
+    if (explain) {
+        String plan = getPlan();
+        columns = new ColumnImpl[] { new ColumnImpl(""explain"", ""plan"", ""plan"") };
+        ResultRowImpl r = new ResultRowImpl(this, new String[0], new PropertyValue[] { PropertyValues.newString(plan) }, null);
+        it = Arrays.asList(r).iterator();
+    } else {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(""plan: "" + getPlan());
+        }
+        if (orderings == null) {
+            // can apply limit and offset directly
+            it = new RowIterator(rootState, limit, offset);
+        } else {
+            // read and order first; skip and limit afterwards
+            it = new RowIterator(rootState, Long.MAX_VALUE, 0);
+        }
+        long readCount = 0;
+        if (orderings != null) {
+            // TODO ""order by"" is not necessary if the used index returns
+            // rows in the same order
+            // avoid overflow (both offset and limit could be Long.MAX_VALUE)
+            int keep = (int) Math.min(Integer.MAX_VALUE, Math.min(Integer.MAX_VALUE, offset) + Math.min(Integer.MAX_VALUE, limit));
+            ArrayList<ResultRowImpl> list = new ArrayList<ResultRowImpl>();
+            while (it.hasNext()) {
+                readCount++;
+                ResultRowImpl r = it.next();
+                list.add(r);
+                // which is close to the optimum O(n*log(keep))
+                if (list.size() > keep * 2) {
+                    // remove tail entries right now, to save memory
+                    Collections.sort(list);
+                    keepFirst(list, keep);
+                }
+            }
+            Collections.sort(list);
+            keepFirst(list, keep);
+            it = list.iterator();
+            // if there are many entries)
+            for (int i = 0; i < offset && it.hasNext(); i++) {
+                it.next();
+            }
+            size = list.size() - offset;
+        } else if (measure) {
+            while (it.hasNext()) {
+                readCount++;
+                it.next();
+            }
+        }
+        if (measure) {
+            columns = new ColumnImpl[] { new ColumnImpl(""measure"", ""selector"", ""selector""), new ColumnImpl(""measure"", ""scanCount"", ""scanCount"") };
+            ArrayList<ResultRowImpl> list = new ArrayList<ResultRowImpl>();
+            ResultRowImpl r = new ResultRowImpl(this, new String[0], new PropertyValue[] { PropertyValues.newString(""query""), PropertyValues.newLong(readCount) }, null);
+            list.add(r);
+            for (SelectorImpl selector : selectors) {
+                r = new ResultRowImpl(this, new String[0], new PropertyValue[] { PropertyValues.newString(selector.getSelectorName()), PropertyValues.newLong(selector.getScanCount()) }, null);
+                list.add(r);
+            }
+            it = list.iterator();
+        }
+    }
+    return it;
+}"
+"@Override
+@Nonnull
+public Node addNode(final String relPath, final String primaryNodeTypeName) throws RepositoryException {
+    checkStatus();
+    checkProtected();
+    return sessionDelegate.perform(new SessionOperation<Node>() {
+
+        @Override
+        public Node perform() throws RepositoryException {
+            String oakPath = sessionDelegate.getOakPathKeepIndexOrThrowNotFound(relPath);
+            String oakName = PathUtils.getName(oakPath);
+            String parentPath = sessionDelegate.getOakPath(PathUtils.getParentPath(oakPath));
+            // handle index
+            if (oakName.contains(""["")) {
+                throw new RepositoryException(""Cannot create a new node using a name including an index"");
+            }
+            NodeDelegate parent = dlg.getChild(parentPath);
+            if (parent == null) {
+                // is it a property?
+                String grandParentPath = PathUtils.getParentPath(parentPath);
+                NodeDelegate grandParent = dlg.getChild(grandParentPath);
+                if (grandParent != null) {
+                    String propName = PathUtils.getName(parentPath);
+                    if (grandParent.getProperty(propName) != null) {
+                        throw new ConstraintViolationException(""Can't add new node to property."");
+                    }
+                }
+                throw new PathNotFoundException(relPath);
+            }
+            if (parent.getChild(oakName) != null) {
+                throw new ItemExistsException(relPath);
+            }
+            String ntName = primaryNodeTypeName;
+            if (ntName == null) {
+                DefinitionProvider dp = sessionDelegate.getDefinitionProvider();
+                try {
+                    String childName = sessionDelegate.getOakName(PathUtils.getName(relPath));
+                    NodeDefinition def = dp.getDefinition(new NodeImpl<NodeDelegate>(parent), childName);
+                    ntName = def.getDefaultPrimaryTypeName();
+                } catch (RepositoryException e) {
+                    throw new ConstraintViolationException(""no matching child node definition found for "" + relPath);
+                }
+            }
+            // TODO: figure out the right place for this check
+            NodeTypeManager ntm = sessionDelegate.getNodeTypeManager();
+            // throws on not found
+            NodeType nt = ntm.getNodeType(ntName);
+            if (nt.isAbstract() || nt.isMixin()) {
+                throw new ConstraintViolationException();
+            }
+            // TODO: END
+            NodeDelegate added = parent.addChild(oakName);
+            if (added == null) {
+                throw new ItemExistsException();
+            }
+            if (getPrimaryNodeType().hasOrderableChildNodes()) {
+                dlg.setOrderableChildren(true);
+            }
+            NodeImpl<?> childNode = new NodeImpl<NodeDelegate>(added);
+            childNode.internalSetPrimaryType(ntName);
+            childNode.autoCreateItems();
+            return childNode;
+        }
+    });
+}","@Override
+@Nonnull
+public Node addNode(final String relPath, final String primaryNodeTypeName) throws RepositoryException {
+    checkStatus();
+    checkProtected();
+    return sessionDelegate.perform(new SessionOperation<Node>() {
+
+        @Override
+        public Node perform() throws RepositoryException {
+            String oakPath = sessionDelegate.getOakPathKeepIndexOrThrowNotFound(relPath);
+            String oakName = PathUtils.getName(oakPath);
+            String parentPath = sessionDelegate.getOakPath(PathUtils.getParentPath(oakPath));
+            // handle index
+            if (oakName.contains(""["")) {
+                throw new RepositoryException(""Cannot create a new node using a name including an index"");
+            }
+            NodeDelegate parent = dlg.getChild(parentPath);
+            if (parent == null) {
+                // is it a property?
+                String grandParentPath = PathUtils.getParentPath(parentPath);
+                NodeDelegate grandParent = dlg.getChild(grandParentPath);
+                if (grandParent != null) {
+                    String propName = PathUtils.getName(parentPath);
+                    if (grandParent.getProperty(propName) != null) {
+                        throw new ConstraintViolationException(""Can't add new node to property."");
+                    }
+                }
+                throw new PathNotFoundException(relPath);
+            }
+            if (parent.getChild(oakName) != null) {
+                throw new ItemExistsException(relPath);
+            }
+            String ntName = primaryNodeTypeName;
+            if (ntName == null) {
+                DefinitionProvider dp = sessionDelegate.getDefinitionProvider();
+                String childName = sessionDelegate.getOakName(PathUtils.getName(relPath));
+                NodeDefinition def = dp.getDefinition(new NodeImpl<NodeDelegate>(parent), childName);
+                ntName = def.getDefaultPrimaryTypeName();
+                if (ntName == null) {
+                    throw new ConstraintViolationException(""no matching child node definition found for "" + relPath);
+                }
+            }
+            // TODO: figure out the right place for this check
+            NodeTypeManager ntm = sessionDelegate.getNodeTypeManager();
+            // throws on not found
+            NodeType nt = ntm.getNodeType(ntName);
+            if (nt.isAbstract() || nt.isMixin()) {
+                throw new ConstraintViolationException();
+            }
+            // TODO: END
+            NodeDelegate added = parent.addChild(oakName);
+            if (added == null) {
+                throw new ItemExistsException();
+            }
+            if (getPrimaryNodeType().hasOrderableChildNodes()) {
+                dlg.setOrderableChildren(true);
+            }
+            NodeImpl<?> childNode = new NodeImpl<NodeDelegate>(added);
+            childNode.internalSetPrimaryType(ntName);
+            childNode.autoCreateItems();
+            return childNode;
+        }
+    });
+}"
+"@Override
+public void startNode(NodeInfo nodeInfo, List<PropInfo> propInfos) throws RepositoryException {
+    Tree parent = parents.peek();
+    Tree tree = null;
+    String id = nodeInfo.getUUID();
+    String nodeName = nodeInfo.getName();
+    String ntName = nodeInfo.getPrimaryTypeName();
+    if (parent == null) {
+        log.debug(""Skipping node: "" + nodeName);
+        // parent node was skipped, skip this child node too
+        // push null onto stack for skipped node
+        parents.push(null);
+        // notify the p-i-importer
+        if (pnImporter != null) {
+            pnImporter.startChildInfo(nodeInfo, propInfos);
+        }
+        return;
+    }
+    NodeDefinition parentDef = getDefinition(parent);
+    if (parentDef.isProtected()) {
+        // skip protected node
+        parents.push(null);
+        log.debug(""Skipping protected node: "" + nodeName);
+        if (pnImporter != null) {
+            // pnImporter was already started (current nodeInfo is a sibling)
+            // notify it about this child node.
+            pnImporter.startChildInfo(nodeInfo, propInfos);
+        } else {
+            // potentially is able to deal with it, notify it about the child node.
+            for (ProtectedItemImporter pni : pItemImporters) {
+                if (pni instanceof ProtectedNodeImporter && ((ProtectedNodeImporter) pni).start(parent)) {
+                    log.debug(""Protected node -> delegated to ProtectedNodeImporter"");
+                    pnImporter = (ProtectedNodeImporter) pni;
+                    pnImporter.startChildInfo(nodeInfo, propInfos);
+                    break;
+                }
+            /* else: p-i-Importer isn't able to deal with the protected tree.
+                     try next. and if none can handle the passed parent the
+                     tree below will be skipped */
+            }
+        }
+        return;
+    }
+    if (parent.hasChild(nodeName)) {
+        // a node with that name already exists...
+        Tree existing = parent.getChild(nodeName);
+        NodeDefinition def = getDefinition(existing);
+        if (!def.allowsSameNameSiblings()) {
+            // check for potential conflicts
+            if (def.isProtected() && isNodeType(existing, ntName)) {
+                /*
+                     use the existing node as parent for the possible subsequent
+                     import of a protected tree, that the protected node importer
+                     may or may not be able to deal with.
+                     -> upon the next 'startNode' the check for the parent being
+                        protected will notify the protected node importer.
+                     -> if the importer is able to deal with that node it needs
+                        to care of the complete subtree until it is notified
+                        during the 'endNode' call.
+                     -> if the import can't deal with that node or if that node
+                        is the a leaf in the tree to be imported 'end' will
+                        not have an effect on the importer, that was never started.
+                    */
+                log.debug(""Skipping protected node: "" + existing);
+                parents.push(existing);
+                return;
+            }
+            if (def.isAutoCreated() && isNodeType(existing, ntName)) {
+                // this node has already been auto-created, no need to create it
+                tree = existing;
+            } else {
+                // edge case: colliding node does have same uuid
+                // (see http://issues.apache.org/jira/browse/JCR-1128)
+                String existingIdentifier = IdentifierManager.getIdentifier(existing);
+                if (!(existingIdentifier.equals(id) && (uuidBehavior == ImportUUIDBehavior.IMPORT_UUID_COLLISION_REMOVE_EXISTING || uuidBehavior == ImportUUIDBehavior.IMPORT_UUID_COLLISION_REPLACE_EXISTING))) {
+                    throw new ItemExistsException(""Node with the same UUID exists:"" + existing);
+                }
+            // fall through
+            }
+        }
+    }
+    if (tree == null) {
+        // create node
+        if (id == null) {
+            // no potential uuid conflict, always add new node
+            tree = createTree(parent, nodeInfo, id);
+        } else {
+            // 1. First check from base state that tree corresponding to
+            // this id exist
+            Tree conflicting = baseStateIdManager.getTree(id);
+            if (conflicting == null) {
+                // 1.a. Check if id is found in newly created nodes
+                if (uuids.contains(id)) {
+                    conflicting = currentStateIdManager.getTree(id);
+                }
+            } else {
+                // 1.b Re obtain the conflicting tree from Id Manager
+                // associated with current root. Such that any operation
+                // on it gets reflected in later operations
+                // In case a tree with same id was removed earlier then it
+                // would return null
+                conflicting = currentStateIdManager.getTree(id);
+            }
+            if (conflicting != null && conflicting.exists()) {
+                // resolve uuid conflict
+                tree = resolveUUIDConflict(parent, conflicting, id, nodeInfo);
+                if (tree == null) {
+                    // no new node has been created, so skip this node
+                    // push null onto stack for skipped node
+                    parents.push(null);
+                    log.debug(""Skipping existing node "" + nodeInfo.getName());
+                    return;
+                }
+            } else {
+                // create new with given uuid
+                tree = createTree(parent, nodeInfo, id);
+            }
+        }
+    }
+    // process properties
+    for (PropInfo pi : propInfos) {
+        // find applicable definition
+        // TODO find better heuristics?
+        PropertyDefinition def = pi.getPropertyDef(effectiveNodeTypeProvider.getEffectiveNodeType(tree));
+        if (def.isProtected()) {
+            // skip protected property
+            log.debug(""Skipping protected property "" + pi.getName());
+            // notify the ProtectedPropertyImporter.
+            for (ProtectedItemImporter ppi : pItemImporters) {
+                if (ppi instanceof ProtectedPropertyImporter && ((ProtectedPropertyImporter) ppi).handlePropInfo(tree, pi, def)) {
+                    log.debug(""Protected property -> delegated to ProtectedPropertyImporter"");
+                    break;
+                }
+            /* else: p-i-Importer isn't able to deal with this property.
+                             try next pp-importer */
+            }
+        } else {
+            // regular property -> create the property
+            createProperty(tree, pi, def);
+        }
+    }
+    parents.push(tree);
+}","@Override
+public void startNode(NodeInfo nodeInfo, List<PropInfo> propInfos) throws RepositoryException {
+    Tree parent = parents.peek();
+    Tree tree = null;
+    String id = nodeInfo.getUUID();
+    String nodeName = nodeInfo.getName();
+    String ntName = nodeInfo.getPrimaryTypeName();
+    if (parent == null) {
+        log.debug(""Skipping node: "" + nodeName);
+        // parent node was skipped, skip this child node too
+        // push null onto stack for skipped node
+        parents.push(null);
+        // notify the p-i-importer
+        if (pnImporter != null) {
+            pnImporter.startChildInfo(nodeInfo, propInfos);
+        }
+        return;
+    }
+    NodeDefinition parentDef = getDefinition(parent);
+    if (parentDef.isProtected()) {
+        // skip protected node
+        parents.push(null);
+        log.debug(""Skipping protected node: "" + nodeName);
+        if (pnImporter != null) {
+            // pnImporter was already started (current nodeInfo is a sibling)
+            // notify it about this child node.
+            pnImporter.startChildInfo(nodeInfo, propInfos);
+        } else {
+            // potentially is able to deal with it, notify it about the child node.
+            for (ProtectedItemImporter pni : pItemImporters) {
+                if (pni instanceof ProtectedNodeImporter && ((ProtectedNodeImporter) pni).start(parent)) {
+                    log.debug(""Protected node -> delegated to ProtectedNodeImporter"");
+                    pnImporter = (ProtectedNodeImporter) pni;
+                    pnImporter.startChildInfo(nodeInfo, propInfos);
+                    break;
+                }
+            /* else: p-i-Importer isn't able to deal with the protected tree.
+                     try next. and if none can handle the passed parent the
+                     tree below will be skipped */
+            }
+        }
+        return;
+    }
+    if (parent.hasChild(nodeName)) {
+        // a node with that name already exists...
+        Tree existing = parent.getChild(nodeName);
+        NodeDefinition def = getDefinition(existing);
+        if (!def.allowsSameNameSiblings()) {
+            // check for potential conflicts
+            if (def.isProtected() && isNodeType(existing, ntName)) {
+                /*
+                     use the existing node as parent for the possible subsequent
+                     import of a protected tree, that the protected node importer
+                     may or may not be able to deal with.
+                     -> upon the next 'startNode' the check for the parent being
+                        protected will notify the protected node importer.
+                     -> if the importer is able to deal with that node it needs
+                        to care of the complete subtree until it is notified
+                        during the 'endNode' call.
+                     -> if the import can't deal with that node or if that node
+                        is the a leaf in the tree to be imported 'end' will
+                        not have an effect on the importer, that was never started.
+                    */
+                log.debug(""Skipping protected node: "" + existing);
+                parents.push(existing);
+                return;
+            }
+            if (def.isAutoCreated() && isNodeType(existing, ntName)) {
+                // this node has already been auto-created, no need to create it
+                tree = existing;
+            } else {
+                // edge case: colliding node does have same uuid
+                // (see http://issues.apache.org/jira/browse/JCR-1128)
+                String existingIdentifier = IdentifierManager.getIdentifier(existing);
+                if (!(existingIdentifier.equals(id) && (uuidBehavior == ImportUUIDBehavior.IMPORT_UUID_COLLISION_REMOVE_EXISTING || uuidBehavior == ImportUUIDBehavior.IMPORT_UUID_COLLISION_REPLACE_EXISTING))) {
+                    throw new ItemExistsException(""Node with the same UUID exists:"" + existing);
+                }
+            // fall through
+            }
+        }
+    }
+    if (tree == null) {
+        // create node
+        if (id == null) {
+            // no potential uuid conflict, always add new node
+            tree = createTree(parent, nodeInfo, id);
+        } else {
+            // 1. First check from base state that tree corresponding to
+            // this id exist
+            Tree conflicting = baseStateIdManager.getTree(id);
+            if (conflicting == null) {
+                // 1.a. Check if id is found in newly created nodes
+                if (uuids.contains(id)) {
+                    conflicting = currentStateIdManager.getTree(id);
+                }
+            } else {
+                // 1.b Re obtain the conflicting tree from Id Manager
+                // associated with current root. Such that any operation
+                // on it gets reflected in later operations
+                // In case a tree with same id was removed earlier then it
+                // would return null
+                conflicting = currentStateIdManager.getTree(id);
+            }
+            // conflicting node exists. see OAK-1244
+            if ((conflicting != null && conflicting.exists()) || uuidBehavior == ImportUUIDBehavior.IMPORT_UUID_CREATE_NEW) {
+                // resolve uuid conflict
+                tree = resolveUUIDConflict(parent, conflicting, id, nodeInfo);
+                if (tree == null) {
+                    // no new node has been created, so skip this node
+                    // push null onto stack for skipped node
+                    parents.push(null);
+                    log.debug(""Skipping existing node "" + nodeInfo.getName());
+                    return;
+                }
+            } else {
+                // create new with given uuid
+                tree = createTree(parent, nodeInfo, id);
+            }
+        }
+    }
+    // process properties
+    for (PropInfo pi : propInfos) {
+        // find applicable definition
+        // TODO find better heuristics?
+        PropertyDefinition def = pi.getPropertyDef(effectiveNodeTypeProvider.getEffectiveNodeType(tree));
+        if (def.isProtected()) {
+            // skip protected property
+            log.debug(""Skipping protected property "" + pi.getName());
+            // notify the ProtectedPropertyImporter.
+            for (ProtectedItemImporter ppi : pItemImporters) {
+                if (ppi instanceof ProtectedPropertyImporter && ((ProtectedPropertyImporter) ppi).handlePropInfo(tree, pi, def)) {
+                    log.debug(""Protected property -> delegated to ProtectedPropertyImporter"");
+                    break;
+                }
+            /* else: p-i-Importer isn't able to deal with this property.
+                             try next pp-importer */
+            }
+        } else {
+            // regular property -> create the property
+            createProperty(tree, pi, def);
+        }
+    }
+    parents.push(tree);
+}"
+"/**
+ * Inspects the given definition and resolves any property placeholders from its properties.
+ * <p/>
+ * This implementation will check all the getter/setter pairs on this instance and for all the values
+ * (which is a String type) will be property placeholder resolved.
+ *
+ * @param routeContext the route context
+ * @param definition   the definition
+ * @throws Exception is thrown if property placeholders was used and there was an error resolving them
+ * @see org.apache.camel.CamelContext#resolvePropertyPlaceholders(String)
+ * @see org.apache.camel.component.properties.PropertiesComponent
+ */
+public static void resolvePropertyPlaceholders(RouteContext routeContext, Object definition) throws Exception {
+    LOG.trace(""Resolving property placeholders for: {}"", definition);
+    // find all getter/setter which we can use for property placeholders
+    Map<String, Object> properties = new HashMap<String, Object>();
+    IntrospectionSupport.getProperties(definition, properties, null);
+    ProcessorDefinition<?> processorDefinition = null;
+    if (definition instanceof ProcessorDefinition) {
+        processorDefinition = (ProcessorDefinition<?>) definition;
+    }
+    // and when the definition parameter is this (otherAttributes belong to this)
+    if (processorDefinition != null && processorDefinition.getOtherAttributes() != null) {
+        for (QName key : processorDefinition.getOtherAttributes().keySet()) {
+            if (Constants.PLACEHOLDER_QNAME.equals(key.getNamespaceURI())) {
+                String local = key.getLocalPart();
+                Object value = processorDefinition.getOtherAttributes().get(key);
+                if (value != null && value instanceof String) {
+                    // value must be enclosed with placeholder tokens
+                    String s = (String) value;
+                    String prefixToken = routeContext.getCamelContext().getPropertyPrefixToken();
+                    String suffixToken = routeContext.getCamelContext().getPropertySuffixToken();
+                    if (prefixToken == null) {
+                        throw new IllegalArgumentException(""Property with name ["" + local + ""] uses property placeholders; however, no properties component is configured."");
+                    }
+                    if (!s.startsWith(prefixToken)) {
+                        s = prefixToken + s;
+                    }
+                    if (!s.endsWith(suffixToken)) {
+                        s = s + suffixToken;
+                    }
+                    value = s;
+                }
+                properties.put(local, value);
+            }
+        }
+    }
+    if (!properties.isEmpty()) {
+        LOG.trace(""There are {} properties on: {}"", properties.size(), definition);
+        // lookup and resolve properties for String based properties
+        for (Map.Entry<String, Object> entry : properties.entrySet()) {
+            // the name is always a String
+            String name = entry.getKey();
+            Object value = entry.getValue();
+            if (value instanceof String) {
+                // value must be a String, as a String is the key for a property placeholder
+                String text = (String) value;
+                text = routeContext.getCamelContext().resolvePropertyPlaceholders(text);
+                if (text != value) {
+                    // invoke setter as the text has changed
+                    boolean changed = IntrospectionSupport.setProperty(routeContext.getCamelContext().getTypeConverter(), definition, name, text);
+                    if (!changed) {
+                        throw new IllegalArgumentException(""No setter to set property: "" + name + "" to: "" + text + "" on: "" + definition);
+                    }
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug(""Changed property [{}] from: {} to: {}"", new Object[] { name, value, text });
+                    }
+                }
+            }
+        }
+    }
+}","/**
+ * Inspects the given definition and resolves any property placeholders from its properties.
+ * <p/>
+ * This implementation will check all the getter/setter pairs on this instance and for all the values
+ * (which is a String type) will be property placeholder resolved.
+ *
+ * @param routeContext the route context
+ * @param definition   the definition
+ * @throws Exception is thrown if property placeholders was used and there was an error resolving them
+ * @see org.apache.camel.CamelContext#resolvePropertyPlaceholders(String)
+ * @see org.apache.camel.component.properties.PropertiesComponent
+ */
+public static void resolvePropertyPlaceholders(RouteContext routeContext, Object definition) throws Exception {
+    LOG.trace(""Resolving property placeholders for: {}"", definition);
+    // find all getter/setter which we can use for property placeholders
+    Map<String, Object> properties = new HashMap<String, Object>();
+    IntrospectionSupport.getProperties(definition, properties, null);
+    ProcessorDefinition<?> processorDefinition = null;
+    if (definition instanceof ProcessorDefinition) {
+        processorDefinition = (ProcessorDefinition<?>) definition;
+    }
+    // and when the definition parameter is this (otherAttributes belong to this)
+    if (processorDefinition != null && processorDefinition.getOtherAttributes() != null) {
+        for (QName key : processorDefinition.getOtherAttributes().keySet()) {
+            if (Constants.PLACEHOLDER_QNAME.equals(key.getNamespaceURI())) {
+                String local = key.getLocalPart();
+                Object value = processorDefinition.getOtherAttributes().get(key);
+                if (value != null && value instanceof String) {
+                    // enforce a properties component to be created if none existed
+                    CamelContextHelper.lookupPropertiesComponent(routeContext.getCamelContext(), true);
+                    // value must be enclosed with placeholder tokens
+                    String s = (String) value;
+                    String prefixToken = routeContext.getCamelContext().getPropertyPrefixToken();
+                    String suffixToken = routeContext.getCamelContext().getPropertySuffixToken();
+                    if (prefixToken == null) {
+                        throw new IllegalArgumentException(""Property with name ["" + local + ""] uses property placeholders; however, no properties component is configured."");
+                    }
+                    if (!s.startsWith(prefixToken)) {
+                        s = prefixToken + s;
+                    }
+                    if (!s.endsWith(suffixToken)) {
+                        s = s + suffixToken;
+                    }
+                    value = s;
+                }
+                properties.put(local, value);
+            }
+        }
+    }
+    if (!properties.isEmpty()) {
+        LOG.trace(""There are {} properties on: {}"", properties.size(), definition);
+        // lookup and resolve properties for String based properties
+        for (Map.Entry<String, Object> entry : properties.entrySet()) {
+            // the name is always a String
+            String name = entry.getKey();
+            Object value = entry.getValue();
+            if (value instanceof String) {
+                // value must be a String, as a String is the key for a property placeholder
+                String text = (String) value;
+                text = routeContext.getCamelContext().resolvePropertyPlaceholders(text);
+                if (text != value) {
+                    // invoke setter as the text has changed
+                    boolean changed = IntrospectionSupport.setProperty(routeContext.getCamelContext().getTypeConverter(), definition, name, text);
+                    if (!changed) {
+                        throw new IllegalArgumentException(""No setter to set property: "" + name + "" to: "" + text + "" on: "" + definition);
+                    }
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug(""Changed property [{}] from: {} to: {}"", new Object[] { name, value, text });
+                    }
+                }
+            }
+        }
+    }
+}"
+"private void doStartCamel() throws Exception {
+    if (isStreamCaching()) {
+        // only add a new stream cache if not already configured
+        if (StreamCaching.getStreamCaching(this) == null) {
+            log.info(""StreamCaching is enabled on CamelContext: "" + getName());
+            addInterceptStrategy(new StreamCaching());
+        }
+    }
+    if (isTracing()) {
+        // tracing is added in the DefaultChannel so we can enable it on the fly
+        log.info(""Tracing is enabled on CamelContext: "" + getName());
+    }
+    if (isUseMDCLogging()) {
+        // log if MDC has been enabled
+        log.info(""MDC logging is enabled on CamelContext: "" + getName());
+    }
+    if (isHandleFault()) {
+        // only add a new handle fault if not already configured
+        if (HandleFault.getHandleFault(this) == null) {
+            log.info(""HandleFault is enabled on CamelContext: "" + getName());
+            addInterceptStrategy(new HandleFault());
+        }
+    }
+    if (getDelayer() != null && getDelayer() > 0) {
+        // only add a new delayer if not already configured
+        if (Delayer.getDelayer(this) == null) {
+            long millis = getDelayer();
+            log.info(""Delayer is enabled with: "" + millis + "" ms. on CamelContext: "" + getName());
+            addInterceptStrategy(new Delayer(millis));
+        }
+    }
+    // register debugger
+    if (getDebugger() != null) {
+        log.info(""Debugger: "" + getDebugger() + "" is enabled on CamelContext: "" + getName());
+        // register this camel context on the debugger
+        getDebugger().setCamelContext(this);
+        startService(getDebugger());
+        addInterceptStrategy(new Debug(getDebugger()));
+    }
+    // start management strategy before lifecycles are started
+    getManagementStrategy().start();
+    // start lifecycle strategies
+    Iterator<LifecycleStrategy> it = lifecycleStrategies.iterator();
+    while (it.hasNext()) {
+        LifecycleStrategy strategy = it.next();
+        try {
+            strategy.onContextStart(this);
+        } catch (VetoCamelContextStartException e) {
+            // okay we should not start Camel since it was vetoed
+            log.warn(""Lifecycle strategy vetoed starting CamelContext ("" + getName() + "")"", e);
+            throw e;
+        } catch (Exception e) {
+            log.warn(""Lifecycle strategy "" + strategy + "" failed starting CamelContext ("" + getName() + "")"", e);
+            throw e;
+        }
+    }
+    // start notifiers as services
+    for (EventNotifier notifier : getManagementStrategy().getEventNotifiers()) {
+        if (notifier instanceof Service) {
+            Service service = (Service) notifier;
+            for (LifecycleStrategy strategy : lifecycleStrategies) {
+                strategy.onServiceAdd(this, service, null);
+            }
+        }
+        if (notifier instanceof Service) {
+            startService((Service) notifier);
+        }
+    }
+    // must let some bootstrap service be started before we can notify the starting event
+    EventHelper.notifyCamelContextStarting(this);
+    forceLazyInitialization();
+    // re-create endpoint registry as the cache size limit may be set after the constructor of this instance was called.
+    // and we needed to create endpoints up-front as it may be accessed before this context is started
+    endpoints = new EndpointRegistry(this, endpoints);
+    addService(endpoints);
+    addService(executorServiceManager);
+    addService(producerServicePool);
+    addService(inflightRepository);
+    addService(shutdownStrategy);
+    addService(packageScanClassResolver);
+    startServices(components.values());
+    // start the route definitions before the routes is started
+    startRouteDefinitions(routeDefinitions);
+    // start routes
+    if (doNotStartRoutesOnFirstStart) {
+        log.info(""Cannot start routes as CamelContext has been configured with autoStartup=false"");
+    }
+    // invoke this logic to warmup the routes and if possible also start the routes
+    doStartOrResumeRoutes(routeServices, true, !doNotStartRoutesOnFirstStart, false, true);
+// starting will continue in the start method
+}","protected synchronized void doStop() throws Exception {
+    stopWatch.restart();
+    log.info(""Apache Camel "" + getVersion() + "" (CamelContext:"" + getName() + "") is shutting down"");
+    EventHelper.notifyCamelContextStopping(this);
+    // stop route inputs in the same order as they was started so we stop the very first inputs first
+    try {
+        shutdownStrategy.shutdown(this, getRouteStartupOrder());
+    } catch (Throwable e) {
+        log.warn(""Error occurred while shutting down routes. This exception will be ignored."", e);
+    }
+    getRouteStartupOrder().clear();
+    shutdownServices(routeServices.values());
+    // do not clear route services or startup listeners as we can start Camel again and get the route back as before
+    // but clear any suspend routes
+    suspendedRouteServices.clear();
+    // the stop order is important
+    // shutdown debugger
+    ServiceHelper.stopAndShutdownService(getDebugger());
+    shutdownServices(endpoints.values());
+    endpoints.clear();
+    shutdownServices(components.values());
+    components.clear();
+    try {
+        for (LifecycleStrategy strategy : lifecycleStrategies) {
+            strategy.onContextStop(this);
+        }
+    } catch (Throwable e) {
+        log.warn(""Error occurred while stopping lifecycle strategies. This exception will be ignored."", e);
+    }
+    // shutdown services as late as possible
+    shutdownServices(servicesToClose);
+    servicesToClose.clear();
+    // must notify that we are stopped before stopping the management strategy
+    EventHelper.notifyCamelContextStopped(this);
+    // stop the notifier service
+    for (EventNotifier notifier : getManagementStrategy().getEventNotifiers()) {
+        shutdownServices(notifier);
+    }
+    // shutdown management as the last one
+    shutdownServices(managementStrategy);
+    shutdownServices(lifecycleStrategies);
+    lifecycleStrategies.clear();
+    // stop the lazy created so they can be re-created on restart
+    forceStopLazyInitialization();
+    stopWatch.stop();
+    if (log.isInfoEnabled()) {
+        log.info(""Uptime: "" + getUptime());
+        log.info(""Apache Camel "" + getVersion() + "" (CamelContext: "" + getName() + "") is shutdown in "" + TimeUtils.printDuration(stopWatch.taken()));
+    }
+    // and clear start date
+    startDate = null;
+}"
+"/**
+ * {@inheritDoc}
+ */
+@Override
+protected UnivariatePointValuePair doOptimize() {
+    final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
+    final double lo = getMin();
+    final double mid = getStartValue();
+    final double hi = getMax();
+    // Optional additional convergence criteria.
+    final ConvergenceChecker<UnivariatePointValuePair> checker = getConvergenceChecker();
+    double a;
+    double b;
+    if (lo < hi) {
+        a = lo;
+        b = hi;
+    } else {
+        a = hi;
+        b = lo;
+    }
+    double x = mid;
+    double v = x;
+    double w = x;
+    double d = 0;
+    double e = 0;
+    double fx = computeObjectiveValue(x);
+    if (!isMinim) {
+        fx = -fx;
+    }
+    double fv = fx;
+    double fw = fx;
+    UnivariatePointValuePair previous = null;
+    UnivariatePointValuePair current = new UnivariatePointValuePair(x, isMinim ? fx : -fx);
+    int iter = 0;
+    while (true) {
+        final double m = 0.5 * (a + b);
+        final double tol1 = relativeThreshold * FastMath.abs(x) + absoluteThreshold;
+        final double tol2 = 2 * tol1;
+        // Default stopping criterion.
+        final boolean stop = FastMath.abs(x - m) <= tol2 - 0.5 * (b - a);
+        if (!stop) {
+            double p = 0;
+            double q = 0;
+            double r = 0;
+            double u = 0;
+            if (FastMath.abs(e) > tol1) {
+                // Fit parabola.
+                r = (x - w) * (fx - fv);
+                q = (x - v) * (fx - fw);
+                p = (x - v) * q - (x - w) * r;
+                q = 2 * (q - r);
+                if (q > 0) {
+                    p = -p;
+                } else {
+                    q = -q;
+                }
+                r = e;
+                e = d;
+                if (p > q * (a - x) && p < q * (b - x) && FastMath.abs(p) < FastMath.abs(0.5 * q * r)) {
+                    // Parabolic interpolation step.
+                    d = p / q;
+                    u = x + d;
+                    // f must not be evaluated too close to a or b.
+                    if (u - a < tol2 || b - u < tol2) {
+                        if (x <= m) {
+                            d = tol1;
+                        } else {
+                            d = -tol1;
+                        }
+                    }
+                } else {
+                    // Golden section step.
+                    if (x < m) {
+                        e = b - x;
+                    } else {
+                        e = a - x;
+                    }
+                    d = GOLDEN_SECTION * e;
+                }
+            } else {
+                // Golden section step.
+                if (x < m) {
+                    e = b - x;
+                } else {
+                    e = a - x;
+                }
+                d = GOLDEN_SECTION * e;
+            }
+            // Update by at least ""tol1"".
+            if (FastMath.abs(d) < tol1) {
+                if (d >= 0) {
+                    u = x + tol1;
+                } else {
+                    u = x - tol1;
+                }
+            } else {
+                u = x + d;
+            }
+            double fu = computeObjectiveValue(u);
+            if (!isMinim) {
+                fu = -fu;
+            }
+            // User-defined convergence checker.
+            previous = current;
+            current = new UnivariatePointValuePair(u, isMinim ? fu : -fu);
+            if (checker != null) {
+                if (checker.converged(iter, previous, current)) {
+                    return best(current, previous, isMinim);
+                }
+            }
+            // Update a, b, v, w and x.
+            if (fu <= fx) {
+                if (u < x) {
+                    b = x;
+                } else {
+                    a = x;
+                }
+                v = w;
+                fv = fw;
+                w = x;
+                fw = fx;
+                x = u;
+                fx = fu;
+            } else {
+                if (u < x) {
+                    a = u;
+                } else {
+                    b = u;
+                }
+                if (fu <= fw || Precision.equals(w, x)) {
+                    v = w;
+                    fv = fw;
+                    w = u;
+                    fw = fu;
+                } else if (fu <= fv || Precision.equals(v, x) || Precision.equals(v, w)) {
+                    v = u;
+                    fv = fu;
+                }
+            }
+        } else {
+            // Default termination (Brent's criterion).
+            return best(current, previous, isMinim);
+        }
+        ++iter;
+    }
+}","/**
+ * {@inheritDoc}
+ */
+@Override
+protected UnivariatePointValuePair doOptimize() {
+    final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
+    final double lo = getMin();
+    final double mid = getStartValue();
+    final double hi = getMax();
+    // Optional additional convergence criteria.
+    final ConvergenceChecker<UnivariatePointValuePair> checker = getConvergenceChecker();
+    double a;
+    double b;
+    if (lo < hi) {
+        a = lo;
+        b = hi;
+    } else {
+        a = hi;
+        b = lo;
+    }
+    double x = mid;
+    double v = x;
+    double w = x;
+    double d = 0;
+    double e = 0;
+    double fx = computeObjectiveValue(x);
+    if (!isMinim) {
+        fx = -fx;
+    }
+    double fv = fx;
+    double fw = fx;
+    UnivariatePointValuePair previous = null;
+    UnivariatePointValuePair current = new UnivariatePointValuePair(x, isMinim ? fx : -fx);
+    // Best point encountered so far (which is the initial guess).
+    UnivariatePointValuePair best = current;
+    int iter = 0;
+    while (true) {
+        final double m = 0.5 * (a + b);
+        final double tol1 = relativeThreshold * FastMath.abs(x) + absoluteThreshold;
+        final double tol2 = 2 * tol1;
+        // Default stopping criterion.
+        final boolean stop = FastMath.abs(x - m) <= tol2 - 0.5 * (b - a);
+        if (!stop) {
+            double p = 0;
+            double q = 0;
+            double r = 0;
+            double u = 0;
+            if (FastMath.abs(e) > tol1) {
+                // Fit parabola.
+                r = (x - w) * (fx - fv);
+                q = (x - v) * (fx - fw);
+                p = (x - v) * q - (x - w) * r;
+                q = 2 * (q - r);
+                if (q > 0) {
+                    p = -p;
+                } else {
+                    q = -q;
+                }
+                r = e;
+                e = d;
+                if (p > q * (a - x) && p < q * (b - x) && FastMath.abs(p) < FastMath.abs(0.5 * q * r)) {
+                    // Parabolic interpolation step.
+                    d = p / q;
+                    u = x + d;
+                    // f must not be evaluated too close to a or b.
+                    if (u - a < tol2 || b - u < tol2) {
+                        if (x <= m) {
+                            d = tol1;
+                        } else {
+                            d = -tol1;
+                        }
+                    }
+                } else {
+                    // Golden section step.
+                    if (x < m) {
+                        e = b - x;
+                    } else {
+                        e = a - x;
+                    }
+                    d = GOLDEN_SECTION * e;
+                }
+            } else {
+                // Golden section step.
+                if (x < m) {
+                    e = b - x;
+                } else {
+                    e = a - x;
+                }
+                d = GOLDEN_SECTION * e;
+            }
+            // Update by at least ""tol1"".
+            if (FastMath.abs(d) < tol1) {
+                if (d >= 0) {
+                    u = x + tol1;
+                } else {
+                    u = x - tol1;
+                }
+            } else {
+                u = x + d;
+            }
+            double fu = computeObjectiveValue(u);
+            if (!isMinim) {
+                fu = -fu;
+            }
+            // User-defined convergence checker.
+            previous = current;
+            current = new UnivariatePointValuePair(u, isMinim ? fu : -fu);
+            best = best(best, best(current, previous, isMinim), isMinim);
+            if (checker != null) {
+                if (checker.converged(iter, previous, current)) {
+                    return best;
+                }
+            }
+            // Update a, b, v, w and x.
+            if (fu <= fx) {
+                if (u < x) {
+                    b = x;
+                } else {
+                    a = x;
+                }
+                v = w;
+                fv = fw;
+                w = x;
+                fw = fx;
+                x = u;
+                fx = fu;
+            } else {
+                if (u < x) {
+                    a = u;
+                } else {
+                    b = u;
+                }
+                if (fu <= fw || Precision.equals(w, x)) {
+                    v = w;
+                    fv = fw;
+                    w = u;
+                    fw = fu;
+                } else if (fu <= fv || Precision.equals(v, x) || Precision.equals(v, w)) {
+                    v = u;
+                    fv = fu;
+                }
+            }
+        } else {
+            // Default termination (Brent's criterion).
+            return best(best, best(current, previous, isMinim), isMinim);
+        }
+        ++iter;
+    }
+}"
+"/**
+ * Round the given non-negative, value to the ""nearest"" integer. Nearest is
+ * determined by the rounding method specified. Rounding methods are defined
+ * in {@link BigDecimal}.
+ *
+ * @param unscaled the value to round.
+ * @param sign the sign of the original, scaled value.
+ * @param roundingMethod the rounding method as defined in
+ *        {@link BigDecimal}.
+ * @return the rounded value.
+ * @since 1.1
+ */
+private static double roundUnscaled(double unscaled, double sign, int roundingMethod) {
+    switch(roundingMethod) {
+        case BigDecimal.ROUND_CEILING:
+            if (sign == -1) {
+                unscaled = FastMath.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+            } else {
+                unscaled = FastMath.ceil(nextAfter(unscaled, Double.POSITIVE_INFINITY));
+            }
+            break;
+        case BigDecimal.ROUND_DOWN:
+            unscaled = FastMath.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+            break;
+        case BigDecimal.ROUND_FLOOR:
+            if (sign == -1) {
+                unscaled = FastMath.ceil(nextAfter(unscaled, Double.POSITIVE_INFINITY));
+            } else {
+                unscaled = FastMath.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+            }
+            break;
+        case BigDecimal.ROUND_HALF_DOWN:
+            {
+                unscaled = nextAfter(unscaled, Double.NEGATIVE_INFINITY);
+                double fraction = unscaled - FastMath.floor(unscaled);
+                if (fraction > 0.5) {
+                    unscaled = FastMath.ceil(unscaled);
+                } else {
+                    unscaled = FastMath.floor(unscaled);
+                }
+                break;
+            }
+        case BigDecimal.ROUND_HALF_EVEN:
+            {
+                double fraction = unscaled - FastMath.floor(unscaled);
+                if (fraction > 0.5) {
+                    unscaled = FastMath.ceil(unscaled);
+                } else if (fraction < 0.5) {
+                    unscaled = FastMath.floor(unscaled);
+                } else {
+                    // The following equality test is intentional and needed for rounding purposes
+                    if (FastMath.floor(unscaled) / 2.0 == FastMath.floor(Math.floor(unscaled) / 2.0)) {
+                        // even
+                        unscaled = FastMath.floor(unscaled);
+                    } else {
+                        // odd
+                        unscaled = FastMath.ceil(unscaled);
+                    }
+                }
+                break;
+            }
+        case BigDecimal.ROUND_HALF_UP:
+            {
+                unscaled = nextAfter(unscaled, Double.POSITIVE_INFINITY);
+                double fraction = unscaled - FastMath.floor(unscaled);
+                if (fraction >= 0.5) {
+                    unscaled = FastMath.ceil(unscaled);
+                } else {
+                    unscaled = FastMath.floor(unscaled);
+                }
+                break;
+            }
+        case BigDecimal.ROUND_UNNECESSARY:
+            if (unscaled != FastMath.floor(unscaled)) {
+                throw new ArithmeticException(""Inexact result from rounding"");
+            }
+            break;
+        case BigDecimal.ROUND_UP:
+            unscaled = FastMath.ceil(nextAfter(unscaled, Double.POSITIVE_INFINITY));
+            break;
+        default:
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.INVALID_ROUNDING_METHOD, roundingMethod, ""ROUND_CEILING"", BigDecimal.ROUND_CEILING, ""ROUND_DOWN"", BigDecimal.ROUND_DOWN, ""ROUND_FLOOR"", BigDecimal.ROUND_FLOOR, ""ROUND_HALF_DOWN"", BigDecimal.ROUND_HALF_DOWN, ""ROUND_HALF_EVEN"", BigDecimal.ROUND_HALF_EVEN, ""ROUND_HALF_UP"", BigDecimal.ROUND_HALF_UP, ""ROUND_UNNECESSARY"", BigDecimal.ROUND_UNNECESSARY, ""ROUND_UP"", BigDecimal.ROUND_UP);
+    }
+    return unscaled;
+}","/**
+ * Round the given non-negative, value to the ""nearest"" integer. Nearest is
+ * determined by the rounding method specified. Rounding methods are defined
+ * in {@link BigDecimal}.
+ *
+ * @param unscaled the value to round.
+ * @param sign the sign of the original, scaled value.
+ * @param roundingMethod the rounding method as defined in
+ *        {@link BigDecimal}.
+ * @return the rounded value.
+ * @since 1.1
+ */
+private static double roundUnscaled(double unscaled, double sign, int roundingMethod) {
+    switch(roundingMethod) {
+        case BigDecimal.ROUND_CEILING:
+            if (sign == -1) {
+                unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+            } else {
+                unscaled = FastMath.ceil(FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY));
+            }
+            break;
+        case BigDecimal.ROUND_DOWN:
+            unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+            break;
+        case BigDecimal.ROUND_FLOOR:
+            if (sign == -1) {
+                unscaled = FastMath.ceil(FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY));
+            } else {
+                unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+            }
+            break;
+        case BigDecimal.ROUND_HALF_DOWN:
+            {
+                unscaled = FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY);
+                double fraction = unscaled - FastMath.floor(unscaled);
+                if (fraction > 0.5) {
+                    unscaled = FastMath.ceil(unscaled);
+                } else {
+                    unscaled = FastMath.floor(unscaled);
+                }
+                break;
+            }
+        case BigDecimal.ROUND_HALF_EVEN:
+            {
+                double fraction = unscaled - FastMath.floor(unscaled);
+                if (fraction > 0.5) {
+                    unscaled = FastMath.ceil(unscaled);
+                } else if (fraction < 0.5) {
+                    unscaled = FastMath.floor(unscaled);
+                } else {
+                    // The following equality test is intentional and needed for rounding purposes
+                    if (FastMath.floor(unscaled) / 2.0 == FastMath.floor(Math.floor(unscaled) / 2.0)) {
+                        // even
+                        unscaled = FastMath.floor(unscaled);
+                    } else {
+                        // odd
+                        unscaled = FastMath.ceil(unscaled);
+                    }
+                }
+                break;
+            }
+        case BigDecimal.ROUND_HALF_UP:
+            {
+                unscaled = FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY);
+                double fraction = unscaled - FastMath.floor(unscaled);
+                if (fraction >= 0.5) {
+                    unscaled = FastMath.ceil(unscaled);
+                } else {
+                    unscaled = FastMath.floor(unscaled);
+                }
+                break;
+            }
+        case BigDecimal.ROUND_UNNECESSARY:
+            if (unscaled != FastMath.floor(unscaled)) {
+                throw new ArithmeticException(""Inexact result from rounding"");
+            }
+            break;
+        case BigDecimal.ROUND_UP:
+            unscaled = FastMath.ceil(FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY));
+            break;
+        default:
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.INVALID_ROUNDING_METHOD, roundingMethod, ""ROUND_CEILING"", BigDecimal.ROUND_CEILING, ""ROUND_DOWN"", BigDecimal.ROUND_DOWN, ""ROUND_FLOOR"", BigDecimal.ROUND_FLOOR, ""ROUND_HALF_DOWN"", BigDecimal.ROUND_HALF_DOWN, ""ROUND_HALF_EVEN"", BigDecimal.ROUND_HALF_EVEN, ""ROUND_HALF_UP"", BigDecimal.ROUND_HALF_UP, ""ROUND_UNNECESSARY"", BigDecimal.ROUND_UNNECESSARY, ""ROUND_UP"", BigDecimal.ROUND_UP);
+    }
+    return unscaled;
+}"
+"/**
+ * Parse the specified jcr name and inform the specified {@code listener}
+ * about the result or any error that may occur during parsing.
+ *
+ * @param jcrName The jcr name to be parsed.
+ * @param listener The listener to be informed about success or failure.
+ * @param index index, or {@code 0} when not specified
+ * @return whether parsing was successful
+ */
+public static boolean parse(String jcrName, Listener listener, int index) {
+    // trivial check
+    int len = jcrName == null ? 0 : jcrName.length();
+    if (len == 0) {
+        listener.error(""Empty name"");
+        return false;
+    }
+    if (""."".equals(jcrName) || "".."".equals(jcrName)) {
+        listener.error(""Illegal name:"" + jcrName);
+        return false;
+    }
+    // parse the name
+    String prefix;
+    int nameStart = 0;
+    int state = STATE_PREFIX_START;
+    boolean trailingSpaces = false;
+    for (int i = 0; i < len; i++) {
+        char c = jcrName.charAt(i);
+        if (c == ':') {
+            if (state == STATE_PREFIX_START) {
+                listener.error(""Prefix must not be empty"");
+                return false;
+            } else if (state == STATE_PREFIX) {
+                if (trailingSpaces) {
+                    listener.error(""Trailing spaces not allowed"");
+                    return false;
+                }
+                prefix = jcrName.substring(0, i);
+                if (!XMLChar.isValidNCName(prefix)) {
+                    listener.error(""Invalid name prefix: "" + prefix);
+                    return false;
+                }
+                state = STATE_NAME_START;
+            } else if (state == STATE_URI) {
+            // ignore -> validation of uri later on.
+            } else {
+                listener.error(""'"" + c + ""' not allowed in name"");
+                return false;
+            }
+            trailingSpaces = false;
+        } else if (c == ' ') {
+            if (state == STATE_PREFIX_START || state == STATE_NAME_START) {
+                listener.error(""'"" + c + ""' not valid name start"");
+                return false;
+            }
+            trailingSpaces = true;
+        } else if (Character.isWhitespace(c) || c == '[' || c == ']' || c == '*' || c == '|') {
+            listener.error(""'"" + c + ""' not allowed in name"");
+            return false;
+        } else if (c == '/') {
+            if (state == STATE_URI_START) {
+                state = STATE_URI;
+            } else if (state != STATE_URI) {
+                listener.error(""'"" + c + ""' not allowed in name"");
+                return false;
+            }
+            trailingSpaces = false;
+        } else if (c == '{') {
+            if (state == STATE_PREFIX_START) {
+                state = STATE_URI_START;
+            } else if (state == STATE_URI_START || state == STATE_URI) {
+                // second '{' in the uri-part -> no valid expanded jcr-name.
+                // therefore reset the nameStart and change state.
+                state = STATE_NAME;
+                nameStart = 0;
+            } else if (state == STATE_NAME_START) {
+                state = STATE_NAME;
+                nameStart = i;
+            }
+            trailingSpaces = false;
+        } else if (c == '}') {
+            if (state == STATE_URI_START || state == STATE_URI) {
+                String tmp = jcrName.substring(1, i);
+                if (tmp.isEmpty() || tmp.indexOf(':') != -1) {
+                    // The leading ""{...}"" part is empty or contains
+                    // a colon, so we treat it as a valid namespace URI.
+                    // More detailed validity checks (is it well formed,
+                    // registered, etc.) are not needed here.
+                    state = STATE_NAME_START;
+                } else if (tmp.equals(""internal"")) {
+                    // As a special Jackrabbit backwards compatibility
+                    // feature, support {internal} as a valid URI prefix
+                    state = STATE_NAME_START;
+                } else if (tmp.indexOf('/') == -1) {
+                    // The leading ""{...}"" contains neither a colon nor
+                    // a slash, so we can interpret it as a a part of a
+                    // normal local name.
+                    state = STATE_NAME;
+                    nameStart = 0;
+                } else {
+                    listener.error(""The URI prefix of the name "" + jcrName + "" is "" + ""neither a valid URI nor a valid part of a local name."");
+                    return false;
+                }
+            } else if (state == STATE_PREFIX_START) {
+                // prefix start -> validation later on will fail.
+                state = STATE_PREFIX;
+            } else if (state == STATE_NAME_START) {
+                state = STATE_NAME;
+                nameStart = i;
+            }
+            trailingSpaces = false;
+        } else {
+            if (state == STATE_PREFIX_START) {
+                // prefix start
+                state = STATE_PREFIX;
+            } else if (state == STATE_NAME_START) {
+                state = STATE_NAME;
+                nameStart = i;
+            } else if (state == STATE_URI_START) {
+                state = STATE_URI;
+            }
+            trailingSpaces = false;
+        }
+    }
+    // a terminating '}' -> make sure there are no illegal characters present.
+    if (state == STATE_URI && (jcrName.indexOf(':') > -1 || jcrName.indexOf('/') > -1)) {
+        listener.error(""Local name may not contain ':' nor '/'"");
+        return false;
+    }
+    if (nameStart == len || state == STATE_NAME_START) {
+        listener.error(""Local name must not be empty"");
+        return false;
+    }
+    if (trailingSpaces) {
+        listener.error(""Trailing spaces not allowed"");
+        return false;
+    }
+    return listener.name(jcrName, index);
+}","/**
+ * Parse the specified jcr name and inform the specified {@code listener}
+ * about the result or any error that may occur during parsing.
+ *
+ * @param jcrName The jcr name to be parsed.
+ * @param listener The listener to be informed about success or failure.
+ * @param index index, or {@code 0} when not specified
+ * @return whether parsing was successful
+ */
+public static boolean parse(String jcrName, Listener listener, int index) {
+    // trivial check
+    int len = jcrName == null ? 0 : jcrName.length();
+    if (len == 0) {
+        listener.error(""Empty name"");
+        return false;
+    }
+    if (""."".equals(jcrName) || "".."".equals(jcrName)) {
+        listener.error(""Illegal name:"" + jcrName);
+        return false;
+    }
+    // parse the name
+    String prefix;
+    int nameStart = 0;
+    int state = STATE_PREFIX_START;
+    for (int i = 0; i < len; i++) {
+        char c = jcrName.charAt(i);
+        if (c == ':') {
+            if (state == STATE_PREFIX_START) {
+                listener.error(""Prefix must not be empty"");
+                return false;
+            } else if (state == STATE_PREFIX) {
+                prefix = jcrName.substring(0, i);
+                if (!XMLChar.isValidNCName(prefix)) {
+                    listener.error(""Invalid name prefix: "" + prefix);
+                    return false;
+                }
+                state = STATE_NAME_START;
+            } else if (state == STATE_URI) {
+            // ignore -> validation of uri later on.
+            } else {
+                listener.error(""'"" + c + ""' not allowed in name"");
+                return false;
+            }
+        } else if (c == '[' || c == ']' || c == '*' || c == '|') {
+            listener.error(""'"" + c + ""' not allowed in name"");
+            return false;
+        } else if (c == '/') {
+            if (state == STATE_URI_START) {
+                state = STATE_URI;
+            } else if (state != STATE_URI) {
+                listener.error(""'"" + c + ""' not allowed in name"");
+                return false;
+            }
+        } else if (c == '{') {
+            if (state == STATE_PREFIX_START) {
+                state = STATE_URI_START;
+            } else if (state == STATE_URI_START || state == STATE_URI) {
+                // second '{' in the uri-part -> no valid expanded jcr-name.
+                // therefore reset the nameStart and change state.
+                state = STATE_NAME;
+                nameStart = 0;
+            } else if (state == STATE_NAME_START) {
+                state = STATE_NAME;
+                nameStart = i;
+            }
+        } else if (c == '}') {
+            if (state == STATE_URI_START || state == STATE_URI) {
+                String tmp = jcrName.substring(1, i);
+                if (tmp.isEmpty() || tmp.indexOf(':') != -1) {
+                    // The leading ""{...}"" part is empty or contains
+                    // a colon, so we treat it as a valid namespace URI.
+                    // More detailed validity checks (is it well formed,
+                    // registered, etc.) are not needed here.
+                    state = STATE_NAME_START;
+                } else if (tmp.equals(""internal"")) {
+                    // As a special Jackrabbit backwards compatibility
+                    // feature, support {internal} as a valid URI prefix
+                    state = STATE_NAME_START;
+                } else if (tmp.indexOf('/') == -1) {
+                    // The leading ""{...}"" contains neither a colon nor
+                    // a slash, so we can interpret it as a a part of a
+                    // normal local name.
+                    state = STATE_NAME;
+                    nameStart = 0;
+                } else {
+                    listener.error(""The URI prefix of the name "" + jcrName + "" is "" + ""neither a valid URI nor a valid part of a local name."");
+                    return false;
+                }
+            } else if (state == STATE_PREFIX_START) {
+                // prefix start -> validation later on will fail.
+                state = STATE_PREFIX;
+            } else if (state == STATE_NAME_START) {
+                state = STATE_NAME;
+                nameStart = i;
+            }
+        } else {
+            if (state == STATE_PREFIX_START) {
+                // prefix start
+                state = STATE_PREFIX;
+            } else if (state == STATE_NAME_START) {
+                state = STATE_NAME;
+                nameStart = i;
+            } else if (state == STATE_URI_START) {
+                state = STATE_URI;
+            }
+        }
+    }
+    // a terminating '}' -> make sure there are no illegal characters present.
+    if (state == STATE_URI && (jcrName.indexOf(':') > -1 || jcrName.indexOf('/') > -1)) {
+        listener.error(""Local name may not contain ':' nor '/'"");
+        return false;
+    }
+    if (nameStart == len || state == STATE_NAME_START) {
+        listener.error(""Local name must not be empty"");
+        return false;
+    }
+    return listener.name(jcrName, index);
+}"
+"/**
+ * Evaluate using parameter values where the values can be provided in the method name syntax.
+ * <p/>
+ * This methods returns accordingly:
+ * <ul>
+ *     <li><tt>null</tt> - if not a parameter value</li>
+ *     <li><tt>Void.TYPE</tt> - if an explicit null, forcing Camel to pass in <tt>null</tt> for that given parameter</li>
+ *     <li>a non <tt>null</tt> value - if the parameter was a parameter value, and to be used</li>
+ * </ul>
+ *
+ * @since 2.9
+ */
+private Object evaluateParameterValue(Exchange exchange, int index, Object parameterValue, Class<?> parameterType) {
+    Object answer = null;
+    // convert the parameter value to a String
+    String exp = exchange.getContext().getTypeConverter().convertTo(String.class, exchange, parameterValue);
+    if (exp != null) {
+        // check if its a valid parameter value
+        boolean valid = BeanHelper.isValidParameterValue(exp);
+        if (!valid) {
+            // it may be a parameter type instead, and if so, then we should return null,
+            // as this method is only for evaluating parameter values
+            Boolean isClass = BeanHelper.isAssignableToExpectedType(exchange.getContext().getClassResolver(), exp, parameterType);
+            // the method will return a non null value if exp is a class
+            if (isClass != null) {
+                return null;
+            }
+        }
+        // use simple language to evaluate the expression, as it may use the simple language to refer to message body, headers etc.
+        Expression expression = null;
+        try {
+            expression = exchange.getContext().resolveLanguage(""simple"").createExpression(exp);
+            parameterValue = expression.evaluate(exchange, Object.class);
+            // use ""null"" to indicate the expression returned a null value which is a valid response we need to honor
+            if (parameterValue == null) {
+                parameterValue = ""null"";
+            }
+        } catch (Exception e) {
+            throw new ExpressionEvaluationException(expression, ""Cannot create/evaluate simple expression: "" + exp + "" to be bound to parameter at index: "" + index + "" on method: "" + getMethod(), exchange, e);
+        }
+        // see method javadoc for details
+        if (""null"".equals(parameterValue)) {
+            return Void.TYPE;
+        }
+        // the parameter value was not already valid, but since the simple language have evaluated the expression
+        // which may change the parameterValue, so we have to check it again to see if its now valid
+        exp = exchange.getContext().getTypeConverter().convertTo(String.class, parameterValue);
+        // String values from the simple language is always valid
+        if (!valid) {
+            // re validate if the parameter was not valid the first time (String values should be accepted)
+            valid = parameterValue instanceof String || BeanHelper.isValidParameterValue(exp);
+        }
+        if (valid) {
+            // we need to unquote String parameters, as the enclosing quotes is there to denote a parameter value
+            if (parameterValue instanceof String) {
+                parameterValue = StringHelper.removeLeadingAndEndingQuotes((String) parameterValue);
+            }
+            if (parameterValue != null) {
+                try {
+                    // its a valid parameter value, so convert it to the expected type of the parameter
+                    answer = exchange.getContext().getTypeConverter().mandatoryConvertTo(parameterType, exchange, parameterValue);
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace(""Parameter #{} evaluated as: {} type: "", new Object[] { index, answer, ObjectHelper.type(answer) });
+                    }
+                } catch (Exception e) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug(""Cannot convert from type: {} to type: {} for parameter #{}"", new Object[] { ObjectHelper.type(parameterValue), parameterType, index });
+                    }
+                    throw new ParameterBindingException(e, method, index, parameterType, parameterValue);
+                }
+            }
+        }
+    }
+    return answer;
+}","/**
+ * Evaluate using parameter values where the values can be provided in the method name syntax.
+ * <p/>
+ * This methods returns accordingly:
+ * <ul>
+ *     <li><tt>null</tt> - if not a parameter value</li>
+ *     <li><tt>Void.TYPE</tt> - if an explicit null, forcing Camel to pass in <tt>null</tt> for that given parameter</li>
+ *     <li>a non <tt>null</tt> value - if the parameter was a parameter value, and to be used</li>
+ * </ul>
+ *
+ * @since 2.9
+ */
+private Object evaluateParameterValue(Exchange exchange, int index, Object parameterValue, Class<?> parameterType) {
+    Object answer = null;
+    // convert the parameter value to a String
+    String exp = exchange.getContext().getTypeConverter().convertTo(String.class, exchange, parameterValue);
+    if (exp != null) {
+        // check if its a valid parameter value
+        boolean valid = BeanHelper.isValidParameterValue(exp);
+        if (!valid) {
+            // it may be a parameter type instead, and if so, then we should return null,
+            // as this method is only for evaluating parameter values
+            Boolean isClass = BeanHelper.isAssignableToExpectedType(exchange.getContext().getClassResolver(), exp, parameterType);
+            // the method will return a non null value if exp is a class
+            if (isClass != null) {
+                return null;
+            }
+        }
+        // use simple language to evaluate the expression, as it may use the simple language to refer to message body, headers etc.
+        Expression expression = null;
+        try {
+            expression = exchange.getContext().resolveLanguage(""simple"").createExpression(exp);
+            parameterValue = expression.evaluate(exchange, Object.class);
+            // use ""null"" to indicate the expression returned a null value which is a valid response we need to honor
+            if (parameterValue == null) {
+                parameterValue = ""null"";
+            }
+        } catch (Exception e) {
+            throw new ExpressionEvaluationException(expression, ""Cannot create/evaluate simple expression: "" + exp + "" to be bound to parameter at index: "" + index + "" on method: "" + getMethod(), exchange, e);
+        }
+        // see method javadoc for details
+        if (""null"".equals(parameterValue)) {
+            return Void.TYPE;
+        }
+        // the parameter value may match the expected type, then we use it as-is
+        if (parameterType.isAssignableFrom(parameterValue.getClass())) {
+            valid = true;
+        } else {
+            // the parameter value was not already valid, but since the simple language have evaluated the expression
+            // which may change the parameterValue, so we have to check it again to see if its now valid
+            exp = exchange.getContext().getTypeConverter().tryConvertTo(String.class, parameterValue);
+            // String values from the simple language is always valid
+            if (!valid) {
+                // re validate if the parameter was not valid the first time (String values should be accepted)
+                valid = parameterValue instanceof String || BeanHelper.isValidParameterValue(exp);
+            }
+        }
+        if (valid) {
+            // we need to unquote String parameters, as the enclosing quotes is there to denote a parameter value
+            if (parameterValue instanceof String) {
+                parameterValue = StringHelper.removeLeadingAndEndingQuotes((String) parameterValue);
+            }
+            if (parameterValue != null) {
+                try {
+                    // its a valid parameter value, so convert it to the expected type of the parameter
+                    answer = exchange.getContext().getTypeConverter().mandatoryConvertTo(parameterType, exchange, parameterValue);
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace(""Parameter #{} evaluated as: {} type: "", new Object[] { index, answer, ObjectHelper.type(answer) });
+                    }
+                } catch (Exception e) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug(""Cannot convert from type: {} to type: {} for parameter #{}"", new Object[] { ObjectHelper.type(parameterValue), parameterType, index });
+                    }
+                    throw new ParameterBindingException(e, method, index, parameterType, parameterValue);
+                }
+            }
+        }
+    }
+    return answer;
+}"
+"/**
+ *  @see Component#onComponentTag(ComponentTag)
+ *  @param tag
+ *             the abstraction representing html tag of this component
+ */
+@Override
+protected void onComponentTag(final ComponentTag tag) {
+    // Default handling for component tag
+    super.onComponentTag(tag);
+    // must be attached to <input type=""checkbox"" .../> tag
+    checkComponentTag(tag, ""input"");
+    checkComponentTagAttribute(tag, ""type"", ""checkbox"");
+    CheckGroup<?> group = getGroup();
+    final String uuid = getValue();
+    // assign name and value
+    tag.put(""name"", group.getInputName());
+    tag.put(""value"", uuid);
+    // check if the model collection of the group contains the model object.
+    // if it does check the check box.
+    Collection<?> collection = (Collection<?>) group.getDefaultModelObject();
+    // check for npe in group's model object
+    if (collection == null) {
+        throw new WicketRuntimeException(""CheckGroup ["" + group.getPath() + ""] contains a null model object, must be an object of type java.util.Collection"");
+    }
+    if (group.hasRawInput()) {
+        final String raw = group.getRawInput();
+        if (!Strings.isEmpty(raw)) {
+            final String[] values = raw.split(FormComponent.VALUE_SEPARATOR);
+            for (String value : values) {
+                if (uuid.equals(value)) {
+                    tag.put(""checked"", ""checked"");
+                }
+            }
+        }
+    } else if (collection.contains(getDefaultModelObject())) {
+        tag.put(""checked"", ""checked"");
+    }
+    if (group.wantOnSelectionChangedNotifications()) {
+        // url that points to this components IOnChangeListener method
+        CharSequence url = group.urlFor(IOnChangeListener.INTERFACE, new PageParameters());
+        Form<?> form = group.findParent(Form.class);
+        if (form != null) {
+            tag.put(""onclick"", form.getJsForInterfaceUrl(url));
+        } else {
+            // NOTE: do not encode the url as that would give invalid JavaScript
+            tag.put(""onclick"", ""window.location.href='"" + url + (url.toString().indexOf('?') > -1 ? ""&"" : ""?"") + group.getInputName() + ""=' + this.value;"");
+        }
+    }
+    if (!isActionAuthorized(ENABLE) || !isEnabledInHierarchy() || !group.isEnabledInHierarchy()) {
+        tag.put(ATTR_DISABLED, ATTR_DISABLED);
+    }
+    // put group id into the class so we can easily identify all radios belonging to the group
+    final String marker = ""wicket-"" + getGroup().getMarkupId();
+    String clazz = tag.getAttribute(""class"");
+    if (Strings.isEmpty(clazz)) {
+        clazz = marker;
+    } else {
+        clazz = clazz + "" "" + marker;
+    }
+    tag.put(""class"", clazz);
+}","/**
+ *  @see Component#onComponentTag(ComponentTag)
+ *  @param tag
+ *             the abstraction representing html tag of this component
+ */
+@Override
+protected void onComponentTag(final ComponentTag tag) {
+    // Default handling for component tag
+    super.onComponentTag(tag);
+    // must be attached to <input type=""radio"" .../> tag
+    checkComponentTag(tag, ""input"");
+    checkComponentTagAttribute(tag, ""type"", ""radio"");
+    final String value = getValue();
+    RadioGroup<?> group = getGroup();
+    // assign name and value
+    tag.put(""name"", group.getInputName());
+    tag.put(""value"", value);
+    // checked attribute, first check if there was a raw input on the group.
+    if (group.hasRawInput()) {
+        String rawInput = group.getRawInput();
+        if (rawInput != null && rawInput.equals(value)) {
+            tag.put(""checked"", ""checked"");
+        }
+    } else if (group.getModelComparator().compare(group, getDefaultModelObject())) {
+        tag.put(""checked"", ""checked"");
+    }
+    if (group.wantOnSelectionChangedNotifications()) {
+        // url that points to this components IOnChangeListener method
+        CharSequence url = group.urlFor(IOnChangeListener.INTERFACE, new PageParameters());
+        Form<?> form = group.findParent(Form.class);
+        if (form != null) {
+            tag.put(""onclick"", form.getJsForInterfaceUrl(url));
+        } else {
+            // NOTE: do not encode the url as that would give invalid JavaScript
+            tag.put(""onclick"", ""window.location.href='"" + url + (url.toString().indexOf('?') > -1 ? ""&"" : ""?"") + group.getInputName() + ""=' + this.value;"");
+        }
+    }
+    if (!isEnabledInHierarchy()) {
+        tag.put(ATTR_DISABLED, ATTR_DISABLED);
+    }
+}"
+"/**
+ * Extracts the body for logging purpose.
+ * <p/>
+ * Will clip the body if its too big for logging.
+ *
+ * @see org.apache.camel.Exchange#LOG_DEBUG_BODY_MAX_CHARS
+ * @param message the message
+ * @param prepend a message to prepend
+ * @param allowStreams whether or not streams is allowed
+ * @param allowFiles whether or not files is allowed (currently not in use)
+ * @param maxChars limit to maximum number of chars. Use 0 for not limit, and -1 for turning logging message body off.
+ * @return the logging message
+ */
+public static String extractBodyForLogging(Message message, String prepend, boolean allowStreams, boolean allowFiles, int maxChars) {
+    if (maxChars < 0) {
+        return prepend + ""[Body is not logged]"";
+    }
+    Object obj = message.getBody();
+    if (obj == null) {
+        return prepend + ""[Body is null]"";
+    }
+    if (!allowStreams) {
+        if (obj instanceof Source && !(obj instanceof StringSource || obj instanceof BytesSource)) {
+            // all other kinds we should not touch the body
+            return prepend + ""[Body is instance of java.xml.transform.Source]"";
+        } else if (obj instanceof StreamCache) {
+            return prepend + ""[Body is instance of org.apache.camel.StreamCache]"";
+        } else if (obj instanceof InputStream) {
+            return prepend + ""[Body is instance of java.io.InputStream]"";
+        } else if (obj instanceof OutputStream) {
+            return prepend + ""[Body is instance of java.io.OutputStream]"";
+        } else if (obj instanceof Reader) {
+            return prepend + ""[Body is instance of java.io.Reader]"";
+        } else if (obj instanceof Writer) {
+            return prepend + ""[Body is instance of java.io.Writer]"";
+        } else if (obj instanceof WrappedFile || obj instanceof File) {
+            return prepend + ""[Body is file based: "" + obj + ""]"";
+        }
+    }
+    if (!allowFiles) {
+        if (obj instanceof WrappedFile || obj instanceof File) {
+            return prepend + ""[Body is file based: "" + obj + ""]"";
+        }
+    }
+    // is the body a stream cache
+    StreamCache cache;
+    if (obj instanceof StreamCache) {
+        cache = (StreamCache) obj;
+    } else {
+        cache = null;
+    }
+    // grab the message body as a string
+    String body = null;
+    if (message.getExchange() != null) {
+        try {
+            body = message.getExchange().getContext().getTypeConverter().convertTo(String.class, message.getExchange(), obj);
+        } catch (Exception e) {
+        // ignore as the body is for logging purpose
+        }
+    }
+    if (body == null) {
+        body = obj.toString();
+    }
+    // reset stream cache after use
+    if (cache != null) {
+        cache.reset();
+    }
+    if (body == null) {
+        return prepend + ""[Body is null]"";
+    }
+    // clip body if length enabled and the body is too big
+    if (maxChars > 0 && body.length() > maxChars) {
+        body = body.substring(0, maxChars) + ""... [Body clipped after "" + maxChars + "" chars, total length is "" + body.length() + ""]"";
+    }
+    return prepend + body;
+}","/**
+ * Extracts the body for logging purpose.
+ * <p/>
+ * Will clip the body if its too big for logging.
+ *
+ * @see org.apache.camel.Exchange#LOG_DEBUG_BODY_MAX_CHARS
+ * @param message the message
+ * @param prepend a message to prepend
+ * @param allowStreams whether or not streams is allowed
+ * @param allowFiles whether or not files is allowed (currently not in use)
+ * @param maxChars limit to maximum number of chars. Use 0 for not limit, and -1 for turning logging message body off.
+ * @return the logging message
+ */
+public static String extractBodyForLogging(Message message, String prepend, boolean allowStreams, boolean allowFiles, int maxChars) {
+    if (maxChars < 0) {
+        return prepend + ""[Body is not logged]"";
+    }
+    Object obj = message.getBody();
+    if (obj == null) {
+        return prepend + ""[Body is null]"";
+    }
+    if (!allowStreams) {
+        if (obj instanceof Source && !(obj instanceof StringSource || obj instanceof BytesSource)) {
+            // all other kinds we should not touch the body
+            return prepend + ""[Body is instance of java.xml.transform.Source]"";
+        } else if (obj instanceof StreamCache) {
+            return prepend + ""[Body is instance of org.apache.camel.StreamCache]"";
+        } else if (obj instanceof InputStream) {
+            return prepend + ""[Body is instance of java.io.InputStream]"";
+        } else if (obj instanceof OutputStream) {
+            return prepend + ""[Body is instance of java.io.OutputStream]"";
+        } else if (obj instanceof Reader) {
+            return prepend + ""[Body is instance of java.io.Reader]"";
+        } else if (obj instanceof Writer) {
+            return prepend + ""[Body is instance of java.io.Writer]"";
+        } else if (obj instanceof WrappedFile || obj instanceof File) {
+            if (!allowFiles) {
+                return prepend + ""[Body is file based: "" + obj + ""]"";
+            }
+        }
+    }
+    if (!allowFiles) {
+        if (obj instanceof WrappedFile || obj instanceof File) {
+            return prepend + ""[Body is file based: "" + obj + ""]"";
+        }
+    }
+    // is the body a stream cache
+    StreamCache cache;
+    if (obj instanceof StreamCache) {
+        cache = (StreamCache) obj;
+    } else {
+        cache = null;
+    }
+    // grab the message body as a string
+    String body = null;
+    if (message.getExchange() != null) {
+        try {
+            body = message.getExchange().getContext().getTypeConverter().convertTo(String.class, message.getExchange(), obj);
+        } catch (Exception e) {
+        // ignore as the body is for logging purpose
+        }
+    }
+    if (body == null) {
+        body = obj.toString();
+    }
+    // reset stream cache after use
+    if (cache != null) {
+        cache.reset();
+    }
+    if (body == null) {
+        return prepend + ""[Body is null]"";
+    }
+    // clip body if length enabled and the body is too big
+    if (maxChars > 0 && body.length() > maxChars) {
+        body = body.substring(0, maxChars) + ""... [Body clipped after "" + maxChars + "" chars, total length is "" + body.length() + ""]"";
+    }
+    return prepend + body;
+}"
